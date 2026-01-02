@@ -3,21 +3,27 @@
 <head>
   <meta charset="UTF-8" />
   <title>Portionly Calculator</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
 </head>
+
 <body>
-  <h1>Portionly Calculator Module</h1>
-  <p>
-    This page just exposes <code>window.PortionlyCalculator</code>.  
-    Open the browser console to use it.
+  <img
+    src="portionly-logo.png"
+    alt="Portionly logo"
+    style="max-width:200px; display:block; margin:24px auto;"
+  />
+
+  <h1 style="text-align:center;">Portionly Calculator Module</h1>
+
+  <p style="text-align:center;">
+    This page exposes <code>window.PortionlyCalculator</code>.<br />
+    Open your browser console to try it.
   </p>
 
   <script>
     // ----- CONSTANTS -----
-
-    // Rough energy equivalent of 1 kg of fat (kcal)
     const KCAL_PER_KG = 7700;
 
-    // Approx kcal per "cup" of each group
     const KCAL_PER_CUP = {
       Protein: 120,
       Carbs: 130,
@@ -26,76 +32,49 @@
       "Healthy Fats": 100,
     };
 
-    // Safe minimum calories per day
     function getMinCalories(gender) {
-      // You can tighten these if you want, but don't go lower without medical sign-off
       return gender === "female" ? 1200 : 1500;
     }
 
     // ----- CORE CALCULATIONS -----
-
-    /**
-     * Mifflin-St Jeor BMR in kcal/day
-     * profile: { gender: 'female' | 'male', weightKg, heightCm, age }
-     */
     function calculateBMR(profile) {
       const { gender, weightKg, heightCm, age } = profile;
-
       if (!weightKg || !heightCm || !age) {
         throw new Error("Missing weight/height/age for BMR calculation.");
       }
-
-      const base =
+      return (
         10 * weightKg +
         6.25 * heightCm -
         5 * age +
-        (gender === "female" ? -161 : 5);
-
-      return base;
+        (gender === "female" ? -161 : 5)
+      );
     }
 
-    /**
-     * TDEE = BMR * activityFactor
-     * profile.activityFactor e.g. 1.2, 1.375, 1.55, 1.725, 1.9
-     */
     function calculateTDEE(profile) {
-      if (!profile.activityFactor) {
-        throw new Error("Missing activityFactor.");
-      }
-      const bmr = calculateBMR(profile);
-      return bmr * profile.activityFactor;
+      if (!profile.activityFactor) throw new Error("Missing activityFactor.");
+      return calculateBMR(profile) * profile.activityFactor;
     }
 
-    /**
-     * Decide calorie target based on pace.
-     * pace: 'gentle' | 'standard' | 'faster'
-     * Returns { targetCalories, estimatedWeeklyLossKg, dailyDeficit }
-     */
     function calculateCalorieTarget(profile, pace = "standard") {
       const tdee = calculateTDEE(profile);
       const minCals = getMinCalories(profile.gender);
 
-      // Map pace -> rough weekly weight loss target (kg/week)
       let weeklyTargetKg;
       switch (pace) {
         case "gentle":
-          weeklyTargetKg = 0.25; // ~0.25 kg/week
+          weeklyTargetKg = 0.25;
           break;
         case "faster":
-          weeklyTargetKg = 0.75; // up to ~0.75 kg/week if safe
+          weeklyTargetKg = 0.75;
           break;
-        case "standard":
         default:
-          weeklyTargetKg = 0.5; // ~0.5 kg/week
-          break;
+          weeklyTargetKg = 0.5;
       }
 
-      // Desired daily deficit = weeklyLoss * 7700 / 7
       const desiredDailyDeficit = (weeklyTargetKg * KCAL_PER_KG) / 7;
-
-      // Safety caps: don't go below min calories and don't exceed ~1000 kcal or 20% of TDEE
       const maxDeficitByPercent = 0.2 * tdee;
       const maxDeficitAbsolute = 1000;
+
       let dailyDeficit = Math.min(
         desiredDailyDeficit,
         maxDeficitByPercent,
@@ -104,7 +83,6 @@
 
       let targetCalories = tdee - dailyDeficit;
 
-      // Enforce absolute minimum calories
       if (targetCalories < minCals) {
         targetCalories = minCals;
         dailyDeficit = Math.max(0, tdee - targetCalories);
@@ -121,21 +99,9 @@
     }
 
     // ----- CUPS PLAN FROM CALORIES -----
-
-    /**
-     * Convert target calories into a cups plan.
-     * Returns { cups: {Protein, Carbs, Veggies, Fruits, 'Healthy Fats'}, macros: {...} }
-     */
     function calculateCupPlan(targetCalories) {
-      // Macro split ranges (rough, not clinical): 25–30% protein, 35–45% carbs, 25–30% fats
-      // We'll lock one reasonable split and then adjust cups.
-      const split = {
-        Protein: 0.3,
-        Carbs: 0.4,
-        "Healthy Fats": 0.3,
-      };
+      const split = { Protein: 0.3, Carbs: 0.4, "Healthy Fats": 0.3 };
 
-      // Fruits & veggies: scale slightly with total calories
       const veggieCups =
         targetCalories < 1600 ? 4 : targetCalories < 2200 ? 5 : 6;
       const fruitCups = targetCalories < 1600 ? 2 : 3;
@@ -152,7 +118,6 @@
         fatCalories / KCAL_PER_CUP["Healthy Fats"]
       );
 
-      // Some sensible minimums
       if (proteinCups < 3) proteinCups = 3;
       if (carbCups < 3) carbCups = 3;
       if (fatCups < 2) fatCups = 2;
@@ -165,7 +130,6 @@
         "Healthy Fats": fatCups,
       };
 
-      // Also return an approximate macro breakdown (helpful if you want to show it later)
       const macros = {
         proteinCalories: proteinCups * KCAL_PER_CUP.Protein,
         carbCalories: carbCups * KCAL_PER_CUP.Carbs,
@@ -177,7 +141,6 @@
       return { cups, macros };
     }
 
-    // Utility: calculate calories from a cups object
     function cupsToCalories(cups) {
       return Object.keys(cups).reduce(
         (sum, key) =>
@@ -186,20 +149,9 @@
       );
     }
 
-    // ----- MAIN ENTRY POINT -----
-    // profile: {
-    //   gender: 'female' | 'male',
-    //   weightKg: number,
-    //   heightCm: number,
-    //   age: number,
-    //   activityFactor: number   // 1.2, 1.375, 1.55, 1.725, 1.9...
-    // }
-    // pace: 'gentle' | 'standard' | 'faster'
     function calculateDietPlan(profile, pace = "standard") {
       const calorieResult = calculateCalorieTarget(profile, pace);
-      const cupsResult = calculateCupPlan(
-        calorieResult.targetCalories
-      );
+      const cupsResult = calculateCupPlan(calorieResult.targetCalories);
 
       return {
         profile,
@@ -213,7 +165,6 @@
       };
     }
 
-    // ----- OPTIONAL: ATTACH TO WINDOW FOR USE IN YOUR EXISTING HTML -----
     window.PortionlyCalculator = {
       calculateDietPlan,
       calculateBMR,
