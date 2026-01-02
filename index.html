@@ -69,7 +69,7 @@
       background: var(--card-bg);
       border-radius: var(--radius-card);
       box-shadow: var(--shadow-soft);
-      padding: 22px;
+      padding: 24px 22px 20px;
       border: 1px solid var(--border-subtle);
     }
 
@@ -77,6 +77,10 @@
       font-size: 14px;
       color: var(--text-muted);
       margin-bottom: 14px;
+    }
+
+    .field-group {
+      margin-top: 18px;
     }
 
     .field { margin-bottom: 12px; }
@@ -114,25 +118,25 @@
     }
 
     .unit-row {
-      display: flex;
-      gap: 8px;
+      display: inline-flex;
+      gap: 6px;
       flex-wrap: wrap;
-      margin-bottom: 4px;
+      margin-top: 4px;
     }
 
     .unit-pill {
-      padding: 5px 10px;
+      padding: 4px 8px;
       border-radius: 999px;
-      border: 1px solid #e6d5ff;
-      background: #faf7ff;
-      font-size: 11px;
+      border: 1px solid #f3e7ff;
+      background: #fbf7ff;
+      font-size: 10px;
       cursor: pointer;
       user-select: none;
       transition: background 0.15s, border 0.15s, color 0.15s;
     }
 
     .unit-pill.active {
-      background: var(--accent);
+      background: #ffc0d6;
       border-color: var(--accent);
       color: #fff;
     }
@@ -141,13 +145,14 @@
       font-size: 11px;
       color: var(--text-muted);
       margin-top: 4px;
+      opacity: 0.85;
     }
 
     .pace-row {
       display: flex;
       gap: 8px;
       flex-wrap: wrap;
-      margin-top: 4px;
+      margin-top: 6px;
     }
 
     .pace-pill {
@@ -181,7 +186,7 @@
       display: flex;
       align-items: flex-start;
       gap: 8px;
-      margin-top: 4px;
+      margin-top: 10px;
     }
 
     .consent input { margin-top: 3px; }
@@ -193,7 +198,7 @@
     }
 
     .btn-main {
-      margin-top: 14px;
+      margin-top: 16px;
       width: 100%;
       border-radius: 999px;
       padding: 11px 16px;
@@ -204,10 +209,22 @@
       color: #fff;
       cursor: pointer;
       box-shadow: 0 14px 32px rgba(244,143,177,0.55);
+      transition: transform 0.1s, box-shadow 0.1s, filter 0.15s;
+    }
+
+    .btn-main:hover {
+      filter: brightness(1.03);
+      box-shadow: 0 16px 36px rgba(244,143,177,0.65);
+      transform: translateY(-1px);
+    }
+
+    .btn-main:active {
+      transform: translateY(0);
+      box-shadow: 0 10px 24px rgba(244,143,177,0.5);
     }
 
     .divider {
-      margin: 16px 0 10px;
+      margin: 18px 0 10px;
       border-top: 1px dashed #eadfff;
     }
 
@@ -228,7 +245,13 @@
     .results-header {
       font-size: 14px;
       font-weight: 700;
-      margin-bottom: 6px;
+      margin-bottom: 4px;
+    }
+
+    .results-summary {
+      font-size: 12px;
+      color: var(--text-muted);
+      margin-bottom: 8px;
     }
 
     .results-sub {
@@ -240,29 +263,44 @@
     .cups-list {
       list-style: none;
       padding-left: 0;
-      margin: 0 0 10px;
+      margin: 0 0 8px;
       font-size: 13px;
     }
 
     .cups-list li {
       display: flex;
       justify-content: space-between;
-      padding: 4px 0;
+      padding: 3px 0;
     }
 
     .cups-label { font-weight: 600; }
 
     .healthy {
-      margin-top: 6px;
+      margin-top: 4px;
       font-size: 11px;
       color: var(--text-muted);
     }
 
+    .about-note {
+      font-size: 10px;
+      color: #a395c0;
+      margin-top: 6px;
+    }
+
     .error {
-      margin-top:8px;
-      font-size:12px;
-      color:#c62828;
-      font-weight:600;
+      margin-top: 8px;
+      font-size: 12px;
+      color: #c0392b;
+      background: #fdecea;
+      border-radius: 8px;
+      padding: 6px 8px;
+      font-weight: 500;
+    }
+
+    @media (max-width: 600px) {
+      .card {
+        padding: 18px 16px 16px;
+      }
     }
   </style>
 </head>
@@ -270,7 +308,6 @@
 <body>
   <div class="page-wrap">
     <div class="inner">
-      <!-- logo file must be: portionly-logo.png in same folder -->
       <img src="portionly-logo.png" alt="Portionly logo" class="logo" />
 
       <div class="brand">portionly wellbeing</div>
@@ -287,15 +324,15 @@
         </div>
 
         <form id="calc-form" novalidate>
-          <div class="field">
-            <label for="gender">Gender</label>
-            <select id="gender">
-              <option value="female">Female</option>
-              <option value="male">Male</option>
-            </select>
-          </div>
+          <div class="field-group">
+            <div class="field">
+              <label for="gender">Gender</label>
+              <select id="gender">
+                <option value="female">Female</option>
+                <option value="male">Male</option>
+              </select>
+            </div>
 
-          <div class="grid-two">
             <div class="field">
               <label for="age">Age (years)</label>
               <input id="age" type="number" min="10" max="100" />
@@ -325,103 +362,113 @@
                 Use centimetres or feet and inches — whichever feels easier.
               </div>
             </div>
+
+            <div class="field">
+              <label>Weight</label>
+              <div class="unit-row">
+                <span class="unit-pill active" data-weight-unit="kg">kg</span>
+                <span class="unit-pill" data-weight-unit="lb">lbs</span>
+                <span class="unit-pill" data-weight-unit="stone">stone &amp; lb</span>
+              </div>
+
+              <!-- kg -->
+              <div id="weightKgRow" style="margin-top:6px;">
+                <input id="weightKg" type="number" min="30" max="300" step="0.1" placeholder="kg" />
+              </div>
+
+              <!-- lbs -->
+              <div id="weightLbRow" style="margin-top:6px; display:none;">
+                <input id="weightLb" type="number" min="70" max="660" step="0.5" placeholder="lbs" />
+              </div>
+
+              <!-- stone + lb -->
+              <div id="weightStRow" style="margin-top:6px; display:none;">
+                <div class="grid-two">
+                  <input id="weightSt" type="number" min="5" max="45" step="1" placeholder="st" />
+                  <input id="weightStLb" type="number" min="0" max="13" step="0.5" placeholder="lb" />
+                </div>
+              </div>
+
+              <div class="helper" id="weight-helper">
+                Use the row that matches how you usually think about weight.
+              </div>
+            </div>
           </div>
 
-          <div class="field">
-            <label>Weight</label>
-            <div class="unit-row">
-              <span class="unit-pill active" data-weight-unit="kg">kg</span>
-              <span class="unit-pill" data-weight-unit="lb">lbs</span>
-              <span class="unit-pill" data-weight-unit="stone">stone &amp; lb</span>
+          <div class="field-group">
+            <div class="field">
+              <label for="activity">Activity level</label>
+              <select id="activity">
+                <option value="1.2">Sedentary (mostly sitting)</option>
+                <option value="1.375">Lightly active (1–3 days/week)</option>
+                <option value="1.55">Moderately active (3–5 days/week)</option>
+                <option value="1.725">Very active (6–7 days/week)</option>
+                <option value="1.9">Extra active (physical job + training)</option>
+              </select>
             </div>
 
-            <!-- kg -->
-            <div id="weightKgRow" style="margin-top:6px;">
-              <input id="weightKg" type="number" min="30" max="300" step="0.1" placeholder="kg" />
+            <div class="field">
+              <label>How fast do you want to move?</label>
+              <div class="helper">
+                This just changes how gentle or punchy your plan is. Faster isn’t always better — choose what feels sustainable.
+              </div>
+              <div class="pace-row" id="pace-row">
+                <label class="pace-pill active" data-pace="gentle">
+                  <span class="emoji">🌿</span><span>Gentle</span>
+                </label>
+                <label class="pace-pill" data-pace="standard">
+                  <span class="emoji">⚖️</span><span>Standard</span>
+                </label>
+                <label class="pace-pill" data-pace="faster">
+                  <span class="emoji">🔥</span><span>Faster</span>
+                </label>
+              </div>
             </div>
+          </div>
 
-            <!-- lbs -->
-            <div id="weightLbRow" style="margin-top:6px; display:none;">
-              <input id="weightLb" type="number" min="70" max="660" step="0.5" placeholder="lbs" />
-            </div>
-
-            <!-- stone + lb -->
-            <div id="weightStRow" style="margin-top:6px; display:none;">
-              <div class="grid-two">
-                <input id="weightSt" type="number" min="5" max="45" step="1" placeholder="st" />
-                <input id="weightStLb" type="number" min="0" max="13" step="0.5" placeholder="lb" />
+          <div class="field-group">
+            <div class="consent">
+              <input type="checkbox" id="consent" />
+              <div class="consent-text">
+                I understand this is general guidance only and not medical advice.
+                If I have health conditions, I’ll talk to a doctor or dietitian
+                before making big changes.
               </div>
             </div>
 
-            <div class="helper" id="weight-helper">
-              Use the row that matches how you usually think about weight.
+            <button type="submit" class="btn-main">Calculate my cups</button>
+            <div id="error" class="error" style="display:none;"></div>
+
+            <div class="divider"></div>
+
+            <div class="disclaimer">
+              A gentle starting point based on the info you shared. You can tweak
+              this later — nothing is locked in stone.
             </div>
-          </div>
-
-          <div class="field">
-            <label for="activity">Activity level</label>
-            <select id="activity">
-              <option value="1.2">Sedentary (mostly sitting)</option>
-              <option value="1.375">Lightly active (1–3 days/week)</option>
-              <option value="1.55">Moderately active (3–5 days/week)</option>
-              <option value="1.725">Very active (6–7 days/week)</option>
-              <option value="1.9">Extra active (physical job + training)</option>
-            </select>
-          </div>
-
-          <div class="field">
-            <label>How fast do you want to move?</label>
-            <div class="helper">
-              This just changes how gentle or punchy your plan is. Faster isn’t always better — choose what feels sustainable.
-            </div>
-            <div class="pace-row" id="pace-row">
-              <label class="pace-pill active" data-pace="gentle">
-                <span class="emoji">🌿</span><span>Gentle</span>
-              </label>
-              <label class="pace-pill" data-pace="standard">
-                <span class="emoji">⚖️</span><span>Standard</span>
-              </label>
-              <label class="pace-pill" data-pace="faster">
-                <span class="emoji">🔥</span><span>Faster</span>
-              </label>
-            </div>
-          </div>
-
-          <div class="consent">
-            <input type="checkbox" id="consent" />
-            <div class="consent-text">
-              I understand this is general guidance only and not medical advice.
-              If I have health conditions, I’ll talk to a doctor or dietitian
-              before making big changes.
-            </div>
-          </div>
-
-          <button type="submit" class="btn-main">Calculate my cups</button>
-          <div id="error" class="error" style="display:none;"></div>
-
-          <div class="divider"></div>
-
-          <div class="disclaimer">
-            A gentle starting point based on the info you shared. You can tweak
-            this later — nothing is locked in stone.
           </div>
         </form>
 
         <div id="results" class="results" style="display:none;">
           <div class="results-header" id="results-title"></div>
+          <div class="results-summary" id="results-summary"></div>
           <div class="results-sub">
             Friendly reminder: these cups are guidance, not rules. Real life will
             wobble — and that’s allowed here.
           </div>
           <ul class="cups-list" id="cups-list"></ul>
           <div class="healthy" id="healthy-range"></div>
+          <div class="about-note">
+            This calculator uses typical energy needs and spreads them across protein,
+            carbs, healthy fats, fruits and veggies. It’s here to give you ideas,
+            not a rulebook.
+          </div>
         </div>
       </div>
     </div>
   </div>
 
   <script>
-    // -------- core maths (calories hidden) ----------
+    // ---------- core maths (calories hidden from user) ----------
     const KCAL_PER_CUP = {
       Protein: 120,
       Carbs: 130,
@@ -465,22 +512,20 @@
       return Math.round(target);
     }
 
+    // protein kept highest; fats reduced on faster pace
     function calcCups(targetCalories, pace) {
-      // base macro split, tweaked later by pace
       let proteinPct = 0.34;
-      let carbPct = 0.38;
-      let fatPct = 0.28;
+      let carbPct   = 0.38;
+      let fatPct    = 0.28;
 
       if (pace === "gentle") {
-        // slightly more fat room when being gentle
         proteinPct = 0.32;
-        carbPct   = 0.36;
-        fatPct    = 0.32;
+        carbPct    = 0.36;
+        fatPct     = 0.32;
       } else if (pace === "faster") {
-        // tighter on fats, more protein to keep you full
         proteinPct = 0.37;
-        carbPct   = 0.37;
-        fatPct    = 0.26;
+        carbPct    = 0.37;
+        fatPct     = 0.26; // fats down on faster
       }
 
       const vegCups   = targetCalories < 1600 ? 4 : targetCalories < 2200 ? 5 : 6;
@@ -494,12 +539,11 @@
       let carbCups    = Math.round(carbCalories    / KCAL_PER_CUP.Carbs);
       let fatCups     = Math.round(fatCalories     / KCAL_PER_CUP["Healthy Fats"]);
 
-      // basic minimums
       if (proteinCups < 3) proteinCups = 3;
       if (carbCups   < 3) carbCups = 3;
-      if (fatCups    < 2) fatCups = 2;
+      if (fatCups    < 2) fatCups  = 2;
 
-      // gentle tweak: protein should be the highest cup group
+      // keep protein clearly leading
       if (proteinCups <= carbCups) proteinCups = carbCups + 1;
 
       return {
@@ -517,7 +561,7 @@
       return { cups, targetCalories: target };
     }
 
-    // -------- UI state ----------
+    // ---------- UI state ----------
     let heightUnit = "cm";   // 'cm' | 'ftin'
     let weightUnit = "kg";   // 'kg' | 'lb' | 'stone'
     let selectedPace = "gentle";
@@ -583,12 +627,12 @@
 
         if (!consent) {
           throw new Error(
-            "Please confirm you understand this is general guidance only before continuing."
+            "Looks like you haven't ticked the guidance box yet. Please confirm you understand this is general guidance only."
           );
         }
 
         if (!gender || !ageVal || !activityFactor) {
-          throw new Error("Please fill in gender, age and activity level.");
+          throw new Error("Please add your gender, age and activity level so we can sketch a plan.");
         }
 
         // Height
@@ -601,7 +645,7 @@
           const ftVal = parseFloat(document.getElementById("heightFt").value);
           const inVal = parseFloat(document.getElementById("heightIn").value);
           if (isNaN(ftVal) || isNaN(inVal)) {
-            throw new Error("Please enter your height in ft and in.");
+            throw new Error("Please enter your height in feet and inches.");
           }
           const totalInches = ftVal * 12 + inVal;
           heightCm = totalInches * 2.54;
@@ -623,7 +667,7 @@
             document.getElementById("weightStLb").value
           );
           if (isNaN(stVal) || isNaN(stLbVal)) {
-            throw new Error("Please enter your weight in stone & lb.");
+            throw new Error("Please enter your weight in stone and pounds.");
           }
           const totalLb = stVal * 14 + stLbVal;
           weightKg = totalLb * 0.453592;
@@ -641,7 +685,7 @@
         const plan = calcPlan(profile, selectedPace);
         renderResults(plan, profile);
       } catch (err) {
-        errorEl.textContent = err.message || "Something went wrong.";
+        errorEl.textContent = err.message || "Something went wrong while calculating your cups.";
         errorEl.style.display = "block";
         document.getElementById("results").style.display = "none";
       }
@@ -651,6 +695,7 @@
       const results = document.getElementById("results");
       const list = document.getElementById("cups-list");
       const title = document.getElementById("results-title");
+      const summary = document.getElementById("results-summary");
       const healthy = document.getElementById("healthy-range");
 
       const paceLabel =
@@ -661,6 +706,17 @@
           : "Standard";
 
       title.textContent = `${paceLabel} pace cups plan`;
+
+      if (selectedPace === "gentle") {
+        summary.textContent =
+          "Gentle pace: small, steady shifts with a bit more flexibility in fats.";
+      } else if (selectedPace === "standard") {
+        summary.textContent =
+          "Standard pace: balanced changes with protein leading the way.";
+      } else {
+        summary.textContent =
+          "Faster pace: higher protein and slightly lower fats to support a stronger push.";
+      }
 
       list.innerHTML = "";
       Object.entries(plan.cups).forEach(([name, cups]) => {
@@ -679,8 +735,8 @@
       const minW = Math.round(22 * hMeters * hMeters);
       const maxW = Math.round(27 * hMeters * hMeters);
       healthy.textContent =
-        "If you like having a rough number, a common height-based range for you is about " +
-        `${minW}–${maxW} kg. It’s optional, and a doctor or dietitian can always give you something more personalised.`;
+        "If you like having a ballpark number, this gives a height-based range of around " +
+        `${minW}–${maxW} kg. Your own healthiest weight might sit above or below this — a doctor or dietitian can help you personalise it.`;
 
       results.style.display = "block";
     }
