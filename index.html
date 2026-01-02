@@ -205,4 +205,1493 @@
         stroke: #fbe6f0;
       }
 
-      .ring-progress circl
+      .ring-progress circle.progress {
+        stroke: url(#grad);
+        stroke-linecap: round;
+      }
+
+      .ring-label {
+        transform: translate(-50%, -50%);
+      }
+
+      .meal-pill {
+        border-radius: 999px;
+        padding: 0.22rem 0.65rem;
+        font-size: 0.7rem;
+        border: 1px solid rgba(255, 255, 255, 0.9);
+        background: rgba(255, 255, 255, 0.85);
+      }
+
+      .log-entry {
+        border-radius: 0.9rem;
+        background: rgba(255, 255, 255, 0.95);
+        padding: 0.5rem 0.7rem;
+      }
+
+      .tooltip {
+        position: relative;
+        cursor: help;
+      }
+
+      .tooltip::after {
+        content: attr(data-tip);
+        position: absolute;
+        left: 50%;
+        bottom: 130%;
+        transform: translateX(-50%);
+        background: #3c2a4d;
+        color: #fff;
+        padding: 0.4rem 0.55rem;
+        border-radius: 0.45rem;
+        font-size: 0.7rem;
+        white-space: nowrap;
+        opacity: 0;
+        pointer-events: none;
+        transition: opacity 0.15s ease, transform 0.15s ease;
+      }
+
+      .tooltip:hover::after {
+        opacity: 1;
+        transform: translateX(-50%) translateY(-3px);
+      }
+
+      @keyframes floatUp {
+        0% {
+          transform: translateY(0);
+        }
+        50% {
+          transform: translateY(-4px);
+        }
+        100% {
+          transform: translateY(0);
+        }
+      }
+
+      .float-up {
+        animation: floatUp 3.2s ease-in-out infinite;
+      }
+
+      .btn-secondary {
+        border-radius: 999px;
+        border: 1px dashed #e0d3ff;
+        background: rgba(252, 247, 255, 0.85);
+        padding: 0.45rem 0.9rem;
+      }
+
+      .tag {
+        border-radius: 999px;
+        background: rgba(248, 244, 255, 0.9);
+        border: 1px solid rgba(230, 218, 255, 0.9);
+        padding: 0.2rem 0.6rem;
+        font-size: 0.7rem;
+      }
+
+      .shadow-soft {
+        box-shadow: 0 22px 50px rgba(75, 41, 120, 0.25);
+      }
+
+      .input-like {
+        border-radius: 0.9rem;
+        border: 1px solid #e5dcff;
+        background: rgba(252, 248, 255, 0.95);
+        padding: 0.5rem 0.7rem;
+      }
+
+      .bubble {
+        border-radius: 0.9rem;
+        background: rgba(252, 248, 255, 0.9);
+        border: 1px solid rgba(229, 220, 255, 0.9);
+        padding: 0.5rem 0.7rem;
+      }
+
+      .soft-heading {
+        color: #4c3b66;
+      }
+
+      .soft-muted {
+        color: #8c7aa5;
+      }
+
+      .badge-pill {
+        border-radius: 999px;
+        background: rgba(255, 249, 243, 0.9);
+        border: 1px solid rgba(255, 226, 209, 0.9);
+        padding: 0.2rem 0.6rem;
+        font-size: 0.7rem;
+      }
+    </style>
+  </head>
+
+  <body>
+    <div class="app-shell">
+      <div class="phone-shell shadow-soft">
+        <!-- Header / nav dots -->
+        <div class="flex items-center justify-between mb-3">
+          <div class="flex items-center gap-2">
+            <div
+              class="w-8 h-8 rounded-2xl bg-gradient-to-br from-pink-300 via-purple-300 to-blue-200 shadow-lg flex items-center justify-center"
+            >
+              <span class="text-lg">🍽</span>
+            </div>
+            <div>
+              <div
+                class="text-[0.65rem] uppercase tracking-[0.21em] text-purple-400"
+              >
+                Portionly
+              </div>
+              <div class="text-xs text-purple-500">Cup-based wellbeing</div>
+            </div>
+          </div>
+          <div class="flex items-center gap-1">
+            <div class="nav-dot active" data-page="1"></div>
+            <div class="nav-dot" data-page="2"></div>
+            <div class="nav-dot" data-page="3"></div>
+            <div class="nav-dot" data-page="4"></div>
+          </div>
+        </div>
+
+        <div id="pages">
+          <!-- PAGE 1 — WELCOME -->
+          <div id="page1" class="page">
+            <div class="flex flex-col items-center mt-2">
+              <div class="flex justify-center gap-3 mb-5">
+                <span class="cup" style="background-color: #f48fb1"></span>
+                <span class="cup" style="background-color: #fff59d"></span>
+                <span class="cup" style="background-color: #a5d6a7"></span>
+                <span class="cup" style="background-color: #ce93d8"></span>
+                <span class="cup" style="background-color: #ffb74d"></span>
+              </div>
+
+              <div class="soft-card w-full p-5 mt-1">
+                <div
+                  class="text-xs uppercase tracking-[0.24em] text-purple-400 text-center mb-1"
+                >
+                  Portionly — Wellbeing
+                </div>
+                <h1
+                  class="text-xl sm:text-2xl font-extrabold text-center soft-heading mb-2"
+                >
+                  Gentle, cup-based food tracking.
+                </h1>
+                <p class="text-sm text-center soft-muted mb-4">
+                  Portionly uses simple cups instead of calories to help you build
+                  an easy, balanced eating routine — without the all-or-nothing
+                  guilt spiral.
+                </p>
+
+                <div
+                  class="text-[0.7rem] soft-muted mb-3 bg-purple-50/80 p-2.5 rounded-xl border border-purple-100"
+                >
+                  <span class="font-semibold text-purple-600">How it works:</span>
+                  You’ll get a rough daily cup guide based on your body and
+                  activity. Then you log cups as you go — no weighing, no macro
+                  spreadsheets.
+                </div>
+
+                <button
+                  class="primary-btn w-full py-2.5 text-sm font-bold mt-1"
+                  onclick="showPage(2)"
+                >
+                  Start my cup guide
+                </button>
+
+                <p class="mt-3 text-[0.7rem] text-center text-purple-400">
+                  No account. No email. Just you, your meals, and a few colourful
+                  cups.
+                </p>
+              </div>
+            </div>
+          </div>
+
+          <!-- PAGE 2 — PROFILE SETUP -->
+          <div id="page2" class="page hidden">
+            <div class="space-y-4 mt-2">
+              <div class="flex items-center gap-3 mb-1">
+                <div class="circle-badge float-up">
+                  <span>1</span>
+                </div>
+                <div>
+                  <div
+                    class="text-[0.65rem] uppercase tracking-[0.2em] text-purple-400"
+                  >
+                    Step 1
+                  </div>
+                  <h2 class="text-lg font-extrabold soft-heading">
+                    A quick snapshot of your body.
+                  </h2>
+                  <p class="text-xs soft-muted mt-0.5">
+                    We use this to create a starting point. You can always adjust
+                    cups later if life (or your body) changes.
+                  </p>
+                </div>
+              </div>
+
+              <div class="soft-card p-4 mt-1">
+                <p class="text-xs soft-muted mb-3">
+                  Your answers stay in your browser on this device. You can clear
+                  them anytime from the settings at the bottom.
+                </p>
+
+                <form id="profileForm" class="space-y-3">
+                  <div class="grid grid-cols-2 gap-3">
+                    <div>
+                      <label class="text-xs font-semibold text-purple-700"
+                        >Gender</label
+                      >
+                      <select
+                        id="gender"
+                        class="w-full mt-1 px-3 py-2 text-sm rounded-xl border border-purple-100 bg-purple-50/70 focus:outline-none focus:ring-2 focus:ring-pink-300 focus:bg-white"
+                      >
+                        <option value="female">Female</option>
+                        <option value="male">Male</option>
+                      </select>
+                    </div>
+                    <div>
+                      <label class="text-xs font-semibold text-purple-700"
+                        >Age (years)</label
+                      >
+                      <input
+                        type="number"
+                        id="age"
+                        min="14"
+                        max="90"
+                        class="w-full mt-1 px-3 py-2 text-sm rounded-xl border border-purple-100 bg-purple-50/70 focus:outline-none focus:ring-2 focus:ring-pink-300 focus:bg-white"
+                        placeholder="e.g. 34"
+                      />
+                    </div>
+                  </div>
+
+                  <div>
+                    <label class="text-xs font-semibold text-purple-700"
+                      >Units</label
+                    >
+                    <div class="mt-1 flex gap-2">
+                      <button
+                        type="button"
+                        class="metric-toggle-btn flex-1 px-2.5 py-1.5 text-[0.75rem] rounded-full border border-purple-100 bg-purple-50/80 text-purple-700 font-semibold active"
+                        data-units="metric"
+                        onclick="setUnits('metric')"
+                      >
+                        Metric (kg, cm)
+                      </button>
+                      <button
+                        type="button"
+                        class="metric-toggle-btn flex-1 px-2.5 py-1.5 text-[0.75rem] rounded-full border border-purple-100 bg-purple-50/80 text-purple-700 font-semibold"
+                        data-units="imperial"
+                        onclick="setUnits('imperial')"
+                      >
+                        Stones / feet
+                      </button>
+                      <button
+                        type="button"
+                        class="metric-toggle-btn flex-1 px-2.5 py-1.5 text-[0.75rem] rounded-full border border-purple-100 bg-purple-50/80 text-purple-700 font-semibold"
+                        data-units="us"
+                        onclick="setUnits('us')"
+                      >
+                        lbs / inches
+                      </button>
+                    </div>
+                  </div>
+
+                  <!-- Metric fields -->
+                  <div id="metricFields">
+                    <div class="grid grid-cols-2 gap-3 mt-2">
+                      <div>
+                        <label class="text-xs font-semibold text-purple-700"
+                          >Height (cm)</label
+                        >
+                        <input
+                          type="number"
+                          id="heightCm"
+                          min="120"
+                          max="220"
+                          class="w-full mt-1 px-3 py-2 text-sm rounded-xl border border-purple-100 bg-purple-50/70 focus:outline-none focus:ring-2 focus:ring-pink-300 focus:bg-white"
+                          placeholder="e.g. 165"
+                        />
+                      </div>
+                      <div>
+                        <label class="text-xs font-semibold text-purple-700"
+                          >Weight (kg)</label
+                        >
+                        <input
+                          type="number"
+                          id="weightKg"
+                          min="40"
+                          max="250"
+                          step="0.1"
+                          class="w-full mt-1 px-3 py-2 text-sm rounded-xl border border-purple-100 bg-purple-50/70 focus:outline-none focus:ring-2 focus:ring-pink-300 focus:bg-white"
+                          placeholder="e.g. 72.5"
+                        />
+                      </div>
+                    </div>
+                  </div>
+
+                  <!-- Imperial fields -->
+                  <div id="imperialFields" class="hidden">
+                    <div class="grid grid-cols-2 gap-3 mt-2">
+                      <div>
+                        <label class="text-xs font-semibold text-purple-700"
+                          >Height</label
+                        >
+                        <div class="flex gap-2 mt-1">
+                          <input
+                            type="number"
+                            id="heightFt"
+                            min="4"
+                            max="7"
+                            class="w-full px-3 py-2 text-sm rounded-xl border border-purple-100 bg-purple-50/70 focus:outline-none focus:ring-2 focus:ring-pink-300 focus:bg-white"
+                            placeholder="ft"
+                          />
+                          <input
+                            type="number"
+                            id="heightIn"
+                            min="0"
+                            max="11"
+                            class="w-full px-3 py-2 text-sm rounded-xl border border-purple-100 bg-purple-50/70 focus:outline-none focus:ring-2 focus:ring-pink-300 focus:bg-white"
+                            placeholder="in"
+                          />
+                        </div>
+                      </div>
+                      <div>
+                        <label class="text-xs font-semibold text-purple-700"
+                          >Weight (stones & lbs)</label
+                        >
+                        <div class="flex gap-2 mt-1">
+                          <input
+                            type="number"
+                            id="weightSt"
+                            min="6"
+                            max="40"
+                            class="w-full px-3 py-2 text-sm rounded-xl border border-purple-100 bg-purple-50/70 focus:outline-none focus:ring-2 focus:ring-pink-300 focus:bg-white"
+                            placeholder="st"
+                          />
+                          <input
+                            type="number"
+                            id="weightLb"
+                            min="0"
+                            max="13"
+                            class="w-full px-3 py-2 text-sm rounded-xl border border-purple-100 bg-purple-50/70 focus:outline-none focus:ring-2 focus:ring-pink-300 focus:bg-white"
+                            placeholder="lb"
+                          />
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <!-- US fields -->
+                  <div id="usFields" class="hidden">
+                    <div class="grid grid-cols-2 gap-3 mt-2">
+                      <div>
+                        <label class="text-xs font-semibold text-purple-700"
+                          >Height (inches)</label
+                        >
+                        <input
+                          type="number"
+                          id="heightInOnly"
+                          min="55"
+                          max="85"
+                          class="w-full mt-1 px-3 py-2 text-sm rounded-xl border border-purple-100 bg-purple-50/70 focus:outline-none focus:ring-2 focus:ring-pink-300 focus:bg-white"
+                          placeholder="e.g. 66"
+                        />
+                      </div>
+                      <div>
+                        <label class="text-xs font-semibold text-purple-700"
+                          >Weight (lbs)</label
+                        >
+                        <input
+                          type="number"
+                          id="weightLbOnly"
+                          min="90"
+                          max="550"
+                          step="0.5"
+                          class="w-full mt-1 px-3 py-2 text-sm rounded-xl border border-purple-100 bg-purple-50/70 focus:outline-none focus:ring-2 focus:ring-pink-300 focus:bg-white"
+                          placeholder="e.g. 180"
+                        />
+                      </div>
+                    </div>
+                  </div>
+
+                  <div>
+                    <label class="text-xs font-semibold text-purple-700"
+                      >Activity level</label
+                    >
+                    <select
+                      id="activity"
+                      class="w-full mt-1 px-3 py-2 text-sm rounded-xl border border-purple-100 bg-purple-50/70 focus:outline-none focus:ring-2 focus:ring-pink-300 focus:bg-white"
+                    >
+                      <option value="1.2">Sedentary (mostly sitting)</option>
+                      <option value="1.375">Lightly active (1–3 days/week)</option>
+                      <option value="1.55">
+                        Moderately active (3–5 days/week)
+                      </option>
+                      <option value="1.725">Very active (hard exercise)</option>
+                      <option value="1.9">
+                        Extra active (physical job + training)
+                      </option>
+                    </select>
+                  </div>
+
+                  <div class="flex items-start gap-2 mt-2">
+                    <input
+                      type="checkbox"
+                      id="consent"
+                      class="mt-1 rounded border-purple-200 text-pink-400 focus:ring-pink-300"
+                    />
+                    <label
+                      for="consent"
+                      class="text-[0.7rem] text-purple-500 leading-snug"
+                    >
+                      I understand this is general guidance only and not medical
+                      advice. If I have health conditions, I’ll talk to a doctor or
+                      dietitian before making big changes.
+                    </label>
+                  </div>
+
+                  <button
+                    type="button"
+                    class="primary-btn w-full py-2.5 text-sm font-bold mt-3"
+                    onclick="saveProfileAndGo()"
+                  >
+                    See my starting cups
+                  </button>
+                </form>
+              </div>
+
+              <button
+                class="text-xs text-purple-400 underline mt-2"
+                onclick="clearAllData()"
+              >
+                Clear saved data
+              </button>
+            </div>
+          </div>
+
+          <!-- PAGE 3 — PLAN SUMMARY -->
+          <div id="page3" class="page hidden">
+            <div class="space-y-3 mt-2">
+              <div class="flex items-center gap-3 mb-1">
+                <div class="circle-badge float-up">
+                  <span>2</span>
+                </div>
+                <div>
+                  <div
+                    class="text-[0.65rem] uppercase tracking-[0.2em] text-purple-400"
+                  >
+                    Step 2
+                  </div>
+                  <h2 class="text-lg font-extrabold soft-heading">
+                    Your Portionly cup guide.
+                  </h2>
+                  <p class="text-xs soft-muted mt-0.5">
+                    A gentle starting point based on the info you shared. You can
+                    tweak this later — nothing is locked in stone.
+                  </p>
+                </div>
+              </div>
+
+              <div class="soft-card p-4 mt-1 space-y-3">
+                <div
+                  class="text-[0.7rem] bg-purple-50/80 border border-purple-100 rounded-xl p-2 text-purple-600"
+                >
+                  <span class="font-semibold">Friendly reminder: </span>
+                  these cups are
+                  <span class="font-semibold">guidance, not rules.</span> Real life
+                  will wobble — and that’s allowed here.
+                </div>
+
+                <div id="planSummary" class="space-y-3 text-sm">
+                  <!-- Filled dynamically -->
+                </div>
+
+                <div class="bg-purple-50/80 rounded-xl p-3 border border-purple-100/80">
+                  <div class="flex items-center justify-between mb-1.5">
+                    <div class="flex items-center gap-1">
+                      <span class="text-xs uppercase tracking-[0.22em] text-purple-400"
+                        >Healthy range</span
+                      >
+                    </div>
+                    <span
+                      class="text-[0.7rem] px-2 py-0.5 rounded-full bg-white/80 border border-purple-100 text-purple-500"
+                      id="bmiLabel"
+                    ></span>
+                  </div>
+                  <div id="goalWeightText" class="text-xs soft-muted">
+                    <!-- filled in JS -->
+                  </div>
+                </div>
+
+                <div class="space-y-2">
+                  <div class="text-xs soft-heading font-semibold">
+                    How fast do you want to move?
+                  </div>
+                  <div class="text-[0.7rem] soft-muted">
+                    This just changes how gentle or punchy your plan is. Choose
+                    what feels okay for your energy, schedule, and mental health.
+                  </div>
+                  <div class="flex gap-2 mt-1">
+                    <button
+                      type="button"
+                      class="paceBox flex-1 px-3 py-2 text-xs flex items-center justify-center gap-1 active"
+                      data-pace="1"
+                      onclick="onPaceChange(1)"
+                    >
+                      <span>🌿</span>
+                      <span>Gentle</span>
+                    </button>
+                    <button
+                      type="button"
+                      class="paceBox flex-1 px-3 py-2 text-xs flex items-center justify-center gap-1"
+                      data-pace="2"
+                      onclick="onPaceChange(2)"
+                    >
+                      <span>⚖️</span>
+                      <span>Standard</span>
+                    </button>
+                    <button
+                      type="button"
+                      class="paceBox flex-1 px-3 py-2 text-xs flex items-center justify-center gap-1"
+                      data-pace="3"
+                      onclick="onPaceChange(3)"
+                    >
+                      <span>🔥</span>
+                      <span>Faster</span>
+                    </button>
+                  </div>
+                  <div
+                    id="paceDescription"
+                    class="text-[0.7rem] soft-muted mt-1"
+                  ></div>
+                </div>
+
+                <button
+                  class="primary-btn w-full py-2.5 text-sm font-bold mt-1"
+                  onclick="applyPlanAndContinue()"
+                >
+                  Start using these cups
+                </button>
+
+                <button
+                  class="btn-secondary w-full py-2 text-xs text-purple-500 mt-1"
+                  onclick="showPage(2)"
+                >
+                  Go back and tweak my details
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <!-- PAGE 4 — DAILY DASHBOARD -->
+          <div id="page4" class="page hidden">
+            <div class="space-y-4 mt-1.5">
+              <div class="flex items-center justify-between mb-1">
+                <div>
+                  <div
+                    class="text-[0.6rem] uppercase tracking-[0.22em] text-purple-400"
+                  >
+                    Today
+                  </div>
+                  <h2 class="text-lg font-extrabold soft-heading">
+                    Your Portionly cups.
+                  </h2>
+                  <p class="text-[0.7rem] soft-muted">
+                    Log cups as you go. Every meal is a fresh data point, not a
+                    test you pass or fail.
+                  </p>
+                </div>
+                <div class="text-right">
+                  <div
+                    class="text-[0.65rem] uppercase tracking-[0.18em] text-purple-400 mb-1"
+                  >
+                    Pace
+                  </div>
+                  <div
+                    id="currentPaceLabel"
+                    class="text-xs font-semibold text-purple-600"
+                  ></div>
+                </div>
+              </div>
+
+              <div class="track-card p-4">
+                <div class="flex items-center justify-between mb-3">
+                  <div>
+                    <div class="text-xs soft-heading font-semibold mb-1">
+                      Cups so far today
+                    </div>
+                    <div class="text-[0.7rem] soft-muted">
+                      Aim for steady progress across the day. You don’t need to be
+                      perfect to be consistent.
+                    </div>
+                  </div>
+                  <div class="relative w-16 h-16">
+                    <svg
+                      class="ring-progress w-16 h-16"
+                      viewBox="0 0 36 36"
+                    >
+                      <defs>
+                        <linearGradient
+                          id="grad"
+                          x1="0%"
+                          y1="0%"
+                          x2="100%"
+                          y2="100%"
+                        >
+                          <stop offset="0%" stop-color="#f48fb1" />
+                          <stop offset="100%" stop-color="#ffb74d" />
+                        </linearGradient>
+                      </defs>
+                      <circle
+                        class="bg"
+                        cx="18"
+                        cy="18"
+                        r="15.5"
+                        fill="none"
+                        stroke-width="2.8"
+                      />
+                      <circle
+                        class="progress"
+                        cx="18"
+                        cy="18"
+                        r="15.5"
+                        fill="none"
+                        stroke-width="2.8"
+                        stroke-dasharray="97.3"
+                        stroke-dashoffset="97.3"
+                      />
+                    </svg>
+                    <div
+                      class="ring-label absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 text-center"
+                    >
+                      <div
+                        id="progressLabel"
+                        class="text-[0.7rem] font-semibold text-purple-700"
+                      >
+                        0/0
+                      </div>
+                      <div class="text-[0.6rem] text-purple-400">cups</div>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="grid grid-cols-5 gap-2 text-[0.7rem]">
+                  <div class="bubble flex flex-col items-center gap-1">
+                    <div class="cup" style="background-color: #f48fb1"></div>
+                    <div class="font-semibold text-purple-700">Protein</div>
+                    <div id="pProg" class="text-xs text-purple-500">0/0</div>
+                  </div>
+                  <div class="bubble flex flex-col items-center gap-1">
+                    <div class="cup" style="background-color: #fff59d"></div>
+                    <div class="font-semibold text-purple-700">Carbs</div>
+                    <div id="cProg" class="text-xs text-purple-500">0/0</div>
+                  </div>
+                  <div class="bubble flex flex-col items-center gap-1">
+                    <div class="cup" style="background-color: #a5d6a7"></div>
+                    <div class="font-semibold text-purple-700">Veggies</div>
+                    <div id="vProg" class="text-xs text-purple-500">0/0</div>
+                  </div>
+                  <div class="bubble flex flex-col items-center gap-1">
+                    <div class="cup" style="background-color: #ce93d8"></div>
+                    <div class="font-semibold text-purple-700">Fruits</div>
+                    <div id="fProg" class="text-xs text-purple-500">0/0</div>
+                  </div>
+                  <div class="bubble flex flex-col items-center gap-1">
+                    <div class="cup" style="background-color: #ffb74d"></div>
+                    <div class="font-semibold text-purple-700">Fats</div>
+                    <div id="fatProg" class="text-xs text-purple-500">0/0</div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="soft-card p-4">
+                <div class="flex items-center justify-between mb-2">
+                  <div>
+                    <div class="text-xs soft-heading font-semibold mb-1">
+                      Log cups for a meal
+                    </div>
+                    <div class="text-[0.7rem] soft-muted">
+                      Choose a meal, then mark how many cups it roughly felt like.
+                      Guessing is allowed.
+                    </div>
+                  </div>
+                  <div class="chip text-[0.65rem] text-purple-500">
+                    Each cup is rough — not exact.
+                  </div>
+                </div>
+
+                <div class="space-y-3">
+                  <div class="flex gap-2 text-[0.7rem]">
+                    <button
+                      type="button"
+                      class="meal-pill flex-1 text-purple-700 border-purple-200 bg-purple-50/90"
+                      data-meal="Breakfast"
+                      onclick="setMeal('Breakfast')"
+                    >
+                      Breakfast
+                    </button>
+                    <button
+                      type="button"
+                      class="meal-pill flex-1 text-purple-700"
+                      data-meal="Lunch"
+                      onclick="setMeal('Lunch')"
+                    >
+                      Lunch
+                    </button>
+                    <button
+                      type="button"
+                      class="meal-pill flex-1 text-purple-700"
+                      data-meal="Dinner"
+                      onclick="setMeal('Dinner')"
+                    >
+                      Dinner
+                    </button>
+                    <button
+                      type="button"
+                      class="meal-pill flex-1 text-purple-700"
+                      data-meal="Snacks"
+                      onclick="setMeal('Snacks')"
+                    >
+                      Snacks
+                    </button>
+                  </div>
+
+                  <div class="grid grid-cols-5 gap-2 text-[0.7rem]">
+                    <div class="input-like">
+                      <div class="flex items-center justify-between mb-1">
+                        <span class="text-xs text-purple-600">Protein</span>
+                        <span class="text-[0.65rem] text-purple-400">cups</span>
+                      </div>
+                      <input
+                        type="number"
+                        min="0"
+                        max="12"
+                        id="logProtein"
+                        class="w-full text-sm rounded-lg border border-purple-100 px-2 py-1 bg-white/90 focus:outline-none focus:ring-1 focus:ring-pink-300"
+                      />
+                    </div>
+                    <div class="input-like">
+                      <div class="flex items-center justify-between mb-1">
+                        <span class="text-xs text-purple-600">Carbs</span>
+                        <span class="text-[0.65rem] text-purple-400">cups</span>
+                      </div>
+                      <input
+                        type="number"
+                        min="0"
+                        max="12"
+                        id="logCarbs"
+                        class="w-full text-sm rounded-lg border border-purple-100 px-2 py-1 bg-white/90 focus:outline-none focus:ring-1 focus:ring-pink-300"
+                      />
+                    </div>
+                    <div class="input-like">
+                      <div class="flex items-center justify-between mb-1">
+                        <span class="text-xs text-purple-600">Veggies</span>
+                        <span class="text-[0.65rem] text-purple-400">cups</span>
+                      </div>
+                      <input
+                        type="number"
+                        min="0"
+                        max="12"
+                        id="logVeggies"
+                        class="w-full text-sm rounded-lg border border-purple-100 px-2 py-1 bg-white/90 focus:outline-none focus:ring-1 focus:ring-pink-300"
+                      />
+                    </div>
+                    <div class="input-like">
+                      <div class="flex items-center justify-between mb-1">
+                        <span class="text-xs text-purple-600">Fruits</span>
+                        <span class="text-[0.65rem] text-purple-400">cups</span>
+                      </div>
+                      <input
+                        type="number"
+                        min="0"
+                        max="12"
+                        id="logFruits"
+                        class="w-full text-sm rounded-lg border border-purple-100 px-2 py-1 bg-white/90 focus:outline-none focus:ring-1 focus:ring-pink-300"
+                      />
+                    </div>
+                    <div class="input-like">
+                      <div class="flex items-center justify-between mb-1">
+                        <span class="text-xs text-purple-600">Fats</span>
+                        <span class="text-[0.65rem] text-purple-400">cups</span>
+                      </div>
+                      <input
+                        type="number"
+                        min="0"
+                        max="12"
+                        id="logFats"
+                        class="w-full text-sm rounded-lg border border-purple-100 px-2 py-1 bg-white/90 focus:outline-none focus:ring-1 focus:ring-pink-300"
+                      />
+                    </div>
+                  </div>
+
+                  <button
+                    class="primary-btn w-full py-2 text-sm font-bold"
+                    onclick="addLogEntry()"
+                  >
+                    Add these cups
+                  </button>
+
+                  <div class="text-[0.7rem] soft-muted">
+                    Forgot to log earlier? You can still add cups for past meals –
+                    just choose the meal and estimate.
+                  </div>
+                </div>
+              </div>
+
+              <div class="soft-card p-4">
+                <div class="flex items-center justify-between mb-2">
+                  <div class="text-xs soft-heading font-semibold">
+                    Today’s food snapshots
+                  </div>
+                  <button
+                    class="text-[0.65rem] text-purple-400 underline"
+                    onclick="clearToday()"
+                  >
+                    Clear today
+                  </button>
+                </div>
+                <div class="space-y-2 text-[0.7rem] soft-muted">
+                  <div>
+                    <div class="font-semibold text-purple-600 mb-1">
+                      Breakfast
+                    </div>
+                    <div id="log-Breakfast"></div>
+                  </div>
+                  <div>
+                    <div class="font-semibold text-purple-600 mb-1">Lunch</div>
+                    <div id="log-Lunch"></div>
+                  </div>
+                  <div>
+                    <div class="font-semibold text-purple-600 mb-1">Dinner</div>
+                    <div id="log-Dinner"></div>
+                  </div>
+                  <div>
+                    <div class="font-semibold text-purple-600 mb-1">Snacks</div>
+                    <div id="log-Snacks"></div>
+                  </div>
+                </div>
+              </div>
+
+              <button
+                class="btn-secondary w-full text-[0.7rem] text-purple-500"
+                onclick="showPage(1)"
+              >
+                Back to intro
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- SCRIPTS -->
+        <script>
+          let currentUnits = "metric";
+          let baselinePlan = null;
+          let adjustedPlan = null;
+          let currentMeal = "Breakfast";
+          let dailyProgress = null;
+          let dailyLog = [];
+
+          function showPage(page) {
+            document.querySelectorAll(".page").forEach((p) => p.classList.add("hidden"));
+            document.getElementById("page" + page).classList.remove("hidden");
+
+            document.querySelectorAll(".nav-dot").forEach((dot) => {
+              dot.classList.toggle(
+                "active",
+                parseInt(dot.dataset.page) === page,
+              );
+            });
+          }
+
+          function setUnits(units) {
+            currentUnits = units;
+            document
+              .querySelectorAll(".metric-toggle-btn")
+              .forEach((btn) => {
+                btn.classList.toggle("active", btn.dataset.units === units);
+              });
+
+            document.getElementById("metricFields").classList.toggle(
+              "hidden",
+              units !== "metric",
+            );
+            document.getElementById("imperialFields").classList.toggle(
+              "hidden",
+              units !== "imperial",
+            );
+            document
+              .getElementById("usFields")
+              .classList.toggle("hidden", units !== "us");
+          }
+
+          function clearAllData() {
+            if (!confirm("Clear all saved Portionly data on this device?")) return;
+            localStorage.removeItem("portionlyProfile");
+            localStorage.removeItem("portionlyPlan");
+            localStorage.removeItem("portionlyProgress");
+            localStorage.removeItem("portionlyLog");
+            localStorage.removeItem("portionlyDate");
+            alert("All Portionly data cleared from this browser.");
+          }
+
+          function saveProfileAndGo() {
+            const gender = document.getElementById("gender").value;
+            const age = parseInt(document.getElementById("age").value, 10);
+            const activity = parseFloat(
+              document.getElementById("activity").value,
+            );
+            const consent = document.getElementById("consent").checked;
+
+            if (!consent) {
+              alert(
+                "Please confirm you understand this is general guidance only before continuing.",
+              );
+              return;
+            }
+
+            if (!gender || !age || !activity) {
+              alert("Please fill in gender, age and activity.");
+              return;
+            }
+
+            let heightCm = null;
+            let weightKg = null;
+
+            if (currentUnits === "metric") {
+              heightCm = parseFloat(
+                document.getElementById("heightCm").value,
+              );
+              weightKg = parseFloat(
+                document.getElementById("weightKg").value,
+              );
+            } else if (currentUnits === "imperial") {
+              const ft = parseFloat(
+                document.getElementById("heightFt").value,
+              );
+              const inch = parseFloat(
+                document.getElementById("heightIn").value,
+              );
+              const st = parseFloat(
+                document.getElementById("weightSt").value,
+              );
+              const lb = parseFloat(
+                document.getElementById("weightLb").value,
+              );
+              if (!isNaN(ft) && !isNaN(inch)) {
+                heightCm = (ft * 12 + inch) * 2.54;
+              }
+              if (!isNaN(st) && !isNaN(lb)) {
+                weightKg = (st * 14 + lb) * 0.453592;
+              }
+            } else {
+              const inchOnly = parseFloat(
+                document.getElementById("heightInOnly").value,
+              );
+              const lbOnly = parseFloat(
+                document.getElementById("weightLbOnly").value,
+              );
+              if (!isNaN(inchOnly)) heightCm = inchOnly * 2.54;
+              if (!isNaN(lbOnly)) weightKg = lbOnly * 0.453592;
+            }
+
+            if (!heightCm || !weightKg) {
+              alert(
+                "Please fill in height and weight in the units you selected.",
+              );
+              return;
+            }
+
+            const profile = {
+              gender,
+              age,
+              activity,
+              height: Math.round(heightCm),
+              weight: Math.round(weightKg * 10) / 10,
+              units: currentUnits,
+            };
+
+            localStorage.setItem(
+              "portionlyProfile",
+              JSON.stringify(profile),
+            );
+
+            showPage(3);
+            initPlanSummary();
+          }
+
+          // ---------- NEW CALC ENGINE (metric under the hood) ----------
+          const KCAL_PER_KG = 7700;
+
+          function getMinCalories(gender) {
+            return gender === "female" ? 1200 : 1500;
+          }
+
+          // Profile p uses kg and cm (you already convert in saveProfile)
+          function calculateBMRFromProfile(p) {
+            return (
+              10 * p.weight +
+              6.25 * p.height -
+              5 * p.age +
+              (p.gender === "female" ? -161 : 5)
+            );
+          }
+
+          function calculateTDEEFromProfile(p) {
+            return calculateBMRFromProfile(p) * p.activity;
+          }
+
+          // pace: 1 = gentle, 2 = standard, 3 = faster
+          function calorieTargetFromPace(p, pace) {
+            const tdee = calculateTDEEFromProfile(p);
+            const minCals = getMinCalories(p.gender);
+
+            let weeklyTargetKg;
+            if (pace === 1) weeklyTargetKg = 0.25;
+            else if (pace === 3) weeklyTargetKg = 0.75;
+            else weeklyTargetKg = 0.5;
+
+            const desiredDailyDeficit = (weeklyTargetKg * KCAL_PER_KG) / 7;
+
+            const maxDeficitByPercent = 0.2 * tdee;
+            const maxDeficitAbsolute = 1000;
+            let dailyDeficit = Math.min(
+              desiredDailyDeficit,
+              maxDeficitByPercent,
+              maxDeficitAbsolute,
+            );
+
+            let target = tdee - dailyDeficit;
+
+            if (target < minCals) {
+              target = minCals;
+              dailyDeficit = Math.max(0, tdee - target);
+            }
+
+            return Math.round(target);
+          }
+
+          function cupsFromCalories(targetCalories) {
+            const split = {
+              Protein: 0.3,
+              Carbs: 0.4,
+              "Healthy Fats": 0.3,
+            };
+
+            const veggieCups =
+              targetCalories < 1600 ? 4 : targetCalories < 2200 ? 5 : 6;
+            const fruitCups = targetCalories < 1600 ? 2 : 3;
+
+            const proteinCalories = targetCalories * split.Protein;
+            const carbCalories = targetCalories * split.Carbs;
+            const fatCalories = targetCalories * split["Healthy Fats"];
+
+            let proteinCups = Math.round(
+              proteinCalories / KCAL_PER_CUP.Protein,
+            );
+            let carbCups = Math.round(carbCalories / KCAL_PER_CUP.Carbs);
+            let fatCups = Math.round(
+              fatCalories / KCAL_PER_CUP["Healthy Fats"],
+            );
+
+            if (proteinCups < 3) proteinCups = 3;
+            if (carbCups < 3) carbCups = 3;
+            if (fatCups < 2) fatCups = 2;
+
+            return {
+              Protein: proteinCups,
+              Carbs: carbCups,
+              Veggies: veggieCups,
+              Fruits: fruitCups,
+              "Healthy Fats": fatCups,
+            };
+          }
+
+          // main entry used elsewhere in the app
+          function calculateTargets(p, pace = 2) {
+            const targetCalories = calorieTargetFromPace(p, pace);
+            const cups = cupsFromCalories(targetCalories);
+            return { cups, targetCalories };
+          }
+
+          const KCAL_PER_CUP = {
+            Protein: 120,
+            Carbs: 130,
+            Veggies: 25,
+            Fruits: 65,
+            "Healthy Fats": 100,
+          };
+
+          function cupsToCalories(cups) {
+            return Object.keys(cups).reduce(
+              (t, k) => t + cups[k] * (KCAL_PER_CUP[k] || 0),
+              0,
+            );
+          }
+
+          function initPlanSummary() {
+            const profile = JSON.parse(
+              localStorage.getItem("portionlyProfile"),
+            );
+            baselinePlan = calculateTargets(profile);
+
+            const saved = JSON.parse(
+              localStorage.getItem("portionlyPlan") || "null",
+            );
+            adjustedPlan = saved || { cups: { ...baselinePlan.cups }, pace: 2 };
+
+            renderPlanOnPage(adjustedPlan);
+            updatePaceDescription(adjustedPlan.pace);
+
+            document.querySelectorAll(".paceBox").forEach((b) => {
+              b.classList.toggle(
+                "active",
+                parseInt(b.dataset.pace) === adjustedPlan.pace,
+              );
+            });
+
+            const h = profile.height / 100;
+            const minW = Math.round(22 * h * h);
+            const maxW = Math.round(27 * h * h);
+            const current = profile.weight;
+            const unitLabel =
+              profile.units === "metric"
+                ? "kg"
+                : profile.units === "us"
+                ? "lb"
+                : "kg";
+
+            document.getElementById(
+              "bmiLabel",
+            ).textContent = `Range: ${minW}–${maxW}kg`;
+
+            let text =
+              "Based on your height, a gentle healthy weight range might be around ";
+            text += `${minW}–${maxW} kg. `;
+            text +=
+              "This is just one lens, not a verdict — your doctor or dietitian may give you a more personalised range.";
+
+            document.getElementById("goalWeightText").textContent = text;
+          }
+
+          function renderPlanOnPage(plan) {
+            const container = document.getElementById("planSummary");
+            const cups = plan.cups;
+
+            container.innerHTML = `
+              <div class="grid grid-cols-5 gap-2 text-[0.75rem] mb-2">
+                <div class="flex flex-col items-center gap-1 bg-purple-50/80 border border-purple-100 rounded-xl p-2">
+                  <div class="cup" style="background-color:#f48fb1;"></div>
+                  <div class="font-semibold text-purple-700">Protein</div>
+                  <div class="text-xs text-purple-500">${cups["Protein"]} cups</div>
+                </div>
+                <div class="flex flex-col items-center gap-1 bg-purple-50/80 border border-purple-100 rounded-xl p-2">
+                  <div class="cup" style="background-color:#fff59d;"></div>
+                  <div class="font-semibold text-purple-700">Carbs</div>
+                  <div class="text-xs text-purple-500">${cups["Carbs"]} cups</div>
+                </div>
+                <div class="flex flex-col items-center gap-1 bg-purple-50/80 border border-purple-100 rounded-xl p-2">
+                  <div class="cup" style="background-color:#a5d6a7;"></div>
+                  <div class="font-semibold text-purple-700">Veggies</div>
+                  <div class="text-xs text-purple-500">${cups["Veggies"]} cups</div>
+                </div>
+                <div class="flex flex-col items-center gap-1 bg-purple-50/80 border border-purple-100 rounded-xl p-2">
+                  <div class="cup" style="background-color:#ce93d8;"></div>
+                  <div class="font-semibold text-purple-700">Fruits</div>
+                  <div class="text-xs text-purple-500">${cups["Fruits"]} cups</div>
+                </div>
+                <div class="flex flex-col items-center gap-1 bg-purple-50/80 border border-purple-100 rounded-xl p-2">
+                  <div class="cup" style="background-color:#ffb74d;"></div>
+                  <div class="font-semibold text-purple-700">Fats</div>
+                  <div class="text-xs text-purple-500">${cups["Healthy Fats"]} cups</div>
+                </div>
+              </div>
+              <div class="text-[0.7rem] soft-muted">
+                This is your starting point. You can adjust cups later if you notice you feel low on energy, constantly hungry, or like it’s too much food.
+              </div>
+            `;
+          }
+
+          function updatePaceDescription(pace) {
+            const el = document.getElementById("paceDescription");
+            let text = "";
+            if (pace === 1) {
+              text =
+                "Gentle is a softer, slower approach. Great if you’re rebuilding trust with food, juggling stress, or don’t want to rock the boat too hard.";
+            } else if (pace === 2) {
+              text =
+                "Standard is a steady middle ground. Noticeable change over time, but with room for meals out, busy days, and snacky evenings.";
+            } else {
+              text =
+                "Faster is more focused. Use this if you’re feeling resourced and stable, and remember you can dial back to gentle any time.";
+            }
+            el.textContent = text;
+
+            const label = document.getElementById("currentPaceLabel");
+            if (label) {
+              if (pace === 1) label.textContent = "Gentle pace";
+              else if (pace === 2) label.textContent = "Standard pace";
+              else label.textContent = "Faster pace";
+            }
+          }
+
+          function onPaceChange(val) {
+            val = parseInt(val);
+
+            const profile = JSON.parse(
+              localStorage.getItem("portionlyProfile") || "null",
+            );
+            if (!profile) return;
+
+            // recalc from proper calculator for this pace
+            const planForPace = calculateTargets(profile, val);
+
+            adjustedPlan = { cups: planForPace.cups, pace: val };
+            renderPlanOnPage(adjustedPlan);
+            updatePaceDescription(val);
+
+            document.querySelectorAll(".paceBox").forEach((b) => {
+              b.classList.toggle(
+                "active",
+                parseInt(b.dataset.pace) === val,
+              );
+            });
+          }
+
+          function applyPlanAndContinue() {
+            localStorage.setItem("portionlyPlan", JSON.stringify(adjustedPlan));
+            localStorage.removeItem("portionlyProgress");
+            localStorage.removeItem("portionlyLog");
+            localStorage.setItem("portionlyDate", new Date().toDateString());
+            showPage(4);
+            initDashboard();
+          }
+
+          function initDashboard() {
+            const plan = JSON.parse(
+              localStorage.getItem("portionlyPlan"),
+            );
+            const savedDate = localStorage.getItem("portionlyDate");
+            const todayString = new Date().toDateString();
+
+            if (savedDate !== todayString) {
+              dailyProgress = {
+                Protein: 0,
+                Carbs: 0,
+                Veggies: 0,
+                Fruits: 0,
+                "Healthy Fats": 0,
+              };
+              dailyLog = [];
+              localStorage.setItem(
+                "portionlyProgress",
+                JSON.stringify(dailyProgress),
+              );
+              localStorage.setItem("portionlyLog", JSON.stringify(dailyLog));
+              localStorage.setItem("portionlyDate", todayString);
+            } else {
+              dailyProgress = JSON.parse(
+                localStorage.getItem("portionlyProgress") ||
+                  '{"Protein":0,"Carbs":0,"Veggies":0,"Fruits":0,"Healthy Fats":0}',
+              );
+              dailyLog = JSON.parse(
+                localStorage.getItem("portionlyLog") || "[]",
+              );
+            }
+
+            document.getElementById("currentPaceLabel").textContent =
+              plan.pace === 1
+                ? "Gentle pace"
+                : plan.pace === 2
+                ? "Standard pace"
+                : "Faster pace";
+
+            renderProgress(plan.cups);
+            renderLogs();
+          }
+
+          function renderProgress(targets) {
+            const totalTarget =
+              targets["Protein"] +
+              targets["Carbs"] +
+              targets["Veggies"] +
+              targets["Fruits"] +
+              targets["Healthy Fats"];
+
+            const totalDone =
+              dailyProgress["Protein"] +
+              dailyProgress["Carbs"] +
+              dailyProgress["Veggies"] +
+              dailyProgress["Fruits"] +
+              dailyProgress["Healthy Fats"];
+
+            document.getElementById(
+              "progressLabel",
+            ).innerText = `${totalDone}/${totalTarget}`;
+
+            function updateProg(id, done, target) {
+              document.getElementById(
+                id,
+              ).innerText = `${done}/${target}`;
+            }
+
+            updateProg("pProg", dailyProgress["Protein"], targets["Protein"]);
+            updateProg("cProg", dailyProgress["Carbs"], targets["Carbs"]);
+            updateProg("vProg", dailyProgress["Veggies"], targets["Veggies"]);
+            updateProg("fProg", dailyProgress["Fruits"], targets["Fruits"]);
+            updateProg(
+              "fatProg",
+              dailyProgress["Healthy Fats"],
+              targets["Healthy Fats"],
+            );
+
+            const ring = document.querySelector(".ring-progress");
+            const prog = Math.min(1, totalDone / totalTarget || 0);
+            const max = 97.3;
+            const offset = max * (1 - prog);
+            ring.querySelector(".progress").style.strokeDashoffset = offset;
+            ring.querySelector(".label").innerHTML =
+              `${(prog * 100).toFixed(0)}<br>${totalDone}/${totalTarget}`;
+          }
+
+          function setMeal(meal) {
+            currentMeal = meal;
+            document.querySelectorAll(".meal-pill").forEach((btn) => {
+              btn.classList.toggle(
+                "bg-purple-50/90",
+                btn.dataset.meal === meal,
+              );
+              btn.classList.toggle(
+                "border-purple-200",
+                btn.dataset.meal === meal,
+              );
+            });
+          }
+
+          function addLogEntry() {
+            const plan = JSON.parse(
+              localStorage.getItem("portionlyPlan"),
+            );
+            if (!plan) return;
+
+            const vals = {
+              Protein: parseFloat(
+                document.getElementById("logProtein").value || "0",
+              ),
+              Carbs: parseFloat(
+                document.getElementById("logCarbs").value || "0",
+              ),
+              Veggies: parseFloat(
+                document.getElementById("logVeggies").value || "0",
+              ),
+              Fruits: parseFloat(
+                document.getElementById("logFruits").value || "0",
+              ),
+              "Healthy Fats": parseFloat(
+                document.getElementById("logFats").value || "0",
+              ),
+            };
+
+            const hasAny = Object.values(vals).some((v) => v > 0);
+            if (!hasAny) {
+              alert("Add at least one cup before logging.");
+              return;
+            }
+
+            Object.keys(vals).forEach((k) => {
+              dailyProgress[k] += vals[k];
+            });
+
+            dailyLog.push({
+              meal: currentMeal,
+              time: new Date().toLocaleTimeString([], {
+                hour: "2-digit",
+                minute: "2-digit",
+              }),
+              cups: vals,
+            });
+
+            localStorage.setItem(
+              "portionlyProgress",
+              JSON.stringify(dailyProgress),
+            );
+            localStorage.setItem("portionlyLog", JSON.stringify(dailyLog));
+
+            document.getElementById("logProtein").value = "";
+            document.getElementById("logCarbs").value = "";
+            document.getElementById("logVeggies").value = "";
+            document.getElementById("logFruits").value = "";
+            document.getElementById("logFats").value = "";
+
+            renderProgress(plan.cups);
+            renderLogs();
+          }
+
+          function renderLogs() {
+            ["Breakfast", "Lunch", "Dinner", "Snacks"].forEach((meal) => {
+              const container = document.getElementById(`log-${meal}`);
+              const items = dailyLog.filter((i) => i.meal === meal);
+
+              if (items.length === 0) {
+                container.innerHTML =
+                  "<p class='text-xs italic' style='color:#b0a397;'>No food logged.</p>";
+                return;
+              }
+
+              container.innerHTML = items
+                .map(
+                  (item) => `
+                <div class="log-entry mb-1.5">
+                  <div class="flex justify-between text-[0.7rem]">
+                    <span class="text-purple-700 font-semibold">${item.time}</span>
+                    <span class="text-purple-400">${Object.entries(
+                      item.cups,
+                    )
+                      .filter(([, v]) => v > 0)
+                      .map(([k, v]) => `${v} ${k[0]}`)
+                      .join(", ")}</span>
+                  </div>
+                </div>
+              `,
+                )
+                .join("");
+            });
+          }
+
+          function clearToday() {
+            if (!confirm("Clear today’s logged cups?")) return;
+            const plan = JSON.parse(
+              localStorage.getItem("portionlyPlan"),
+            );
+            dailyProgress = {
+              Protein: 0,
+              Carbs: 0,
+              Veggies: 0,
+              Fruits: 0,
+              "Healthy Fats": 0,
+            };
+            dailyLog = [];
+            localStorage.setItem(
+              "portionlyProgress",
+              JSON.stringify(dailyProgress),
+            );
+            localStorage.setItem("portionlyLog", JSON.stringify(dailyLog));
+            renderProgress(plan.cups);
+            renderLogs();
+          }
+
+          document.addEventListener("DOMContentLoaded", () => {
+            const profile = localStorage.getItem("portionlyProfile");
+            if (profile) {
+              showPage(3);
+              initPlanSummary();
+            } else {
+              showPage(1);
+            }
+          });
+        </script>
+      </div>
+    </div>
+    <script>
+      if ("serviceWorker" in navigator) {
+        navigator.serviceWorker.register("./sw.js");
+      }
+    </script>
+  </body>
+</html>
