@@ -36,7 +36,11 @@
 
     .inner { max-width: 720px; width: 100%; }
 
-    .logo { display: block; margin: 0 auto 12px; max-width: 140px; }
+    .logo {
+      display: block;
+      margin: 0 auto 12px;
+      max-width: 140px;
+    }
 
     .brand {
       text-align: center;
@@ -47,7 +51,12 @@
       margin-bottom: 6px;
     }
 
-    .title { text-align: center; font-size: 26px; font-weight: 800; margin-bottom: 4px; }
+    .title {
+      text-align: center;
+      font-size: 26px;
+      font-weight: 800;
+      margin-bottom: 4px;
+    }
 
     .subtitle {
       text-align: center;
@@ -64,204 +73,608 @@
       border: 1px solid var(--border-subtle);
     }
 
-    .card-header-text { font-size: 14px; color: var(--text-muted); margin-bottom: 14px; }
+    .card-header-text {
+      font-size: 14px;
+      color: var(--text-muted);
+      margin-bottom: 14px;
+    }
 
     .field { margin-bottom: 12px; }
-    label { font-size: 13px; font-weight: 600; margin-bottom: 4px; display: block; }
 
-    input[type="number"], select {
+    label {
+      display: block;
+      font-size: 13px;
+      font-weight: 600;
+      margin-bottom: 4px;
+    }
+
+    input[type="number"],
+    select {
       width: 100%;
       padding: 8px 10px;
       border-radius: 10px;
       border: 1px solid #e1d4ff;
       background: #faf7ff;
       font-size: 14px;
+      outline: none;
+      transition: border 0.15s, box-shadow 0.15s, background 0.15s;
     }
 
-    .grid-two { display: grid; grid-template-columns: repeat(2,1fr); gap: 12px; }
+    input[type="number"]:focus,
+    select:focus {
+      border-color: #c39bff;
+      box-shadow: 0 0 0 2px rgba(186,145,255,0.25);
+      background: #fff;
+    }
 
-    .unit-row { display:flex; gap:8px; margin-top:4px; }
+    .grid-two {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 8px;
+    }
+
+    .unit-row {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+      margin-top: 4px;
+    }
 
     .unit-pill {
-      padding:5px 10px; border-radius:999px; border:1px solid #e6d5ff;
-      background:#faf7ff; font-size:11px; cursor:pointer;
+      padding: 5px 10px;
+      border-radius: 999px;
+      border: 1px solid #e6d5ff;
+      background: #faf7ff;
+      font-size: 11px;
+      cursor: pointer;
+      user-select: none;
+      transition: background 0.15s, border 0.15s, color 0.15s;
     }
-    .unit-pill.active { background:var(--accent); border-color:var(--accent); color:#fff; }
 
-    .pace-row { display:flex; gap:8px; flex-wrap:wrap; margin-top:4px; }
+    .unit-pill.active {
+      background: var(--accent);
+      border-color: var(--accent);
+      color: #fff;
+    }
+
+    .helper {
+      font-size: 11px;
+      color: var(--text-muted);
+      margin-top: 4px;
+    }
+
+    .pace-row {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+      margin-top: 4px;
+    }
 
     .pace-pill {
-      flex:1; min-width:90px; border-radius:999px; border:1px solid #e6d5ff;
-      padding:7px 10px; font-size:13px; display:flex; justify-content:center; gap:4px;
-      background:#faf7ff; cursor:pointer;
+      flex: 1;
+      min-width: 90px;
+      border-radius: 999px;
+      border: 1px solid #e6d5ff;
+      padding: 7px 10px;
+      font-size: 13px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 4px;
+      background: #faf7ff;
+      cursor: pointer;
+      user-select: none;
+      transition: background 0.15s, border 0.15s, transform 0.1s;
     }
-    .pace-pill.active { background:var(--accent); color:#fff; }
+
+    .pace-pill span.emoji { font-size: 16px; }
+
+    .pace-pill.active {
+      background: var(--accent);
+      border-color: var(--accent);
+      color: #fff;
+      transform: translateY(-1px);
+      box-shadow: 0 8px 20px rgba(240,143,180,0.4);
+    }
+
+    .consent {
+      display: flex;
+      align-items: flex-start;
+      gap: 8px;
+      margin-top: 4px;
+    }
+
+    .consent input { margin-top: 3px; }
+
+    .consent-text {
+      font-size: 11px;
+      color: var(--text-muted);
+      line-height: 1.4;
+    }
 
     .btn-main {
-      margin-top:14px; width:100%; border-radius:999px; padding:11px 16px;
-      border:none; font-weight:700; background:linear-gradient(135deg,#ff9ac0,#f08fb4);
-      color:#fff;
+      margin-top: 14px;
+      width: 100%;
+      border-radius: 999px;
+      padding: 11px 16px;
+      border: none;
+      font-size: 15px;
+      font-weight: 700;
+      background: linear-gradient(135deg,#ff9ac0,#f08fb4);
+      color: #fff;
+      cursor: pointer;
+      box-shadow: 0 14px 32px rgba(244,143,177,0.55);
     }
 
-    .results { margin-top:18px; padding:14px; border-radius:16px; border:1px solid #f1ddff; }
-    .cups-list { list-style:none; padding:0; }
-    .cups-list li { display:flex; justify-content:space-between; padding:4px 0; }
-    .healthy { font-size:11px; color:var(--text-muted); margin-top:6px; }
+    .divider {
+      margin: 16px 0 10px;
+      border-top: 1px dashed #eadfff;
+    }
+
+    .disclaimer {
+      font-size: 11px;
+      color: var(--text-muted);
+      line-height: 1.4;
+    }
+
+    .results {
+      margin-top: 18px;
+      padding: 14px 12px 10px;
+      border-radius: 16px;
+      background: linear-gradient(135deg,#fff6ff,#f5f9ff);
+      border: 1px solid #f1ddff;
+    }
+
+    .results-header {
+      font-size: 14px;
+      font-weight: 700;
+      margin-bottom: 6px;
+    }
+
+    .results-sub {
+      font-size: 12px;
+      color: var(--text-muted);
+      margin-bottom: 10px;
+    }
+
+    .cups-list {
+      list-style: none;
+      padding-left: 0;
+      margin: 0 0 10px;
+      font-size: 13px;
+    }
+
+    .cups-list li {
+      display: flex;
+      justify-content: space-between;
+      padding: 4px 0;
+    }
+
+    .cups-label { font-weight: 600; }
+
+    .healthy {
+      margin-top: 6px;
+      font-size: 11px;
+      color: var(--text-muted);
+    }
+
+    .error {
+      margin-top:8px;
+      font-size:12px;
+      color:#c62828;
+      font-weight:600;
+    }
   </style>
 </head>
 
 <body>
-<div class="page-wrap">
-  <div class="inner">
+  <div class="page-wrap">
+    <div class="inner">
+      <!-- logo file must be: portionly-logo.png in same folder -->
+      <img src="portionly-logo.png" alt="Portionly logo" class="logo" />
 
-    <img src="portionly-logo.png" class="logo" alt="Portionly logo" />
-    <div class="brand">portionly wellbeing</div>
-    <div class="title">Portionly Cup Calculator</div>
-    <div class="subtitle">No maths. No guilt. Just a gentle starting point you can adjust as you go.</div>
-
-    <div class="card">
-      <div class="card-header-text">
-        Fill this in to get a rough daily guide. These are guidelines, not rules — real life wobbles.
+      <div class="brand">portionly wellbeing</div>
+      <div class="title">Portionly Cup Calculator</div>
+      <div class="subtitle">
+        No maths. No guilt. Just a gentle starting point you can adjust as you go.
       </div>
 
-      <form id="calc-form">
-        <div class="field">
-          <label>Gender</label>
-          <select id="gender"><option value="female">Female</option><option value="male">Male</option></select>
+      <div class="card">
+        <div class="card-header-text">
+          Fill this in to get a rough daily guide for your Portionly cups. These
+          numbers are <strong>guidelines, not rules.</strong> Real life will wobble —
+          and that’s allowed here.
         </div>
 
-        <div class="grid-two">
+        <form id="calc-form" novalidate>
           <div class="field">
-            <label>Age</label>
-            <input id="age" type="number" />
+            <label for="gender">Gender</label>
+            <select id="gender">
+              <option value="female">Female</option>
+              <option value="male">Male</option>
+            </select>
+          </div>
+
+          <div class="grid-two">
+            <div class="field">
+              <label for="age">Age (years)</label>
+              <input id="age" type="number" min="10" max="100" />
+            </div>
+
+            <div class="field">
+              <label>Height</label>
+              <div class="unit-row">
+                <span class="unit-pill active" data-height-unit="cm">cm</span>
+                <span class="unit-pill" data-height-unit="ftin">ft + in</span>
+              </div>
+              <div class="grid-two" style="margin-top:6px;">
+                <div>
+                  <input id="heightCm" type="number" min="80" max="250" placeholder="cm" />
+                </div>
+                <div style="display:flex; gap:6px;">
+                  <input id="heightFt" type="number" min="3" max="8" placeholder="ft" style="flex:1;" />
+                  <input id="heightIn" type="number" min="0" max="11" placeholder="in" style="flex:1;" />
+                </div>
+              </div>
+              <div class="helper" id="height-helper">
+                Use either centimetres OR feet and inches — whatever is easiest. Leave the others blank.
+              </div>
+            </div>
           </div>
 
           <div class="field">
-            <label>Height</label>
-            <input id="height-value" type="number" />
+            <label>Weight</label>
             <div class="unit-row">
-              <span class="unit-pill active" data-height-unit="cm">cm</span>
-              <span class="unit-pill" data-height-unit="ft">ft + in</span>
+              <span class="unit-pill active" data-weight-unit="kg">kg</span>
+              <span class="unit-pill" data-weight-unit="lb">lbs</span>
+              <span class="unit-pill" data-weight-unit="stone">stone &amp; lb</span>
             </div>
-            <div class="helper" id="height-helper">
-              Using centimetres. Switch if you think in feet.
+            <div class="grid-two" style="margin-top:6px;">
+              <div>
+                <input id="weightKg" type="number" min="30" max="300" step="0.1" placeholder="kg" />
+              </div>
+              <div>
+                <input id="weightLb" type="number" min="70" max="660" step="0.5" placeholder="lbs" />
+              </div>
+            </div>
+            <div class="grid-two" style="margin-top:6px;">
+              <div>
+                <input id="weightSt" type="number" min="5" max="45" step="0.1" placeholder="st" />
+              </div>
+              <div>
+                <input id="weightStLb" type="number" min="0" max="13" step="0.5" placeholder="lb" />
+              </div>
+            </div>
+            <div class="helper" id="weight-helper">
+              Use whichever row matches how you think about weight. For stone &amp; lb, for example 11 st 7 lb → 11 and 7.
             </div>
           </div>
-        </div>
 
-        <div class="field">
-          <label>Weight</label>
-          <input id="weight-value" type="number" />
-          <div class="unit-row">
-            <span class="unit-pill active" data-weight-unit="kg">kg</span>
-            <span class="unit-pill" data-weight-unit="lb">lbs</span>
-            <span class="unit-pill" data-weight-unit="stone">stone &amp; oz</span>
+          <div class="field">
+            <label for="activity">Activity level</label>
+            <select id="activity">
+              <option value="1.2">Sedentary (mostly sitting)</option>
+              <option value="1.375">Lightly active (1–3 days/week)</option>
+              <option value="1.55">Moderately active (3–5 days/week)</option>
+              <option value="1.725">Very active (6–7 days/week)</option>
+              <option value="1.9">Extra active (physical job + training)</option>
+            </select>
           </div>
-          <div class="helper" id="weight-helper">
-            Using kilograms. Switch if you think in pounds or stone.
+
+          <div class="field">
+            <label>How fast do you want to move?</label>
+            <div class="helper">
+              This just changes how gentle or punchy your plan is. Faster isn’t always better — choose what feels sustainable.
+            </div>
+            <div class="pace-row" id="pace-row">
+              <label class="pace-pill active" data-pace="gentle">
+                <span class="emoji">🌿</span><span>Gentle</span>
+              </label>
+              <label class="pace-pill" data-pace="standard">
+                <span class="emoji">⚖️</span><span>Standard</span>
+              </label>
+              <label class="pace-pill" data-pace="faster">
+                <span class="emoji">🔥</span><span>Faster</span>
+              </label>
+            </div>
           </div>
-        </div>
 
-        <div class="field">
-          <label>Activity level</label>
-          <select id="activity">
-            <option value="1.2">Sedentary</option>
-            <option value="1.55">Moderate</option>
-          </select>
-        </div>
-
-        <div class="field">
-          <label>How fast do you want to move?</label>
-          <div class="pace-row" id="pace-row">
-            <label class="pace-pill active" data-pace="gentle">🌿 Gentle</label>
-            <label class="pace-pill" data-pace="standard">⚖️ Standard</label>
-            <label class="pace-pill" data-pace="faster">🔥 Faster</label>
+          <div class="consent">
+            <input type="checkbox" id="consent" />
+            <div class="consent-text">
+              I understand this is general guidance only and not medical advice.
+              If I have health conditions, I’ll talk to a doctor or dietitian
+              before making big changes.
+            </div>
           </div>
+
+          <button type="submit" class="btn-main">Calculate my cups</button>
+          <div id="error" class="error" style="display:none;"></div>
+
+          <div class="divider"></div>
+
+          <div class="disclaimer">
+            A gentle starting point based on the info you shared. You can tweak
+            this later — nothing is locked in stone.
+          </div>
+        </form>
+
+        <div id="results" class="results" style="display:none;">
+          <div class="results-header" id="results-title"></div>
+          <div class="results-sub">
+            Friendly reminder: these cups are guidance, not rules. Real life will
+            wobble — and that’s allowed here.
+          </div>
+          <ul class="cups-list" id="cups-list"></ul>
+          <div class="healthy" id="healthy-range"></div>
         </div>
-
-        <button class="btn-main">Calculate my cups</button>
-      </form>
-
-      <div id="results" class="results" style="display:none;">
-        <div id="results-title"></div>
-        <ul id="cups-list" class="cups-list"></ul>
-        <div id="healthy-range" class="healthy"></div>
       </div>
-
     </div>
   </div>
-</div>
 
-<script>
-const KCAL = { Protein:120, Carbs:130, Veggies:25, Fruits:65, "Healthy Fats":100 };
+  <script>
+    // ---------- calculator core (calories stay hidden) ----------
+    const KCAL_PER_CUP = {
+      Protein: 120,
+      Carbs: 130,
+      Veggies: 25,
+      Fruits: 65,
+      "Healthy Fats": 100,
+    };
 
-let heightUnit="cm", weightUnit="kg", pace="gentle", lastProfile=null;
+    function minCalories(gender) {
+      return gender === "female" ? 1200 : 1500;
+    }
 
-document.querySelectorAll("[data-height-unit]").forEach(p=>p.onclick=()=>{
-  heightUnit=p.dataset.heightUnit;
-  document.querySelectorAll("[data-height-unit]").forEach(el=>el.classList.toggle("active",el===p));
-  document.getElementById("height-helper").textContent =
-    heightUnit==="cm"
-      ? "Using centimetres. Switch if you think in feet."
-      : "Using ft + in as one number. For example 5 ft 6 in → type 5.5";
-});
+    function calcBMR(p) {
+      return (
+        10 * p.weightKg +
+        6.25 * p.heightCm -
+        5 * p.age +
+        (p.gender === "female" ? -161 : 5)
+      );
+    }
 
-document.querySelectorAll("[data-weight-unit]").forEach(p=>p.onclick=()=>{
-  weightUnit=p.dataset.weightUnit;
-  document.querySelectorAll("[data-weight-unit]").forEach(el=>el.classList.toggle("active",el===p));
-  document.getElementById("weight-helper").textContent =
-    weightUnit==="kg"
-      ? "Using kilograms."
-      : weightUnit==="lb"
-      ? "Using pounds. Enter whole pounds (e.g. 180)."
-      : "Using stone & oz as a decimal. Example: 11.5 ≈ 11 st 7 lb.";
-});
+    function calcTDEE(p) {
+      return calcBMR(p) * p.activityFactor;
+    }
 
-document.getElementById("pace-row").onclick=e=>{
-  const pill=e.target.closest(".pace-pill"); if(!pill)return;
-  pace=pill.dataset.pace;
-  document.querySelectorAll(".pace-pill").forEach(el=>el.classList.toggle("active",el===pill));
-  if(lastProfile) render(calculate(lastProfile,pace), lastProfile);
-};
+    function calcTargetCalories(p, pace) {
+      const tdee = calcTDEE(p);
+      const minCals = minCalories(p.gender);
 
-function BMR({gender,weightKg,heightCm,age}){
-  return 10*weightKg+6.25*heightCm-5*age+(gender==="female"?-161:5);
-}
-function TDEE(p){ return BMR(p)*p.activityFactor; }
+      let frac;
+      if (pace === "gentle") frac = 0.10;
+      else if (pace === "faster") frac = 0.20;
+      else frac = 0.15;
 
-function targetCalories(profile, pace){
-  const t=TDEE(profile);
-  const frac = pace==="gentle"?0.10:pace==="faster"?0.20:0.15;
-  let c=t-(t*frac);
-  const min=profile.gender==="female"?1200:1500;
-  return Math.round(Math.max(c,min));
-}
+      let deficit = tdee * frac;
+      if (deficit > 1000) deficit = 1000;
 
-function cups(cal){
-  const s={Protein:0.3, Carbs:0.4, "Healthy Fats":0.3};
-  let p=Math.round(cal*s.Protein/120);
-  let c=Math.round(cal*s.Carbs/130);
-  let f=Math.round(cal*s["Healthy Fats"]/100);
-  return {
-    Protein:Math.max(p,3),
-    Carbs:Math.max(c,3),
-    Veggies:cal<1600?4:cal<2200?5:6,
-    Fruits:cal<1600?2:3,
-    "Healthy Fats":Math.max(f,2)
-  };
-}
+      let target = tdee - deficit;
+      if (target < minCals) target = minCals;
 
-function calculate(profile, pace){
-  const t=targetCalories(profile,pace);
-  return {cups:cups(t)};
-}
+      return Math.round(target);
+    }
 
-document.getElementById("calc-form").onsubmit=e=>{
-  e.preventDefault();
-  const gender=gender.value;
-  const ageV=parseFloat(age.value);
-  const h=parseFloat(height-value.value);
-};
-</script>
+    function calcCups(targetCalories) {
+      const split = { Protein: 0.3, Carbs: 0.4, "Healthy Fats": 0.3 };
+
+      const veg = targetCalories < 1600 ? 4 : targetCalories < 2200 ? 5 : 6;
+      const fruit = targetCalories < 1600 ? 2 : 3;
+
+      const proteinCalories = targetCalories * split.Protein;
+      const carbCalories = targetCalories * split.Carbs;
+      const fatCalories = targetCalories * split["Healthy Fats"];
+
+      let protein = Math.round(proteinCalories / KCAL_PER_CUP.Protein);
+      let carbs = Math.round(carbCalories / KCAL_PER_CUP.Carbs);
+      let fats = Math.round(fatCalories / KCAL_PER_CUP["Healthy Fats"]);
+
+      if (protein < 3) protein = 3;
+      if (carbs < 3) carbs = 3;
+      if (fats < 2) fats = 2;
+
+      return {
+        Protein: protein,
+        Carbs: carbs,
+        Veggies: veg,
+        Fruits: fruit,
+        "Healthy Fats": fats,
+      };
+    }
+
+    function calcPlan(profile, pace) {
+      const target = calcTargetCalories(profile, pace);
+      const cups = calcCups(target);
+      return { cups, targetCalories: target };
+    }
+
+    // ---------- UI / units ----------
+    let heightUnit = "cm";       // 'cm' or 'ftin'
+    let weightUnit = "kg";       // 'kg', 'lb', 'stone'
+    let selectedPace = "gentle";
+    let lastProfileInputs = null;
+
+    // height unit pills
+    document.querySelectorAll("[data-height-unit]").forEach(pill => {
+      pill.addEventListener("click", () => {
+        heightUnit = pill.dataset.heightUnit;
+        document.querySelectorAll("[data-height-unit]").forEach(el =>
+          el.classList.toggle("active", el === pill)
+        );
+        const helper = document.getElementById("height-helper");
+        helper.textContent =
+          heightUnit === "cm"
+            ? "Use either centimetres OR feet and inches — whatever is easiest. Leave the others blank."
+            : "Use either feet & inches OR centimetres — whatever is easiest. Leave the others blank.";
+      });
+    });
+
+    // weight unit pills
+    document.querySelectorAll("[data-weight-unit]").forEach(pill => {
+      pill.addEventListener("click", () => {
+        weightUnit = pill.dataset.weightUnit;
+        document.querySelectorAll("[data-weight-unit]").forEach(el =>
+          el.classList.toggle("active", el === pill)
+        );
+
+        const helper = document.getElementById("weight-helper");
+        if (weightUnit === "kg") {
+          helper.textContent =
+            "Use whichever row matches how you think about weight. For stone & lb, for example 11 st 7 lb → 11 and 7.";
+        } else if (weightUnit === "lb") {
+          helper.textContent =
+            "Using pounds. For example, 180 lb → 180 in the lbs box.";
+        } else {
+          helper.textContent =
+            "Using stone & lb. For example 11 st 7 lb → 11 in st and 7 in lb.";
+        }
+      });
+    });
+
+    // pace pills
+    document.getElementById("pace-row").addEventListener("click", e => {
+      const pill = e.target.closest(".pace-pill");
+      if (!pill) return;
+      selectedPace = pill.dataset.pace;
+
+      document.querySelectorAll(".pace-pill").forEach(el =>
+        el.classList.toggle("active", el === pill)
+      );
+
+      if (lastProfileInputs) {
+        const plan = calcPlan(lastProfileInputs, selectedPace);
+        renderResults(plan, lastProfileInputs);
+      }
+    });
+
+    // form submit
+    document.getElementById("calc-form").addEventListener("submit", e => {
+      e.preventDefault();
+      const errorEl = document.getElementById("error");
+      errorEl.style.display = "none";
+
+      try {
+        const gender = document.getElementById("gender").value;
+        const ageVal = parseFloat(document.getElementById("age").value);
+        const activityFactor = parseFloat(
+          document.getElementById("activity").value
+        );
+        const consent = document.getElementById("consent").checked;
+
+        if (!consent) {
+          throw new Error(
+            "Please confirm you understand this is general guidance only before continuing."
+          );
+        }
+
+        if (!gender || !ageVal || !activityFactor) {
+          throw new Error("Please fill in gender, age and activity level.");
+        }
+
+        // height
+        const cmVal = parseFloat(document.getElementById("heightCm").value);
+        const ftVal = parseFloat(document.getElementById("heightFt").value);
+        const inVal = parseFloat(document.getElementById("heightIn").value);
+
+        let heightCm;
+        if (heightUnit === "cm") {
+          if (!cmVal) {
+            throw new Error("Please enter your height in cm.");
+          }
+          heightCm = cmVal;
+        } else {
+          // feet + inches
+          if (isNaN(ftVal) || isNaN(inVal)) {
+            throw new Error("Please enter your height in ft and in.");
+          }
+          const totalInches = ftVal * 12 + inVal;
+          heightCm = totalInches * 2.54;
+        }
+
+        // weight
+        const kgVal = parseFloat(document.getElementById("weightKg").value);
+        const lbVal = parseFloat(document.getElementById("weightLb").value);
+        const stVal = parseFloat(document.getElementById("weightSt").value);
+        const stLbVal = parseFloat(
+          document.getElementById("weightStLb").value
+        );
+
+        let weightKg;
+        if (weightUnit === "kg") {
+          if (!kgVal) {
+            throw new Error("Please enter your weight in kg.");
+          }
+          weightKg = kgVal;
+        } else if (weightUnit === "lb") {
+          if (!lbVal) {
+            throw new Error("Please enter your weight in lbs.");
+          }
+          weightKg = lbVal * 0.453592;
+        } else {
+          if (isNaN(stVal) || isNaN(stLbVal)) {
+            throw new Error("Please enter your weight in stone & lb.");
+          }
+          const totalLb = stVal * 14 + stLbVal;
+          weightKg = totalLb * 0.453592;
+        }
+
+        const profile = {
+          gender,
+          age: ageVal,
+          heightCm,
+          weightKg,
+          activityFactor,
+        };
+        lastProfileInputs = profile;
+
+        const plan = calcPlan(profile, selectedPace);
+        renderResults(plan, profile);
+      } catch (err) {
+        errorEl.textContent = err.message || "Something went wrong.";
+        errorEl.style.display = "block";
+        document.getElementById("results").style.display = "none";
+      }
+    });
+
+    function renderResults(plan, profile) {
+      const results = document.getElementById("results");
+      const list = document.getElementById("cups-list");
+      const title = document.getElementById("results-title");
+      const healthy = document.getElementById("healthy-range");
+
+      const paceLabel =
+        selectedPace === "gentle"
+          ? "Gentle"
+          : selectedPace === "faster"
+          ? "Faster"
+          : "Standard";
+
+      title.textContent = `${paceLabel} pace cups plan`;
+
+      list.innerHTML = "";
+      Object.entries(plan.cups).forEach(([name, cups]) => {
+        const li = document.createElement("li");
+        const left = document.createElement("span");
+        left.textContent = name;
+        left.className = "cups-label";
+        const right = document.createElement("span");
+        right.textContent = `${cups} cups`;
+        li.appendChild(left);
+        li.appendChild(right);
+        list.appendChild(li);
+      });
+
+      const hMeters = profile.heightCm / 100;
+      const minW = Math.round(22 * hMeters * hMeters);
+      const maxW = Math.round(27 * hMeters * hMeters);
+      healthy.textContent =
+        "If you like having a rough number, a common height-based range for you is about " +
+        `${minW}–${maxW} kg. It’s optional, and a doctor or dietitian can always give you something more personalised.`;
+
+      results.style.display = "block";
+    }
+  </script>
 </body>
 </html>
