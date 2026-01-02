@@ -30,14 +30,22 @@
     }
 
     .page {
-      max-width: 680px;
-      margin: 32px auto 48px;
+      max-width: 720px;
+      margin: 28px auto 40px;
       padding: 0 16px;
+    }
+
+    .card {
+      background: var(--card);
+      border-radius: 18px;
+      padding: 20px 16px 22px;
+      box-shadow: 0 16px 40px rgba(40, 10, 120, 0.08);
+      border: 1px solid var(--border-soft);
     }
 
     .logo-area {
       text-align: center;
-      margin-bottom: 12px;
+      margin-bottom: 10px;
     }
 
     .logo-img {
@@ -67,15 +75,7 @@
       text-align: center;
       font-size: 0.95rem;
       color: var(--text-muted);
-      margin-bottom: 20px;
-    }
-
-    .card {
-      background: var(--card);
-      border-radius: 18px;
-      padding: 20px 16px 22px;
-      box-shadow: 0 16px 40px rgba(40, 10, 120, 0.08);
-      border: 1px solid var(--border-soft);
+      margin-bottom: 18px;
     }
 
     .note {
@@ -94,6 +94,7 @@
     }
 
     input[type="number"],
+    input[type="text"],
     select {
       width: 100%;
       padding: 9px 10px;
@@ -105,6 +106,7 @@
     }
 
     input[type="number"]:focus,
+    input[type="text"]:focus,
     select:focus {
       border-color: var(--accent);
       box-shadow: 0 0 0 2px var(--accent-soft);
@@ -120,7 +122,7 @@
       flex: 1;
     }
 
-    button {
+    .btn {
       width: 100%;
       margin-top: 16px;
       padding: 11px 14px;
@@ -133,8 +135,13 @@
       cursor: pointer;
     }
 
-    button:hover { filter: brightness(1.05); }
-    button:active { transform: translateY(1px); }
+    .btn:hover {
+      filter: brightness(1.05);
+    }
+
+    .btn:active {
+      transform: translateY(1px);
+    }
 
     .result {
       margin-top: 18px;
@@ -146,7 +153,9 @@
       text-align: left;
     }
 
-    .result p { margin: 0 0 6px; }
+    .result p {
+      margin: 0 0 6px;
+    }
 
     .cups-list {
       list-style: none;
@@ -154,12 +163,51 @@
       margin: 6px 0 4px;
     }
 
-    .cups-list li { margin-bottom: 4px; }
+    .cups-list li {
+      margin-bottom: 4px;
+    }
 
     .cups-label {
       display: inline-block;
       min-width: 130px;
       font-weight: 600;
+    }
+
+    .pace-row {
+      display: flex;
+      gap: 8px;
+      margin-top: 10px;
+    }
+
+    .pace-box {
+      flex: 1;
+      padding: 6px 4px 7px;
+      border-radius: 999px;
+      background: #f5e9dd;
+      text-align: center;
+      font-size: 0.75rem;
+      cursor: pointer;
+      border: 1.5px solid transparent;
+      box-shadow: 0 3px 8px rgba(0, 0, 0, 0.06);
+      color: var(--text-main);
+      user-select: none;
+    }
+
+    .pace-box span {
+      display: block;
+      line-height: 1.2;
+    }
+
+    .pace-box.active {
+      border-color: var(--accent);
+      background: #f0deca;
+      box-shadow: 0 5px 12px rgba(0, 0, 0, 0.12);
+    }
+
+    .pace-note {
+      margin-top: 6px;
+      font-size: 0.8rem;
+      color: var(--text-muted);
     }
 
     .disclaimer {
@@ -181,6 +229,7 @@
         margin-top: 20px;
         padding: 0 12px;
       }
+
       .card {
         padding: 18px 14px 18px;
       }
@@ -191,7 +240,7 @@
 <body>
   <div class="page">
     <div class="logo-area">
-      <!-- your logo file must be in the same repo -->
+      <!-- make sure portionly-logo.png is in the repo next to this file -->
       <img src="portionly-logo.png"
            alt="Portionly Wellbeing logo"
            class="logo-img" />
@@ -206,9 +255,78 @@
     <div class="card">
       <p class="note">
         Fill this in to get a rough daily guide for your Portionly cups.
-        These numbers are <strong>guidelines, not rules</strong>.
-        Your next meal is always a fresh chance to come back to your cups.
+        Nothing here is a rule — it's a calm framework you can return to when life gets noisy.
       </p>
+
+      <label for="name">Name (optional)</label>
+      <input id="name" type="text" placeholder="What should I call you?" />
+
+      <label for="units">Units</label>
+      <select id="units" onchange="updateUnitInputs()">
+        <option value="metric">Metric (kg, cm)</option>
+        <option value="imperial">Imperial (st / lbs, ft / in)</option>
+        <option value="us">US (lbs, ft / in)</option>
+      </select>
+
+      <!-- METRIC -->
+      <div id="metricInputs">
+        <label for="weightMetric">Weight (kg)</label>
+        <input id="weightMetric" type="number" min="35" max="250" step="0.1" />
+
+        <label for="heightMetric">Height (cm)</label>
+        <input id="heightMetric" type="number" min="120" max="220" />
+
+        <label for="ageMetric">Age (years)</label>
+        <input id="ageMetric" type="number" min="16" max="90" />
+      </div>
+
+      <!-- IMPERIAL -->
+      <div id="imperialInputs" style="display:none;">
+        <div class="row">
+          <div>
+            <label for="stones">Weight – stones</label>
+            <input id="stones" type="number" min="5" max="40" />
+          </div>
+          <div>
+            <label for="lbs">Weight – lbs</label>
+            <input id="lbs" type="number" min="0" max="13.9" step="0.1" />
+          </div>
+        </div>
+
+        <div class="row">
+          <div>
+            <label for="feet">Height – feet</label>
+            <input id="feet" type="number" min="4" max="7" />
+          </div>
+          <div>
+            <label for="inches">Height – inches</label>
+            <input id="inches" type="number" min="0" max="11" />
+          </div>
+        </div>
+
+        <label for="ageImperial">Age (years)</label>
+        <input id="ageImperial" type="number" min="16" max="90" />
+      </div>
+
+      <!-- US -->
+      <div id="usInputs" style="display:none;">
+        <label for="lbsOnly">Weight (lbs)</label>
+        <input id="lbsOnly" type="number" min="80" max="550" />
+
+        <div class="row">
+          <div>
+            <label for="feetUS">Height – feet</label>
+            <input id="feetUS" type="number" min="4" max="7" />
+          </div>
+          <div>
+            <label for="inchesUS">Height – inches</label>
+            <input id="inchesUS" type="number" min="0" max="11" />
+          </div>
+        </div>
+
+        <label for="ageUS">Age (years)</label>
+        <input id="ageUS" type="number" min="16" max="90" />
+      </div>
 
       <label for="gender">Gender</label>
       <select id="gender">
@@ -216,20 +334,6 @@
         <option value="female">Female</option>
         <option value="male">Male</option>
       </select>
-
-      <div class="row">
-        <div>
-          <label for="age">Age (years)</label>
-          <input id="age" type="number" min="16" max="90" />
-        </div>
-        <div>
-          <label for="height">Height (cm)</label>
-          <input id="height" type="number" min="120" max="220" />
-        </div>
-      </div>
-
-      <label for="weight">Weight (kg)</label>
-      <input id="weight" type="number" min="35" step="0.1" max="250" />
 
       <label for="activity">Activity level</label>
       <select id="activity">
@@ -241,41 +345,53 @@
         <option value="1.9">Extra active (manual labour + hard training)</option>
       </select>
 
-      <button type="button" onclick="portionlyCalculate()">
-        Calculate cups
+      <button class="btn" type="button" onclick="runCalculator()">
+        Calculate my cups
       </button>
 
-      <div id="portionly-result" class="result" style="display:none;"></div>
+      <div id="result" class="result" style="display:none;"></div>
 
       <p class="disclaimer">
-        This tool uses the same equations as your original beta app
-        (Mifflin–St Jeor plus an activity factor) to estimate a gentle calorie
-        target and convert that into Portionly cups. It’s for education only,
-        not medical advice. If you have health conditions, are pregnant, or have
-        specific dietary needs, please speak with a healthcare professional.
+        This tool uses standard health equations behind the scenes to keep things safe,
+        but you only see cups — not calories. It’s for education only and doesn’t replace
+        personalised medical or nutrition advice.
       </p>
     </div>
 
     <p class="footer-text">
-      Use your cups to guide your <em>next</em> meal — not to chase perfection or wait for Monday.
+      However today has gone, your next meal still counts as a fresh starting point.
     </p>
   </div>
 
   <script>
-    // exact logic from your beta app
-    function calculateTargets(p) {
+    /* ---------- UNIT SWITCHING (same behaviour as your beta app) ---------- */
+    function updateUnitInputs() {
+      const unit = document.getElementById("units").value;
+
+      document.getElementById("metricInputs").style.display =
+        unit === "metric" ? "block" : "none";
+      document.getElementById("imperialInputs").style.display =
+        unit === "imperial" ? "block" : "none";
+      document.getElementById("usInputs").style.display =
+        unit === "us" ? "block" : "none";
+    }
+
+    /* ---------- CORE CALC LOGIC (lifted from your app) ---------- */
+
+    function calculateTargets(profile) {
+      // BMR – Mifflin–St Jeor
       let BMR =
-        p.gender === "female"
-          ? 10 * p.weight + 6.25 * p.height - 5 * p.age - 161
-          : 10 * p.weight + 6.25 * p.height - 5 * p.age + 5;
+        profile.gender === "female"
+          ? 10 * profile.weight + 6.25 * profile.height - 5 * profile.age - 161
+          : 10 * profile.weight + 6.25 * profile.height - 5 * profile.age + 5;
 
-      const TDEE = BMR * p.activity;
+      const TDEE = BMR * profile.activity;
 
-      // baseline deficit
+      // baseline gentle deficit (kept hidden from user)
       let target = Math.round(TDEE * 0.83);
 
       // safe minimums
-      const min = p.gender === "female" ? 1200 : 1500;
+      const min = profile.gender === "female" ? 1200 : 1500;
       if (target < min) target = min;
 
       // cups from hidden target
@@ -287,45 +403,215 @@
         "Healthy Fats": Math.max(2, Math.round((target * 0.25) / 100)),
       };
 
-      return { cups, targetCalories: target };
+      return { cups, targetCalories: target }; // calories used internally only
     }
 
-    function portionlyCalculate() {
-      const gender = document.getElementById("gender").value;
-      const age = parseFloat(document.getElementById("age").value);
-      const height = parseFloat(document.getElementById("height").value);
-      const weight = parseFloat(document.getElementById("weight").value);
-      const activityVal = document.getElementById("activity").value;
-      const resultDiv = document.getElementById("portionly-result");
+    const KCAL_PER_CUP = {
+      Protein: 120,
+      Carbs: 130,
+      Veggies: 25,
+      Fruits: 65,
+      "Healthy Fats": 100,
+    };
 
-      if (!gender || !age || !height || !weight || !activityVal) {
-        resultDiv.style.display = "block";
-        resultDiv.innerHTML = "<p>Please fill in all fields above.</p>";
+    function cupsToCalories(cups) {
+      return Object.keys(cups).reduce(
+        (total, key) => total + cups[key] * (KCAL_PER_CUP[key] || 0),
+        0
+      );
+    }
+
+    /* ---------- PACE ADJUSTMENT (Gentle / Standard / Faster) ---------- */
+
+    let baselinePlan = null;
+    let adjustedPlan = null;
+
+    function renderResults() {
+      if (!adjustedPlan) return;
+
+      const res = document.getElementById("result");
+      res.style.display = "block";
+
+      const c = adjustedPlan.cups;
+
+      res.innerHTML = `
+        <p><strong>Your Portionly cups per day:</strong></p>
+        <ul class="cups-list">
+          <li><span class="cups-label">Protein</span> ${c["Protein"]} cups</li>
+          <li><span class="cups-label">Carbs</span> ${c["Carbs"]} cups</li>
+          <li><span class="cups-label">Veggies</span> ${c["Veggies"]} cups</li>
+          <li><span class="cups-label">Fruit</span> ${c["Fruits"]} cups</li>
+          <li><span class="cups-label">Healthy fats</span> ${c["Healthy Fats"]} cups</li>
+        </ul>
+
+        <p style="margin-top:10px;"><strong>Choose your pace:</strong></p>
+        <div class="pace-row">
+          <div class="pace-box" data-pace="1" onclick="onPaceChange(1)">
+            <span>🌿 Gentle</span>
+          </div>
+          <div class="pace-box" data-pace="2" onclick="onPaceChange(2)">
+            <span>⚖️ Standard</span>
+          </div>
+          <div class="pace-box" data-pace="3" onclick="onPaceChange(3)">
+            <span>🔥 Faster</span>
+          </div>
+        </div>
+        <p id="paceNote" class="pace-note">
+          Standard: balanced pace that most people find sustainable.
+        </p>
+
+        <p style="margin-top:10px;">
+          <strong>Healthy weight range (guide only):</strong><br>
+          <span id="weightRangeText"></span>
+        </p>
+        <p style="font-size:0.78rem; color:#aa9f93; margin-top:4px;">
+          Based on BMI 22–27. A gentle guide, not a target you have to hit.
+        </p>
+
+        <p style="margin-top:10px; font-size:0.85rem;">
+          Use these cups to shape your next meals — not to chase perfection.
+          If a meal goes off-plan (yes, even McDonald's), your very next meal
+          still counts as a starting point.
+        </p>
+      `;
+
+      // mark active pace (default standard)
+      document
+        .querySelectorAll(".pace-box")
+        .forEach((b) =>
+          b.classList.toggle(
+            "active",
+            parseInt(b.dataset.pace, 10) === adjustedPlan.pace
+          )
+        );
+
+      updatePaceNote(adjustedPlan.pace);
+
+      // update healthy weight text
+      const { height, gender } = adjustedPlan.profile;
+      const heightM = height / 100;
+      const minW = Math.round(22 * heightM * heightM);
+      const maxW = Math.round(27 * heightM * heightM);
+      document.getElementById(
+        "weightRangeText"
+      ).textContent = `${minW}–${maxW} kg (approx)`;
+    }
+
+    function onPaceChange(val) {
+      val = parseInt(val, 10);
+      if (!baselinePlan || !adjustedPlan) return;
+
+      const newCups = { ...baselinePlan.cups };
+
+      // only adjust healthy fats cup to change pace (same as your app idea)
+      if (val === 1) {
+        newCups["Healthy Fats"] = baselinePlan.cups["Healthy Fats"] + 1;
+      } else if (val === 2) {
+        newCups["Healthy Fats"] = baselinePlan.cups["Healthy Fats"];
+      } else if (val === 3) {
+        newCups["Healthy Fats"] = Math.max(
+          2,
+          baselinePlan.cups["Healthy Fats"] - 1
+        );
+      }
+
+      const minCals = adjustedPlan.profile.gender === "female" ? 1200 : 1500;
+      if (cupsToCalories(newCups) < minCals) {
+        // keep it safe – fall back to baseline & standard pace
+        newCups["Healthy Fats"] = baselinePlan.cups["Healthy Fats"];
+        val = 2;
+      }
+
+      adjustedPlan.cups = newCups;
+      adjustedPlan.pace = val;
+
+      // re-render
+      renderResults();
+    }
+
+    function updatePaceNote(pace) {
+      const el = document.getElementById("paceNote");
+      if (!el) return;
+      if (pace === 1) {
+        el.textContent =
+          "Gentle: slower pace, extra fats cup for comfort and sustainability.";
+      } else if (pace === 3) {
+        el.textContent =
+          "Faster: a bit more of a nudge while still staying within a safe range.";
+      } else {
+        el.textContent =
+          "Standard: balanced pace that most people find sustainable.";
+      }
+    }
+
+    /* ---------- MAIN ENTRY ---------- */
+
+    function runCalculator() {
+      const unit = document.getElementById("units").value;
+      const gender = document.getElementById("gender").value;
+      const activityVal = document.getElementById("activity").value;
+
+      if (!gender || !activityVal) {
+        alert("Please choose gender and activity level.");
+        return;
+      }
+
+      let weightKg = null;
+      let heightCm = null;
+      let age = null;
+
+      if (unit === "metric") {
+        weightKg = parseFloat(document.getElementById("weightMetric").value);
+        heightCm = parseFloat(document.getElementById("heightMetric").value);
+        age = parseInt(document.getElementById("ageMetric").value, 10);
+      } else if (unit === "imperial") {
+        const stones =
+          parseFloat(document.getElementById("stones").value) || 0;
+        const lbs =
+          parseFloat(document.getElementById("lbs").value) || 0;
+        weightKg = stones * 6.35029 + lbs * 0.453592;
+
+        const feet =
+          parseFloat(document.getElementById("feet").value) || 0;
+        const inches =
+          parseFloat(document.getElementById("inches").value) || 0;
+        heightCm = feet * 30.48 + inches * 2.54;
+
+        age = parseInt(document.getElementById("ageImperial").value, 10);
+      } else if (unit === "us") {
+        const lbsOnly =
+          parseFloat(document.getElementById("lbsOnly").value) || 0;
+        weightKg = lbsOnly * 0.453592;
+
+        const feetUS =
+          parseFloat(document.getElementById("feetUS").value) || 0;
+        const inchesUS =
+          parseFloat(document.getElementById("inchesUS").value) || 0;
+        heightCm = feetUS * 30.48 + inchesUS * 2.54;
+
+        age = parseInt(document.getElementById("ageUS").value, 10);
+      }
+
+      if (!weightKg || !heightCm || !age) {
+        alert("Please fill in your weight, height and age.");
         return;
       }
 
       const activity = parseFloat(activityVal);
 
-      const profile = { gender, age, height, weight, activity };
-      const { cups, targetCalories } = calculateTargets(profile);
+      const profile = { gender, weight: weightKg, height: heightCm, age, activity };
 
-      resultDiv.style.display = "block";
-      resultDiv.innerHTML = `
-        <p>Approximate daily target: <strong>${targetCalories}</strong> calories (guideline only).</p>
-        <p>Your Portionly cups per day:</p>
-        <ul class="cups-list">
-          <li><span class="cups-label">Protein</span> ${cups["Protein"]} cups</li>
-          <li><span class="cups-label">Carbs</span> ${cups["Carbs"]} cups</li>
-          <li><span class="cups-label">Veggies</span> ${cups["Veggies"]} cups</li>
-          <li><span class="cups-label">Fruit</span> ${cups["Fruits"]} cups</li>
-          <li><span class="cups-label">Healthy fats</span> ${cups["Healthy Fats"]} cups</li>
-        </ul>
-        <p>
-          These are starting points, not a rulebook.
-          Some days you'll eat more, some less. If a meal goes off-plan,
-          your very next meal still counts — come back to your cups without guilt.
-        </p>
-      `;
+      // calculate baseline using your app logic
+      baselinePlan = calculateTargets(profile);
+
+      // default pace: 2 (standard)
+      adjustedPlan = {
+        cups: { ...baselinePlan.cups },
+        pace: 2,
+        profile
+      };
+
+      renderResults();
     }
   </script>
 </body>
