@@ -7,9 +7,11 @@
 
   <style>
     :root {
-      --bg: #f6ecff;
+      /* soft pastel palette to fit Portionly branding */
+      --bg: #f7f1ff;
       --card-bg: #ffffff;
-      --accent: #f08fb4;
+      --accent: #f38fb8;
+      --accent-strong: #e574c0;
       --text-main: #2b2136;
       --text-muted: #7b6a90;
       --border-subtle: #efe3ff;
@@ -22,7 +24,7 @@
     body {
       margin: 0;
       font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-      background: var(--bg);
+      background: radial-gradient(circle at top, #ffe2ff 0, var(--bg) 38%, #f3f7ff 100%);
       color: var(--text-main);
     }
 
@@ -56,6 +58,7 @@
       font-size: 26px;
       font-weight: 800;
       margin-bottom: 4px;
+      letter-spacing: 0.02em;
     }
 
     .subtitle {
@@ -79,9 +82,7 @@
       margin-bottom: 14px;
     }
 
-    .field-group {
-      margin-top: 18px;
-    }
+    .field-group { margin-top: 18px; }
 
     .field { margin-bottom: 12px; }
 
@@ -132,7 +133,12 @@
       font-size: 10px;
       cursor: pointer;
       user-select: none;
-      transition: background 0.15s, border 0.15s, color 0.15s;
+      transition: background 0.15s, border 0.15s, color 0.15s, transform 0.08s;
+    }
+
+    .unit-pill:hover {
+      transform: translateY(-1px);
+      border-color: #e3ccff;
     }
 
     .unit-pill.active {
@@ -169,17 +175,17 @@
       background: #faf7ff;
       cursor: pointer;
       user-select: none;
-      transition: background 0.15s, border 0.15s, transform 0.1s;
+      transition: background 0.15s, border 0.15s, transform 0.1s, box-shadow 0.1s;
     }
 
     .pace-pill span.emoji { font-size: 16px; }
 
     .pace-pill.active {
       background: var(--accent);
-      border-color: var(--accent);
+      border-color: var(--accent-strong);
       color: #fff;
       transform: translateY(-1px);
-      box-shadow: 0 8px 20px rgba(240,143,180,0.4);
+      box-shadow: 0 8px 20px rgba(240,143,180,0.35);
     }
 
     .consent {
@@ -205,22 +211,22 @@
       border: none;
       font-size: 15px;
       font-weight: 700;
-      background: linear-gradient(135deg,#ff9ac0,#f08fb4);
+      background: linear-gradient(135deg,#ff9fc4,#d881ff);
       color: #fff;
       cursor: pointer;
-      box-shadow: 0 14px 32px rgba(244,143,177,0.55);
+      box-shadow: 0 14px 32px rgba(217, 129, 255, 0.55);
       transition: transform 0.1s, box-shadow 0.1s, filter 0.15s;
     }
 
     .btn-main:hover {
-      filter: brightness(1.03);
-      box-shadow: 0 16px 36px rgba(244,143,177,0.65);
+      filter: brightness(1.04);
+      box-shadow: 0 16px 36px rgba(217,129,255,0.65);
       transform: translateY(-1px);
     }
 
     .btn-main:active {
       transform: translateY(0);
-      box-shadow: 0 10px 24px rgba(244,143,177,0.5);
+      box-shadow: 0 10px 24px rgba(217,129,255,0.5);
     }
 
     .divider {
@@ -234,12 +240,21 @@
       line-height: 1.4;
     }
 
+    /* Results + animations */
     .results {
       margin-top: 18px;
       padding: 14px 12px 10px;
       border-radius: 16px;
       background: linear-gradient(135deg,#fff6ff,#f5f9ff);
       border: 1px solid #f1ddff;
+      opacity: 0;
+      transform: translateY(6px);
+      transition: opacity 0.22s ease-out, transform 0.22s ease-out;
+    }
+
+    .results.results--visible {
+      opacity: 1;
+      transform: translateY(0);
     }
 
     .results-header {
@@ -251,7 +266,7 @@
     .results-summary {
       font-size: 12px;
       color: var(--text-muted);
-      margin-bottom: 8px;
+      margin-bottom: 6px;
     }
 
     .results-sub {
@@ -271,6 +286,12 @@
       display: flex;
       justify-content: space-between;
       padding: 3px 0;
+      animation: cupPop 0.24s ease-out;
+    }
+
+    @keyframes cupPop {
+      0%   { transform: scale(0.96); opacity: 0; }
+      100% { transform: scale(1);    opacity: 1; }
     }
 
     .cups-label { font-weight: 600; }
@@ -308,6 +329,7 @@
 <body>
   <div class="page-wrap">
     <div class="inner">
+      <!-- logo image must be at ./portionly-logo.png -->
       <img src="portionly-logo.png" alt="Portionly logo" class="logo" />
 
       <div class="brand">portionly wellbeing</div>
@@ -324,6 +346,7 @@
         </div>
 
         <form id="calc-form" novalidate>
+          <!-- PERSONAL INFO -->
           <div class="field-group">
             <div class="field">
               <label for="gender">Gender</label>
@@ -395,6 +418,7 @@
             </div>
           </div>
 
+          <!-- ACTIVITY + PACE -->
           <div class="field-group">
             <div class="field">
               <label for="activity">Activity level</label>
@@ -426,6 +450,7 @@
             </div>
           </div>
 
+          <!-- CONSENT + BUTTON -->
           <div class="field-group">
             <div class="consent">
               <input type="checkbox" id="consent" />
@@ -436,7 +461,7 @@
               </div>
             </div>
 
-            <button type="submit" class="btn-main">Calculate my cups</button>
+            <button type="submit" class="btn-main">Show my cup plan</button>
             <div id="error" class="error" style="display:none;"></div>
 
             <div class="divider"></div>
@@ -448,7 +473,8 @@
           </div>
         </form>
 
-        <div id="results" class="results" style="display:none;">
+        <!-- RESULTS -->
+        <div id="results" class="results">
           <div class="results-header" id="results-title"></div>
           <div class="results-summary" id="results-summary"></div>
           <div class="results-sub">
@@ -458,9 +484,9 @@
           <ul class="cups-list" id="cups-list"></ul>
           <div class="healthy" id="healthy-range"></div>
           <div class="about-note">
-            This calculator uses typical energy needs and spreads them across protein,
-            carbs, healthy fats, fruits and veggies. It’s here to give you ideas,
-            not a rulebook.
+            This tool uses well-known nutrition guidelines to share your daily
+            energy across protein, carbs, healthy fats, fruits and veggies.
+            It’s a starting point, not a rulebook.
           </div>
         </div>
       </div>
@@ -566,6 +592,10 @@
     let weightUnit = "kg";   // 'kg' | 'lb' | 'stone'
     let selectedPace = "gentle";
     let lastProfileInputs = null;
+
+    // Start with results hidden
+    const resultsEl = document.getElementById("results");
+    resultsEl.classList.remove("results--visible");
 
     // Height unit toggles
     document.querySelectorAll("[data-height-unit]").forEach(pill => {
@@ -687,12 +717,11 @@
       } catch (err) {
         errorEl.textContent = err.message || "Something went wrong while calculating your cups.";
         errorEl.style.display = "block";
-        document.getElementById("results").style.display = "none";
+        resultsEl.classList.remove("results--visible");
       }
     });
 
     function renderResults(plan, profile) {
-      const results = document.getElementById("results");
       const list = document.getElementById("cups-list");
       const title = document.getElementById("results-title");
       const summary = document.getElementById("results-summary");
@@ -735,10 +764,11 @@
       const minW = Math.round(22 * hMeters * hMeters);
       const maxW = Math.round(27 * hMeters * hMeters);
       healthy.textContent =
-        "If you like having a ballpark number, this gives a height-based range of around " +
-        `${minW}–${maxW} kg. Your own healthiest weight might sit above or below this — a doctor or dietitian can help you personalise it.`;
+        "Based on your height, a healthy range is roughly " +
+        `${minW}–${maxW} kg. It’s just a guide — your doctor can always help tailor it.`;
 
-      results.style.display = "block";
+      // trigger fade-in animation
+      resultsEl.classList.add("results--visible");
     }
   </script>
 </body>
