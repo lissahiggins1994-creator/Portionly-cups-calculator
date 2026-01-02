@@ -1,312 +1,158 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <title>Portionly Wellbeing — Cup Calculator</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <style>
-    :root {
-      --bg: #f6f0ff;
-      --card: #ffffff;
-      --accent: #f28bb2;
-      --accent-soft: #fde1ec;
-      --text-main: #2e2438;
-      --text-muted: #6b6475;
-      --border-soft: #e2d6ff;
-    }
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Portionly Cup Calculator</title>
 
-    * {
-      box-sizing: border-box;
-      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-    }
+<style>
+ body {
+   background:#f7f2ff;
+   font-family: Arial, Helvetica, sans-serif;
+   color:#2c2340;
+   margin:0;
+   padding:0;
+   line-height:1.6;
+   text-align:center;
+ }
 
-    body {
-      margin: 0;
-      padding: 0;
-      background: var(--bg);
-      color: var(--text-main);
-      display: flex;
-      justify-content: center;
-      min-height: 100vh;
-    }
+ .container {
+   max-width: 650px;
+   margin: 30px auto 50px;
+   background:white;
+   border-radius:18px;
+   padding:24px 18px 30px;
+   box-shadow:0 15px 45px rgba(50,0,120,0.08);
+ }
 
-    .page {
-      width: 100%;
-      max-width: 600px;
-      padding: 24px 16px 40px;
-      margin: 0 auto;
-    }
+ .logo-area {
+   margin-bottom:10px;
+ }
 
-    .logo-area {
-      text-align: center;
-      margin-bottom: 24px;
-    }
+ .logo-text {
+   font-size:12px;
+   letter-spacing:2px;
+   text-transform:uppercase;
+   color:#5a4a86;
+   font-weight:700;
+ }
 
-    /* Replace logo below when ready */
-    .logo-circle {
-      width: 80px;
-      height: 80px;
-      border-radius: 24px;
-      margin: 0 auto 12px;
-      background: linear-gradient(120deg, #f28bb2, #a98bff, #7ed6c4);
-    }
+ h1 {
+   margin-top:10px;
+   font-size:24px;
+   font-weight:800;
+ }
 
-    .logo-text {
-      font-weight: 700;
-      letter-spacing: 0.12em;
-      font-size: 0.85rem;
-      text-transform: uppercase;
-      color: var(--text-muted);
-    }
+ small {
+   display:block;
+   color:#6b608a;
+   margin-bottom:18px;
+ }
 
-    h1 {
-      font-size: 1.6rem;
-      text-align: center;
-      margin: 0 0 8px;
-    }
+ label {
+   display:block;
+   text-align:left;
+   margin:12px 0 6px;
+   font-size:14px;
+   color:#46396c;
+   font-weight:600;
+ }
 
-    .tagline {
-      text-align: center;
-      font-size: 0.95rem;
-      color: var(--text-muted);
-      margin-bottom: 24px;
-    }
+ input, select {
+   width:100%;
+   padding:8px;
+   border-radius:8px;
+   border:1px solid #d6caef;
+ }
 
-    .card {
-      background: var(--card);
-      border-radius: 16px;
-      padding: 20px 16px 18px;
-      box-shadow: 0 14px 35px rgba(0, 0, 0, 0.05);
-      border: 1px solid var(--border-soft);
-    }
+ button {
+   margin-top:20px;
+   width:100%;
+   padding:10px;
+   border-radius:10px;
+   border:none;
+   background:#6c4efd;
+   color:white;
+   font-size:15px;
+   font-weight:700;
+ }
 
-    .note {
-      font-size: 0.85rem;
-      color: var(--text-muted);
-      margin-bottom: 16px;
-      line-height: 1.4;
-    }
-
-    label {
-      display: block;
-      font-size: 0.9rem;
-      margin-bottom: 6px;
-      font-weight: 600;
-    }
-
-    input[type="number"],
-    select {
-      width: 100%;
-      padding: 9px 10px;
-      border-radius: 10px;
-      border: 1px solid #d3c7ef;
-      font-size: 0.95rem;
-      margin-bottom: 14px;
-      outline: none;
-    }
-
-    input[type="number"]:focus,
-    select:focus {
-      border-color: var(--accent);
-      box-shadow: 0 0 0 2px var(--accent-soft);
-    }
-
-    .row {
-      display: flex;
-      gap: 12px;
-    }
-
-    .row > div {
-      flex: 1;
-    }
-
-    button {
-      width: 100%;
-      padding: 11px 14px;
-      border-radius: 999px;
-      border: none;
-      background: var(--accent);
-      color: #fff;
-      font-size: 1rem;
-      font-weight: 600;
-      cursor: pointer;
-      margin-top: 4px;
-    }
-
-    button:hover { filter: brightness(1.05); }
-    button:active { transform: translateY(1px); }
-
-    .result {
-      margin-top: 18px;
-      padding-top: 14px;
-      border-top: 1px dashed var(--border-soft);
-      font-size: 0.95rem;
-    }
-
-    .cups-list { list-style: none; padding-left: 0; margin: 8px 0 6px; }
-    .cups-list li { margin-bottom: 4px; }
-
-    .cups-label {
-      display: inline-block;
-      min-width: 115px;
-      font-weight: 600;
-    }
-
-    .pill {
-      display: inline-block;
-      padding: 2px 8px;
-      border-radius: 999px;
-      font-size: 0.8rem;
-      background: var(--accent-soft);
-      color: var(--text-main);
-      margin-left: 4px;
-    }
-
-    .disclaimer {
-      margin-top: 10px;
-      font-size: 0.8rem;
-      color: var(--text-muted);
-      line-height: 1.4;
-    }
-
-    .footer-text {
-      margin-top: 18px;
-      font-size: 0.85rem;
-      color: var(--text-muted);
-      text-align: center;
-    }
-
-    @media (max-width: 480px) {
-      .page { padding: 18px 12px 32px; }
-      .card { padding: 16px 14px 16px; }
-    }
-  </style>
+ .results-box {
+   margin-top:22px;
+   background:#f2ecff;
+   padding:14px;
+   border-radius:12px;
+   text-align:left;
+ }
+</style>
 </head>
 
 <body>
-  <div class="page">
 
-    <div class="logo-area">
-      <!-- WHEN YOUR LOGO IS READY, REPLACE THE DIV BELOW WITH AN <img> TAG -->
-      <div class="logo-circle"></div>
+<div class="container">
 
-      <div class="logo-text">Portionly Wellbeing</div>
-    </div>
+  <div class="logo-area">
+    <img src="portionly-logo.png"
+         alt="Portionly Wellbeing logo"
+         style="width:110px; display:block; margin:0 auto 8px; border-radius:22px;">
 
-    <h1>Portionly Cup Calculator</h1>
-
-    <p class="tagline">
-      No maths. No guilt. Just a gentle starting point you can adjust as you go.
-    </p>
-
-    <div class="card">
-      <p class="note">
-        Fill this in to get a rough daily guide for your Portionly cups.
-        These numbers are <strong>guidelines, not rules</strong>.
-        Your next meal is always a new chance to practice.
-      </p>
-
-      <label>Gender</label>
-      <select id="gender">
-        <option value="female" selected>Female</option>
-        <option value="male">Male</option>
-      </select>
-
-      <div class="row">
-        <div>
-          <label>Age (years)</label>
-          <input id="age" type="number" min="16" max="90" />
-        </div>
-        <div>
-          <label>Height (cm)</label>
-          <input id="height" type="number" min="120" max="220" />
-        </div>
-      </div>
-
-      <label>Weight (kg)</label>
-      <input id="weight" type="number" min="35" max="200" />
-
-      <label>Activity level</label>
-      <select id="activity">
-        <option value="sedentary">Sedentary (mostly sitting)</option>
-        <option value="light">Lightly active (on your feet a fair bit)</option>
-        <option value="moderate">Moderately active</option>
-        <option value="very">Very active</option>
-        <option value="extra">Extra active</option>
-      </select>
-
-      <button onclick="portionlyCalculate()">Calculate my cups</button>
-
-      <div id="portionly-result" class="result"></div>
-
-      <p class="disclaimer">
-        This tool is for general guidance and education only and is not medical advice.
-        If you have health conditions, are pregnant, or have specific dietary needs,
-        talk with a healthcare professional or registered dietitian.
-      </p>
-    </div>
-
-    <p class="footer-text">
-      After you have your cups, use them for your next meal — no waiting for Monday.
-    </p>
+    <div class="logo-text">Portionly Wellbeing</div>
   </div>
 
-  <script>
-    function portionlyCalculate() {
-      const gender = document.getElementById("gender").value;
-      const age = parseFloat(document.getElementById("age").value);
-      const height = parseFloat(document.getElementById("height").value);
-      const weight = parseFloat(document.getElementById("weight").value);
-      const activity = document.getElementById("activity").value;
-      const resultDiv = document.getElementById("portionly-result");
+  <h1>Portionly Cup Calculator</h1>
+  <small>No maths. No guilt. Just a gentle starting point you can adjust as you go.</small>
 
-      if (!age || !height || !weight) {
-        resultDiv.innerHTML = "<p>Please fill in age, height, and weight.</p>";
-        return;
-      }
+  <!-- Inputs -->
+  <label>Age</label>
+  <input type="number" id="age">
 
-      let activityFactor = 1.2;
-      if (activity === "light") activityFactor = 1.375;
-      else if (activity === "moderate") activityFactor = 1.55;
-      else if (activity === "very") activityFactor = 1.725;
-      else if (activity === "extra") activityFactor = 1.9;
+  <label>Height (cm)</label>
+  <input type="number" id="height">
 
-      let BMR;
-      if (gender === "female") {
-        BMR = 10 * weight + 6.25 * height - 5 * age - 161;
-      } else {
-        BMR = 10 * weight + 6.25 * height - 5 * age + 5;
-      }
+  <label>Weight (kg)</label>
+  <input type="number" id="weight">
 
-      const TDEE = BMR * activityFactor;
+  <label>Activity level</label>
+  <select id="activity">
+    <option value="sedentary">Sedentary (desk job)</option>
+    <option value="light">Lightly active (retail / walking)</option>
+    <option value="active">Active (builder / gym)</option>
+  </select>
 
-      let target = Math.round(TDEE * 0.83);
-      const minCalories = gender === "female" ? 1200 : 1500;
-      if (target < minCalories) target = minCalories;
+  <button onclick="calculate()">Calculate cups</button>
 
-      const proteinCups = Math.max(3, Math.round((target * 0.30) / 120));
-      const carbCups    = Math.max(3, Math.round((target * 0.40) / 130));
-      const vegCups     = 5;
-      const fruitCups   = 3;
-      const fatCups     = Math.max(2, Math.round((target * 0.25) / 100));
+  <div class="results-box" id="results" style="display:none;"></div>
 
-      resultDiv.innerHTML = `
-        <p>Approximate daily target: <strong>${target}</strong> calories (guideline only).</p>
-        <p>Your Portionly cups per day:</p>
-        <ul class="cups-list">
-          <li><span class="cups-label">Protein</span> ${proteinCups} cups</li>
-          <li><span class="cups-label">Carbs</span> ${carbCups} cups</li>
-          <li><span class="cups-label">Veggies</span> ${vegCups} cups <span class="pill">min. target</span></li>
-          <li><span class="cups-label">Fruit</span> ${fruitCups} cups</li>
-          <li><span class="cups-label">Healthy fats</span> ${fatCups} cups</li>
-        </ul>
-        <p>
-          These are a starting point. If a meal goes off-plan,
-          the very next one still counts — come back to your cups without guilt.
-        </p>
-      `;
-    }
-  </script>
+</div>
+
+<script>
+function calculate() {
+
+  let activity = document.getElementById("activity").value;
+
+  let protein = 3;
+  let carbs = 3;
+  let veg = 3;
+  let fats = 2;
+
+  if (activity === "light") {
+    protein = 4; carbs = 4;
+  }
+
+  if (activity === "active") {
+    protein = 5; carbs = 5; veg = 4;
+  }
+
+  document.getElementById("results").style.display = "block";
+  document.getElementById("results").innerHTML =
+    `<b>Your suggested cups:</b><br><br>
+     🥩 Protein: <b>${protein}</b><br>
+     🍞 Carbs: <b>${carbs}</b><br>
+     🥕 Veg: <b>${veg}</b><br>
+     🥑 Healthy fats: <b>${fats}</b><br><br>
+     <small>Use this as a calm starting point — not a rulebook. Adjust as life changes.</small>`;
+}
+</script>
+
 </body>
 </html>
-
