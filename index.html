@@ -1,155 +1,396 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <title>Portionly Calculator</title>
+  <title>Portionly — Cup Calculator</title>
   <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <!-- Simple styling to match your screenshot -->
   <style>
+    :root {
+      --bg: #f6ecff;
+      --card-bg: #ffffff;
+      --accent: #f08fb4;
+      --accent-soft: #ffd0e1;
+      --text-main: #2b2136;
+      --text-muted: #7b6a90;
+      --border-subtle: #efe3ff;
+      --radius-card: 22px;
+      --shadow-soft: 0 18px 45px rgba(64, 33, 90, 0.16);
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
     body {
-      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-      padding: 20px;
-      max-width: 700px;
-      margin: 0 auto;
-      line-height: 1.5;
+      margin: 0;
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI",
+        sans-serif;
+      background: var(--bg);
+      color: var(--text-main);
     }
 
-    h1, h2, h3 {
+    .page-wrap {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 32px 16px;
+    }
+
+    .inner {
+      max-width: 720px;
+      width: 100%;
+    }
+
+    .logo-pill {
+      width: 88px;
+      height: 88px;
+      border-radius: 28px;
+      margin: 0 auto 16px;
+      background: linear-gradient(
+        135deg,
+        #ff9ac0,
+        #ffcf9b,
+        #b094ff,
+        #7dd1ff
+      );
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 18px 40px rgba(160, 86, 255, 0.4);
+    }
+
+    .logo-pill span {
+      color: white;
+      font-weight: 700;
+      font-size: 26px;
+    }
+
+    .title {
       text-align: center;
+      font-size: 28px;
+      font-weight: 800;
+      letter-spacing: 0.02em;
+      margin-bottom: 4px;
     }
 
-    form {
-      margin-top: 24px;
-      padding: 16px 20px;
-      border: 1px solid #ddd;
-      border-radius: 8px;
+    .subtitle {
+      text-align: center;
+      font-size: 14px;
+      color: var(--text-muted);
+      margin-bottom: 28px;
+    }
+
+    .card {
+      background: var(--card-bg);
+      border-radius: var(--radius-card);
+      box-shadow: var(--shadow-soft);
+      padding: 22px 22px 20px;
+      border: 1px solid var(--border-subtle);
+    }
+
+    .card-header-text {
+      font-size: 14px;
+      color: var(--text-muted);
+      margin-bottom: 14px;
+    }
+
+    .grid-two {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 14px;
     }
 
     .field {
       margin-bottom: 12px;
-      display: flex;
-      flex-direction: column;
     }
 
     label {
+      display: block;
+      font-size: 13px;
       font-weight: 600;
       margin-bottom: 4px;
+      color: var(--text-main);
     }
 
-    input, select {
-      padding: 8px;
-      border-radius: 4px;
-      border: 1px solid #ccc;
+    select,
+    input[type="number"] {
+      width: 100%;
+      padding: 9px 10px;
+      border-radius: 10px;
+      border: 1px solid #e1d4ff;
       font-size: 14px;
+      background: #faf7ff;
+      outline: none;
+      transition: border 0.15s, box-shadow 0.15s, background 0.15s;
     }
 
-    .inline-group {
+    select:focus,
+    input[type="number"]:focus {
+      border-color: #c39bff;
+      box-shadow: 0 0 0 2px rgba(186, 145, 255, 0.25);
+      background: #fff;
+    }
+
+    .pace-row {
       display: flex;
-      gap: 12px;
+      gap: 8px;
+      margin-top: 4px;
       flex-wrap: wrap;
-      align-items: center;
     }
 
-    button {
-      margin-top: 12px;
-      padding: 10px 16px;
-      border-radius: 6px;
+    .pace-pill {
+      flex: 1;
+      min-width: 80px;
+      border-radius: 999px;
+      border: 1px solid #e6d5ff;
+      padding: 7px 10px;
+      font-size: 13px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 4px;
+      background: #faf7ff;
+      cursor: pointer;
+      transition: background 0.15s, border 0.15s, transform 0.1s;
+      user-select: none;
+    }
+
+    .pace-pill input {
+      display: none;
+    }
+
+    .pace-pill span.emoji {
+      font-size: 16px;
+    }
+
+    .pace-pill.active {
+      background: var(--accent);
+      border-color: var(--accent);
+      color: white;
+      transform: translateY(-1px);
+      box-shadow: 0 8px 20px rgba(240, 143, 180, 0.4);
+    }
+
+    .btn-main {
+      margin-top: 14px;
+      width: 100%;
+      border-radius: 999px;
+      padding: 11px 16px;
       border: none;
       font-size: 15px;
+      font-weight: 700;
+      background: linear-gradient(135deg, #ff9ac0, #f08fb4);
+      color: white;
       cursor: pointer;
+      box-shadow: 0 14px 32px rgba(244, 143, 177, 0.55);
+      transition: transform 0.1s, box-shadow 0.1s, filter 0.15s;
     }
 
-    button:hover {
-      filter: brightness(0.95);
+    .btn-main:hover {
+      filter: brightness(1.03);
+      box-shadow: 0 16px 36px rgba(244, 143, 177, 0.65);
+      transform: translateY(-1px);
     }
 
-    #results {
-      margin-top: 24px;
-      padding: 16px 20px;
-      border-radius: 8px;
-      background: #fafafa;
-      border: 1px solid #eee;
+    .btn-main:active {
+      transform: translateY(0);
+      box-shadow: 0 10px 24px rgba(244, 143, 177, 0.5);
     }
 
-    #error {
-      margin-top: 10px;
-      color: #b00020;
+    .divider {
+      margin: 14px 0 10px;
+      border-top: 1px dashed #eadfff;
+    }
+
+    .disclaimer {
+      font-size: 11px;
+      color: var(--text-muted);
+      line-height: 1.4;
+    }
+
+    .after-text {
+      margin-top: 16px;
+      text-align: center;
+      font-size: 12px;
+      color: var(--text-muted);
+    }
+
+    /* results */
+    .results {
+      margin-top: 18px;
+      padding: 14px 12px 4px;
+      border-radius: 16px;
+      background: linear-gradient(135deg, #fff6ff, #f5f9ff);
+      border: 1px solid #f1ddff;
+    }
+
+    .results-header {
+      font-size: 14px;
+      font-weight: 700;
+      margin-bottom: 6px;
+    }
+
+    .results-sub {
+      font-size: 12px;
+      color: var(--text-muted);
+      margin-bottom: 10px;
+    }
+
+    .cups-list {
+      list-style: none;
+      padding-left: 0;
+      margin: 0 0 10px;
+      font-size: 13px;
+    }
+
+    .cups-list li {
+      display: flex;
+      justify-content: space-between;
+      padding: 4px 0;
+    }
+
+    .caps-label {
       font-weight: 600;
+    }
+
+    .error {
+      margin-top: 8px;
+      font-size: 12px;
+      color: #c62828;
+      font-weight: 600;
+    }
+
+    @media (max-width: 600px) {
+      .card {
+        padding: 18px 16px 16px;
+      }
     }
   </style>
 </head>
 
 <body>
-  <img
-    src="portionly-logo.png"
-    alt="Portionly logo"
-    style="max-width:220px; display:block; margin:24px auto 8px;"
-  />
+  <div class="page-wrap">
+    <div class="inner">
+      <div class="logo-pill">
+        <!-- simple gradient icon; replace with your own if you want -->
+        <span>🍽</span>
+      </div>
 
-  <h1>Portionly Calculator</h1>
-  <p style="text-align:center; margin-bottom: 8px;">
-    Enter your details to see your daily cups and estimated weight change.
-  </p>
+      <div style="text-align:center; font-size:12px; letter-spacing:0.18em; text-transform:uppercase; color:#a38ac7; margin-bottom:4px;">
+        Portionly — Wellbeing
+      </div>
 
-  <form id="calculator-form">
-    <div class="field">
-      <label for="gender">Gender</label>
-      <select id="gender" required>
-        <option value="female">Female</option>
-        <option value="male">Male</option>
-      </select>
-    </div>
+      <div class="title">Your Portionly Cup Calculator</div>
+      <div class="subtitle">
+        No maths. No guilt. Just a gentle starting point you can adjust as you go.
+      </div>
 
-    <div class="field">
-      <label for="age">Age (years)</label>
-      <input type="number" id="age" min="10" max="100" required />
-    </div>
+      <div class="card">
+        <div class="card-header-text">
+          Fill this in to get a rough daily guide for your Portionly cups. These
+          numbers are <strong>guidelines, not rules.</strong> Your next meal is
+          always a fresh chance to practice.
+        </div>
 
-    <div class="field">
-      <label for="heightCm">Height (cm)</label>
-      <input type="number" id="heightCm" min="120" max="230" required />
-    </div>
+        <form id="calculator-form" novalidate>
+          <div class="field">
+            <label for="gender">Gender</label>
+            <select id="gender" required>
+              <option value="female">Female</option>
+              <option value="male">Male</option>
+            </select>
+          </div>
 
-    <div class="field">
-      <label for="weightKg">Weight (kg)</label>
-      <input type="number" id="weightKg" min="30" max="300" step="0.1" required />
-    </div>
+          <div class="grid-two">
+            <div class="field">
+              <label for="age">Age (years)</label>
+              <input id="age" type="number" min="10" max="100" required />
+            </div>
+            <div class="field">
+              <label for="heightCm">Height (cm)</label>
+              <input id="heightCm" type="number" min="120" max="230" required />
+            </div>
+          </div>
 
-    <div class="field">
-      <label for="activityFactor">Activity level</label>
-      <select id="activityFactor" required>
-        <option value="1.2">Sedentary (little or no exercise)</option>
-        <option value="1.375">Lightly active (1–3 days/week)</option>
-        <option value="1.55">Moderately active (3–5 days/week)</option>
-        <option value="1.725">Very active (6–7 days/week)</option>
-        <option value="1.9">Extra active (physical job + training)</option>
-      </select>
-    </div>
+          <div class="field">
+            <label for="weightKg">Weight (kg)</label>
+            <input id="weightKg" type="number" min="30" max="300" step="0.1" required />
+          </div>
 
-    <div class="field">
-      <label>Pace</label>
-      <div class="inline-group">
-        <label><input type="radio" name="pace" value="gentle" /> Gentle</label>
-        <label><input type="radio" name="pace" value="standard" checked /> Standard</label>
-        <label><input type="radio" name="pace" value="faster" /> Faster</label>
+          <div class="field">
+            <label for="activityFactor">Activity level</label>
+            <select id="activityFactor" required>
+              <option value="1.2">Sedentary (mostly sitting)</option>
+              <option value="1.375">Lightly active (1–3 days/week)</option>
+              <option value="1.55">Moderately active (3–5 days/week)</option>
+              <option value="1.725">Very active (6–7 days/week)</option>
+              <option value="1.9">Extra active (physical job + training)</option>
+            </select>
+          </div>
+
+          <div class="field">
+            <label>Pace</label>
+            <div class="card-header-text" style="margin-bottom:4px;">
+              Choose how gently or quickly you’d like to move. Faster isn’t always better —
+              choose what feels sustainable.
+            </div>
+            <div class="pace-row" id="pace-row">
+              <label class="pace-pill active" data-pace="gentle">
+                <input type="radio" name="pace" value="gentle" checked />
+                <span class="emoji">🌿</span>
+                <span>Gentle</span>
+              </label>
+              <label class="pace-pill" data-pace="standard">
+                <input type="radio" name="pace" value="standard" />
+                <span class="emoji">⚖️</span>
+                <span>Standard</span>
+              </label>
+              <label class="pace-pill" data-pace="faster">
+                <input type="radio" name="pace" value="faster" />
+                <span class="emoji">🔥</span>
+                <span>Faster</span>
+              </label>
+            </div>
+          </div>
+
+          <button class="btn-main" type="submit">
+            Calculate my cups
+          </button>
+
+          <div id="error" class="error" style="display:none;"></div>
+
+          <div class="divider"></div>
+
+          <div class="disclaimer">
+            This tool is for general guidance and education only and is not medical
+            advice. If you have health conditions, are pregnant, or have specific
+            dietary needs, talk with a healthcare professional or registered
+            dietitian before making big changes.
+          </div>
+
+          <div id="results" class="results" style="display:none;">
+            <div class="results-header" id="results-title"></div>
+            <div class="results-sub" id="results-sub"></div>
+
+            <ul class="cups-list" id="cups-list"></ul>
+
+            <div class="results-sub" id="pace-reminder"></div>
+          </div>
+        </form>
+      </div>
+
+      <div class="after-text">
+        After you have your cups, you can plug them into your Portionly tracker or
+        just use them to plan your next meal — no waiting for Monday.
       </div>
     </div>
-
-    <button type="submit">Calculate plan</button>
-    <div id="error" style="display:none;"></div>
-  </form>
-
-  <div id="results" style="display:none;">
-    <h2>Your plan</h2>
-    <p><strong>Daily calories target:</strong> <span id="res-calories"></span> kcal</p>
-    <p><strong>Estimated weekly change:</strong> <span id="res-loss"></span></p>
-    <p><strong>Daily energy deficit:</strong> <span id="res-deficit"></span> kcal</p>
-
-    <h3>Cups per day</h3>
-    <ul id="res-cups"></ul>
   </div>
 
   <script>
-    // ----- CONSTANTS -----
+    // ---------- CORE CALCULATOR (same logic as before, calories kept internal) ----------
     const KCAL_PER_KG = 7700;
 
     const KCAL_PER_CUP = {
@@ -164,7 +405,6 @@
       return gender === "female" ? 1200 : 1500;
     }
 
-    // ----- CORE CALCULATIONS -----
     function calculateBMR(profile) {
       const { gender, weightKg, heightCm, age } = profile;
       if (!weightKg || !heightCm || !age) {
@@ -179,7 +419,9 @@
     }
 
     function calculateTDEE(profile) {
-      if (!profile.activityFactor) throw new Error("Missing activityFactor.");
+      if (!profile.activityFactor) {
+        throw new Error("Missing activityFactor.");
+      }
       return calculateBMR(profile) * profile.activityFactor;
     }
 
@@ -200,9 +442,9 @@
       }
 
       const desiredDailyDeficit = (weeklyTargetKg * KCAL_PER_KG) / 7;
+
       const maxDeficitByPercent = 0.2 * tdee;
       const maxDeficitAbsolute = 1000;
-
       let dailyDeficit = Math.min(
         desiredDailyDeficit,
         maxDeficitByPercent,
@@ -226,7 +468,6 @@
       };
     }
 
-    // ----- CUPS PLAN FROM CALORIES -----
     function calculateCupPlan(targetCalories) {
       const split = { Protein: 0.3, Carbs: 0.4, "Healthy Fats": 0.3 };
 
@@ -241,7 +482,9 @@
       let proteinCups = Math.round(
         proteinCalories / KCAL_PER_CUP.Protein
       );
-      let carbCups = Math.round(carbCalories / KCAL_PER_CUP.Carbs);
+      let carbCups = Math.round(
+        carbCalories / KCAL_PER_CUP.Carbs
+      );
       let fatCups = Math.round(
         fatCalories / KCAL_PER_CUP["Healthy Fats"]
       );
@@ -269,14 +512,6 @@
       return { cups, macros };
     }
 
-    function cupsToCalories(cups) {
-      return Object.keys(cups).reduce(
-        (sum, key) =>
-          sum + (cups[key] || 0) * (KCAL_PER_CUP[key] || 0),
-        0
-      );
-    }
-
     function calculateDietPlan(profile, pace = "standard") {
       const calorieResult = calculateCalorieTarget(profile, pace);
       const cupsResult = calculateCupPlan(calorieResult.targetCalories);
@@ -284,7 +519,7 @@
       return {
         profile,
         pace,
-        targetCalories: calorieResult.targetCalories,
+        targetCalories: calorieResult.targetCalories, // kept internal
         tdee: Math.round(calorieResult.tdee),
         estimatedWeeklyLossKg: calorieResult.estimatedWeeklyLossKg,
         dailyDeficit: Math.round(calorieResult.dailyDeficit),
@@ -293,27 +528,41 @@
       };
     }
 
-    // expose in case you still want console use
+    // still expose globally if you want to use console/tests
     window.PortionlyCalculator = {
       calculateDietPlan,
       calculateBMR,
       calculateTDEE,
       calculateCalorieTarget,
       calculateCupPlan,
-      cupsToCalories,
       KCAL_PER_CUP,
     };
 
-    // ----- SIMPLE UI WIRING -----
+    // ---------- UI WIRING ----------
     const form = document.getElementById("calculator-form");
-    const resultsEl = document.getElementById("results");
     const errorEl = document.getElementById("error");
-    const resCalories = document.getElementById("res-calories");
-    const resLoss = document.getElementById("res-loss");
-    const resDeficit = document.getElementById("res-deficit");
-    const resCups = document.getElementById("res-cups");
+    const resultsEl = document.getElementById("results");
+    const cupsListEl = document.getElementById("cups-list");
+    const resultsTitle = document.getElementById("results-title");
+    const resultsSub = document.getElementById("results-sub");
+    const paceReminder = document.getElementById("pace-reminder");
 
-    form.addEventListener("submit", function (e) {
+    const paceRow = document.getElementById("pace-row");
+    let selectedPace = "gentle";
+
+    paceRow.addEventListener("click", (e) => {
+      const pill = e.target.closest(".pace-pill");
+      if (!pill) return;
+      selectedPace = pill.dataset.pace;
+
+      document.querySelectorAll(".pace-pill").forEach((el) => {
+        el.classList.toggle("active", el === pill);
+        const input = el.querySelector("input[type=radio]");
+        if (input) input.checked = el === pill;
+      });
+    });
+
+    form.addEventListener("submit", (e) => {
       e.preventDefault();
       errorEl.style.display = "none";
       resultsEl.style.display = "none";
@@ -326,12 +575,9 @@
         const activityFactor = parseFloat(
           document.getElementById("activityFactor").value
         );
-        const pace =
-          document.querySelector('input[name="pace"]:checked')?.value ||
-          "standard";
 
         if (!gender || !age || !heightCm || !weightKg || !activityFactor) {
-          throw new Error("Please fill in all fields.");
+          throw new Error("Please fill in all fields above first.");
         }
 
         const profile = {
@@ -342,31 +588,44 @@
           activityFactor,
         };
 
-        const result = calculateDietPlan(profile, pace);
+        const result = calculateDietPlan(profile, selectedPace);
 
         const weeklyKg = result.estimatedWeeklyLossKg;
         const weeklyLbs = weeklyKg * 2.20462;
 
-        resCalories.textContent = result.targetCalories.toString();
-        resDeficit.textContent = result.dailyDeficit.toString();
+        let paceLabel =
+          selectedPace === "gentle"
+            ? "Gentle"
+            : selectedPace === "faster"
+            ? "Faster"
+            : "Standard";
 
+        resultsTitle.textContent = `${paceLabel} pace cups plan`;
         if (weeklyKg > 0) {
-          resLoss.textContent =
-            "~" +
-            weeklyKg.toFixed(2) +
-            " kg (" +
-            weeklyLbs.toFixed(2) +
-            " lb) per week";
+          resultsSub.textContent =
+            `Roughly ${weeklyKg.toFixed(2)} kg (${weeklyLbs.toFixed(
+              2
+            )} lb) change per week at this pace.`;
         } else {
-          resLoss.textContent = "No deficit (maintenance)";
+          resultsSub.textContent =
+            "This looks like a maintenance plan — no built-in weight change.";
         }
 
-        resCups.innerHTML = "";
+        cupsListEl.innerHTML = "";
         Object.entries(result.cups).forEach(([name, cups]) => {
           const li = document.createElement("li");
-          li.textContent = name + ": " + cups + " cups";
-          resCups.appendChild(li);
+          const left = document.createElement("span");
+          left.textContent = name;
+          left.className = "caps-label";
+          const right = document.createElement("span");
+          right.textContent = `${cups} cups`;
+          li.appendChild(left);
+          li.appendChild(right);
+          cupsListEl.appendChild(li);
         });
+
+        paceReminder.textContent =
+          "You can always switch pace or tweak cups as you learn what feels right in your body.";
 
         resultsEl.style.display = "block";
       } catch (err) {
