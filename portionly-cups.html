@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <title>Portionly – Cup Calculator</title>
+  <title>Portionly Wellbeing — Cup Calculator</title>
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <style>
     :root {
@@ -42,6 +42,7 @@
       margin-bottom: 24px;
     }
 
+    /* Replace logo below when ready */
     .logo-circle {
       width: 80px;
       height: 80px;
@@ -132,13 +133,8 @@
       margin-top: 4px;
     }
 
-    button:hover {
-      filter: brightness(1.05);
-    }
-
-    button:active {
-      transform: translateY(1px);
-    }
+    button:hover { filter: brightness(1.05); }
+    button:active { transform: translateY(1px); }
 
     .result {
       margin-top: 18px;
@@ -147,19 +143,8 @@
       font-size: 0.95rem;
     }
 
-    .result p {
-      margin: 0 0 6px;
-    }
-
-    .cups-list {
-      list-style: none;
-      padding-left: 0;
-      margin: 8px 0 6px;
-    }
-
-    .cups-list li {
-      margin-bottom: 4px;
-    }
+    .cups-list { list-style: none; padding-left: 0; margin: 8px 0 6px; }
+    .cups-list li { margin-bottom: 4px; }
 
     .cups-label {
       display: inline-block;
@@ -197,14 +182,19 @@
     }
   </style>
 </head>
+
 <body>
   <div class="page">
+
     <div class="logo-area">
+      <!-- WHEN YOUR LOGO IS READY, REPLACE THE DIV BELOW WITH AN <img> TAG -->
       <div class="logo-circle"></div>
-      <div class="logo-text">Portionly — Wellbeing</div>
+
+      <div class="logo-text">Portionly Wellbeing</div>
     </div>
 
-    <h1>Your Portionly Cup Calculator</h1>
+    <h1>Portionly Cup Calculator</h1>
+
     <p class="tagline">
       No maths. No guilt. Just a gentle starting point you can adjust as you go.
     </p>
@@ -216,7 +206,7 @@
         Your next meal is always a new chance to practice.
       </p>
 
-      <label for="gender">Gender</label>
+      <label>Gender</label>
       <select id="gender">
         <option value="female" selected>Female</option>
         <option value="male">Male</option>
@@ -224,43 +214,40 @@
 
       <div class="row">
         <div>
-          <label for="age">Age (years)</label>
+          <label>Age (years)</label>
           <input id="age" type="number" min="16" max="90" />
         </div>
         <div>
-          <label for="height">Height (cm)</label>
+          <label>Height (cm)</label>
           <input id="height" type="number" min="120" max="220" />
         </div>
       </div>
 
-      <label for="weight">Weight (kg)</label>
+      <label>Weight (kg)</label>
       <input id="weight" type="number" min="35" max="200" />
 
-      <label for="activity">Activity level</label>
+      <label>Activity level</label>
       <select id="activity">
         <option value="sedentary">Sedentary (mostly sitting)</option>
         <option value="light">Lightly active (on your feet a fair bit)</option>
-        <option value="moderate">Moderately active (regular walks / workouts)</option>
-        <option value="very">Very active (physical job or intense training)</option>
-        <option value="extra">Extra active (manual labour + hard training)</option>
+        <option value="moderate">Moderately active</option>
+        <option value="very">Very active</option>
+        <option value="extra">Extra active</option>
       </select>
 
-      <button type="button" onclick="portionlyCalculate()">
-        Calculate my cups
-      </button>
+      <button onclick="portionlyCalculate()">Calculate my cups</button>
 
       <div id="portionly-result" class="result"></div>
 
       <p class="disclaimer">
         This tool is for general guidance and education only and is not medical advice.
         If you have health conditions, are pregnant, or have specific dietary needs,
-        talk with a healthcare professional or registered dietitian before making big changes.
+        talk with a healthcare professional or registered dietitian.
       </p>
     </div>
 
     <p class="footer-text">
-      After you have your cups, you can plug them into your Portionly tracker
-      or use them to plan your next meal — no waiting for Monday.
+      After you have your cups, use them for your next meal — no waiting for Monday.
     </p>
   </div>
 
@@ -278,14 +265,12 @@
         return;
       }
 
-      // Activity factor (same structure as your beta app)
       let activityFactor = 1.2;
       if (activity === "light") activityFactor = 1.375;
       else if (activity === "moderate") activityFactor = 1.55;
       else if (activity === "very") activityFactor = 1.725;
       else if (activity === "extra") activityFactor = 1.9;
 
-      // BMR – Mifflin-St Jeor
       let BMR;
       if (gender === "female") {
         BMR = 10 * weight + 6.25 * height - 5 * age - 161;
@@ -293,15 +278,12 @@
         BMR = 10 * weight + 6.25 * height - 5 * age + 5;
       }
 
-      // TDEE
       const TDEE = BMR * activityFactor;
 
-      // Target calories with gentle deficit (same logic as your app)
       let target = Math.round(TDEE * 0.83);
       const minCalories = gender === "female" ? 1200 : 1500;
       if (target < minCalories) target = minCalories;
 
-      // Cups (same structure as beta)
       const proteinCups = Math.max(3, Math.round((target * 0.30) / 120));
       const carbCups    = Math.max(3, Math.round((target * 0.40) / 130));
       const vegCups     = 5;
@@ -319,9 +301,8 @@
           <li><span class="cups-label">Healthy fats</span> ${fatCups} cups</li>
         </ul>
         <p>
-          Use these as a gentle guide, not strict rules. 
-          If a meal goes off-plan (hello, McDonald's), your very next meal is a fresh chance
-          to come back to your cups — no waiting for Monday.
+          These are a starting point. If a meal goes off-plan,
+          the very next one still counts — come back to your cups without guilt.
         </p>
       `;
     }
