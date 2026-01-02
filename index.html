@@ -11,7 +11,7 @@
       --bg: #f7f1ff;
       --card-bg: #ffffff;
       --accent: #f38fb8;
-      --accent-strong: #e574c0;
+      --accent-strong: #d881ff;
       --text-main: #2b2136;
       --text-muted: #7b6a90;
       --border-subtle: #efe3ff;
@@ -66,6 +66,9 @@
       font-size: 14px;
       color: var(--text-muted);
       margin-bottom: 24px;
+      max-width: 520px;
+      margin-left: auto;
+      margin-right: auto;
     }
 
     .card {
@@ -103,6 +106,11 @@
       font-size: 14px;
       outline: none;
       transition: border 0.15s, box-shadow 0.15s, background 0.15s;
+    }
+
+    input::placeholder {
+      color: #b7a9d0;
+      font-size: 12px;
     }
 
     input[type="number"]:focus,
@@ -214,7 +222,7 @@
       background: linear-gradient(135deg,#ff9fc4,#d881ff);
       color: #fff;
       cursor: pointer;
-      box-shadow: 0 14px 32px rgba(217, 129, 255, 0.55);
+      box-shadow: 0 14px 32px rgba(217,129,255,0.55);
       transition: transform 0.1s, box-shadow 0.1s, filter 0.15s;
     }
 
@@ -247,12 +255,14 @@
       border-radius: 16px;
       background: linear-gradient(135deg,#fff6ff,#f5f9ff);
       border: 1px solid #f1ddff;
+      display: none;
       opacity: 0;
       transform: translateY(6px);
       transition: opacity 0.22s ease-out, transform 0.22s ease-out;
     }
 
     .results.results--visible {
+      display: block;
       opacity: 1;
       transform: translateY(0);
     }
@@ -335,7 +345,7 @@
       <div class="brand">portionly wellbeing</div>
       <div class="title">Portionly Cup Calculator</div>
       <div class="subtitle">
-        No maths. No guilt. Just a gentle starting point you can adjust as you go.
+        Eating well should feel simple — not stressful. This tool gives you a gentle, no-guilt starting point you can adjust as you go.
       </div>
 
       <div class="card">
@@ -350,7 +360,7 @@
           <div class="field-group">
             <div class="field">
               <label for="gender">Gender</label>
-              <select id="gender">
+              <select id="gender" required>
                 <option value="female">Female</option>
                 <option value="male">Male</option>
               </select>
@@ -358,7 +368,7 @@
 
             <div class="field">
               <label for="age">Age (years)</label>
-              <input id="age" type="number" min="10" max="100" />
+              <input id="age" type="number" min="10" max="100" placeholder="e.g. 34" required />
             </div>
 
             <div class="field">
@@ -370,14 +380,14 @@
 
               <!-- cm only -->
               <div id="heightCmRow" style="margin-top:6px;">
-                <input id="heightCm" type="number" min="80" max="250" placeholder="cm" />
+                <input id="heightCm" type="number" min="80" max="250" placeholder="e.g. 165" />
               </div>
 
               <!-- ft + in -->
               <div id="heightFtInRow" style="margin-top:6px; display:none;">
                 <div class="grid-two">
-                  <input id="heightFt" type="number" min="3" max="8" placeholder="ft" />
-                  <input id="heightIn" type="number" min="0" max="11" placeholder="in" />
+                  <input id="heightFt" type="number" min="3" max="8" placeholder="ft (e.g. 5)" />
+                  <input id="heightIn" type="number" min="0" max="11" placeholder="in (e.g. 6)" />
                 </div>
               </div>
 
@@ -396,19 +406,19 @@
 
               <!-- kg -->
               <div id="weightKgRow" style="margin-top:6px;">
-                <input id="weightKg" type="number" min="30" max="300" step="0.1" placeholder="kg" />
+                <input id="weightKg" type="number" min="30" max="300" step="0.1" placeholder="e.g. 72" />
               </div>
 
               <!-- lbs -->
               <div id="weightLbRow" style="margin-top:6px; display:none;">
-                <input id="weightLb" type="number" min="70" max="660" step="0.5" placeholder="lbs" />
+                <input id="weightLb" type="number" min="70" max="660" step="0.5" placeholder="e.g. 160" />
               </div>
 
               <!-- stone + lb -->
               <div id="weightStRow" style="margin-top:6px; display:none;">
                 <div class="grid-two">
-                  <input id="weightSt" type="number" min="5" max="45" step="1" placeholder="st" />
-                  <input id="weightStLb" type="number" min="0" max="13" step="0.5" placeholder="lb" />
+                  <input id="weightSt" type="number" min="5" max="45" step="1" placeholder="st (e.g. 11)" />
+                  <input id="weightStLb" type="number" min="0" max="13" step="0.5" placeholder="lb (e.g. 7)" />
                 </div>
               </div>
 
@@ -422,7 +432,7 @@
           <div class="field-group">
             <div class="field">
               <label for="activity">Activity level</label>
-              <select id="activity">
+              <select id="activity" required>
                 <option value="1.2">Sedentary (mostly sitting)</option>
                 <option value="1.375">Lightly active (1–3 days/week)</option>
                 <option value="1.55">Moderately active (3–5 days/week)</option>
@@ -593,9 +603,7 @@
     let selectedPace = "gentle";
     let lastProfileInputs = null;
 
-    // Start with results hidden
     const resultsEl = document.getElementById("results");
-    resultsEl.classList.remove("results--visible");
 
     // Height unit toggles
     document.querySelectorAll("[data-height-unit]").forEach(pill => {
@@ -715,6 +723,7 @@
         const plan = calcPlan(profile, selectedPace);
         renderResults(plan, profile);
       } catch (err) {
+        const errorEl = document.getElementById("error");
         errorEl.textContent = err.message || "Something went wrong while calculating your cups.";
         errorEl.style.display = "block";
         resultsEl.classList.remove("results--visible");
@@ -767,7 +776,6 @@
         "Based on your height, a healthy range is roughly " +
         `${minW}–${maxW} kg. It’s just a guide — your doctor can always help tailor it.`;
 
-      // trigger fade-in animation
       resultsEl.classList.add("results--visible");
     }
   </script>
