@@ -462,12 +462,12 @@
     // ---------- core maths (calories hidden, cups shown) ----------
 
     const KCAL_PER_CUP = {
-      Protein: 150,            // ¾ cup average lean protein
-      Carbs: 110,              // ½ cup cooked carbs
-      Veggies: 30,             // 1 cup non-starchy veg
-      Fruits: 70,              // 1 cup fruit
-      "Healthy Fats": 230,     // ⅓ cup fats
-      "Seeds & Dressings": 100 // 2 tbsp
+      Protein: 110,           // ¾ cup lean-ish protein
+      Carbs: 80,              // ½ cup cooked carbs
+      Veggies: 15,            // 1 cup non-starchy veg
+      Fruits: 55,             // 1 cup fruit
+      "Healthy Fats": 150,    // ⅓ cup fats
+      "Seeds & Dressings": 60 // 2 tbsp seeds/dressings
     };
 
     function minCalories(gender) {
@@ -509,7 +509,7 @@
       return Math.round(target);
     }
 
-    // higher-protein, balanced cups
+    // higher-protein, still balanced
     function calcCups(targetCalories) {
       const proteinPct = 0.34; // more protein
       const carbPct    = 0.36; // slightly less carbs
@@ -527,13 +527,11 @@
       if (carbCups   < 2) carbCups   = 2;
       if (fatCups    < 1) fatCups    = 1;
 
-      if (proteinCups > 7) proteinCups = 7;
+      if (proteinCups > 8) proteinCups = 8;
       if (carbCups    > 8) carbCups    = 8;
       if (fatCups     > 4) fatCups     = 4;
 
-      // key rule: protein should not be lower than carbs (in cups).
-      // because each protein cup is more calories than a carb cup,
-      // equal cups still means protein "wins" in fullness.
+      // key rule: protein should not be lower than carbs (in cups)
       if (proteinCups < carbCups) {
         proteinCups = carbCups;
       }
