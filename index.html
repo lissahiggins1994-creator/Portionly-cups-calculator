@@ -244,14 +244,14 @@
           <h2 style="margin-top:0; font-size: 20px;">Your Daily Guide</h2>
           <ul id="cups-list" class="cups-list"></ul>
           
-<div style="margin-top: 15px; padding-top: 15px; border-top: 1px dashed #efe3ff;">
-  <p style="font-size: 13px; font-weight: 600; margin-bottom: 8px; color: var(--text-main);">✨ Daily Success Tips:</p>
-  <ul style="font-size: 12px; color: var(--text-muted); padding-left: 20px; margin: 0;">
-    <li style="margin-bottom: 5px;"><strong>Hydration:</strong> Aim for 8–10 glasses of water. Fiber needs water to work its magic!</li>
-    <li style="margin-bottom: 5px;"><strong>Extra Hunger:</strong> If you're physically hungry, add a <strong>Green Cup</strong> (Veggies) for volume first. If you're feeling weak, add a <strong>Pink Cup</strong> (Protein).</li>
-    <li style="margin-bottom: 5px;"><strong>The 80/20 Rule:</strong> Aim for consistency, not perfection. Life happens, and that’s okay!</li>
-  </ul>
-</div>
+          <div style="margin-top: 15px; padding-top: 15px; border-top: 1px dashed #efe3ff;">
+            <p style="font-size: 13px; font-weight: 600; margin-bottom: 8px; color: var(--text-main);">✨ Daily Success Tips:</p>
+            <ul style="font-size: 12px; color: var(--text-muted); padding-left: 20px; margin: 0;">
+              <li style="margin-bottom: 5px;"><strong>Hydration:</strong> Aim for 8–10 glasses of water. Fiber needs water to work!</li>
+              <li style="margin-bottom: 5px;"><strong>Extra Hunger:</strong> If you're physically hungry, try a <strong>Green Cup</strong> first.</li>
+              <li style="margin-bottom: 5px;"><strong>Flex Cups:</strong> Leftover <strong>Orange</strong> or <strong>Blue</strong> cups can be "banked" for treats or meals out.</li>
+            </ul>
+          </div>
           
           <div class="medical-disclaimer">
             <p style="margin:0; font-size: 12px; color: #c2185b; font-weight: bold; text-transform: uppercase;">⚠️ Medical Disclaimer</p>
@@ -343,12 +343,12 @@
 
       const list = document.getElementById('cups-list');
       list.innerHTML = `
-        <li><span><strong>Pink</strong> Protein (¾ cup)</span> <span>${p} Cups</span></li>
-        <li><span><strong>Yellow</strong> Carbs (½ cup)</span> <span>${c} Cups</span></li>
-        <li><span><strong>Green</strong> Veggies (1 cup)</span> <span>${v} Cups</span></li>
-        <li><span><strong>Purple</strong> Fruit (1 cup)</span> <span>${f} Cups</span></li>
-        <li><span><strong>Orange</strong> Fats (⅓ cup)</span> <span>${fat} Cups</span></li>
-        <li><span><strong>Blue</strong> Seeds & Dressings (2 tbsp)</span> <span>${s} Cups</span></li>
+        <li><span><strong style="color: #f38fb8;">Pink</strong> Protein (¾ cup)</span> <span>${p} Cups</span></li>
+        <li><span><strong style="color: #ffd966;">Yellow</strong> Carbs (½ cup)</span> <span>${c} Cups</span></li>
+        <li><span><strong style="color: #93c47d;">Green</strong> Veggies (1 cup)</span> <span>${v} Cups</span></li>
+        <li><span><strong style="color: #b4a7d6;">Purple</strong> Fruit (1 cup)</span> <span>${f} Cups</span></li>
+        <li><span><strong style="color: #f6b26b;">Orange</strong> Healthy Fats (⅓ cup)</span> <span>${fat} Cups</span></li>
+        <li><span><strong style="color: #76a5af;">Blue</strong> Seed / Dressing & Oils (2 tbsp)</span> <span>${s} Cups</span></li>
       `;
 
       const resultsDiv = document.getElementById('results');
@@ -359,5 +359,3 @@
 
 </body>
 </html>
-
-
