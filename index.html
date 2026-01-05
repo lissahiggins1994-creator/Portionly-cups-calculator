@@ -520,12 +520,14 @@
 
   <script>
     // ---------- core maths (calories hidden from user) ----------
+    // Updated to better match the new physical cup sizes:
+    // Protein ¾ cup, Carbs ½ cup, Veggies 1 cup, Fruit 1 cup, Fats ⅓ cup
     const KCAL_PER_CUP = {
-      Protein: 120,
-      Carbs: 130,
-      Veggies: 25,
-      Fruits: 65,
-      "Healthy Fats": 100,
+      Protein: 150,       // ~¾ cup lean protein foods
+      Carbs: 100,         // ~½ cup cooked carbs
+      Veggies: 25,        // ~1 cup non-starchy veg
+      Fruits: 60,         // ~1 cup fruit
+      "Healthy Fats": 250 // ~⅓ cup mixed fats (oils, nuts, spreads)
     };
 
     function minCalories(gender) {
