@@ -501,10 +501,13 @@
           <ul class="cups-list" id="cups-list"></ul>
 
           <div class="cup-sizes-note">
-            Each Portionly cup uses everyday kitchen measures:<br>
-            <strong>Protein</strong> ¾ cup • <strong>Carbs</strong> ½ cup • <strong>Veggies</strong> 1 cup •
-            <strong>Fruit</strong> 1 cup • <strong>Fats</strong> ⅓ cup
-            (optional <strong>Seeds/Dressings</strong> 2 tbsp).
+            Each Portionly cup links to a colour and kitchen measure:<br>
+            <strong>Pink</strong> Protein — ¾ cup •
+            <strong>Yellow</strong> Carbs — ½ cup •
+            <strong>Green</strong> Veggies — 1 cup •
+            <strong>Purple</strong> Fruit — 1 cup •
+            <strong>Orange</strong> Healthy Fats — ⅓ cup •
+            <strong>Blue</strong> Seeds &amp; Dressings — 2 tbsp.
           </div>
 
           <div class="healthy" id="healthy-range"></div>
@@ -521,13 +524,14 @@
   <script>
     // ---------- core maths (calories hidden from user) ----------
     // Updated to better match the new physical cup sizes:
-    // Protein ¾ cup, Carbs ½ cup, Veggies 1 cup, Fruit 1 cup, Fats ⅓ cup
+    // Pink Protein ¾ cup, Yellow Carbs ½ cup, Green Veg 1 cup, Purple Fruit 1 cup, Orange Fats ⅓ cup
     const KCAL_PER_CUP = {
       Protein: 150,       // ~¾ cup lean protein foods
       Carbs: 100,         // ~½ cup cooked carbs
       Veggies: 25,        // ~1 cup non-starchy veg
       Fruits: 60,         // ~1 cup fruit
       "Healthy Fats": 250 // ~⅓ cup mixed fats (oils, nuts, spreads)
+      // Seeds & Dressings are treated as small optional extras, not core macro cups
     };
 
     function minCalories(gender) {
@@ -581,6 +585,7 @@
         fatPct     = 0.26; // fats down on faster
       }
 
+      // Veg & fruit cups scale gently with calories
       const vegCups   = targetCalories < 1600 ? 4 : targetCalories < 2200 ? 5 : 6;
       const fruitCups = targetCalories < 1600 ? 2 : 3;
 
@@ -599,12 +604,19 @@
       // keep protein clearly leading
       if (proteinCups <= carbCups) proteinCups = carbCups + 1;
 
+      // Simple allowance for blue cups: more food = a little more flavour room
+      let seedsCups;
+      if (targetCalories < 1600) seedsCups = 1;
+      else if (targetCalories < 2200) seedsCups = 2;
+      else seedsCups = 3;
+
       return {
         Protein: proteinCups,
         Carbs: carbCups,
         Veggies: vegCups,
         Fruits: fruitCups,
         "Healthy Fats": fatCups,
+        "Seeds & Dressings": seedsCups
       };
     }
 
