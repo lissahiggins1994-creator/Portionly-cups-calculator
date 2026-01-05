@@ -4,7 +4,6 @@
   <meta charset="UTF-8" />
   <title>Portionly Cup Calculator</title>
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-
   <style>
     :root {
       --bg: #f7f1ff;
@@ -106,11 +105,6 @@
       transition: border 0.15s, box-shadow 0.15s, background 0.15s;
     }
 
-    input::placeholder {
-      color: #b7a9d0;
-      font-size: 12px;
-    }
-
     input[type="number"]:focus,
     select:focus {
       border-color: #c39bff;
@@ -129,22 +123,18 @@
       gap: 6px;
       flex-wrap: wrap;
       margin-top: 4px;
+      margin-bottom: 8px;
     }
 
     .unit-pill {
-      padding: 4px 8px;
+      padding: 4px 12px;
       border-radius: 999px;
       border: 1px solid #f3e7ff;
       background: #fbf7ff;
-      font-size: 10px;
+      font-size: 11px;
       cursor: pointer;
       user-select: none;
-      transition: background 0.15s, border 0.15s, color 0.15s, transform 0.08s;
-    }
-
-    .unit-pill:hover {
-      transform: translateY(-1px);
-      border-color: #e3ccff;
+      transition: all 0.2s;
     }
 
     .unit-pill.active {
@@ -153,153 +143,47 @@
       color: #fff;
     }
 
-    .helper {
-      font-size: 11px;
-      color: var(--text-muted);
-      margin-top: 4px;
-      opacity: 0.85;
-    }
-
-    .consent {
-      display: flex;
-      align-items: flex-start;
-      gap: 8px;
-      margin-top: 10px;
-    }
-
-    .consent input { margin-top: 3px; }
-
-    .consent-text {
-      font-size: 11px;
-      color: var(--text-muted);
-      line-height: 1.4;
-    }
-
     .btn-main {
       margin-top: 16px;
       width: 100%;
       border-radius: 999px;
-      padding: 11px 16px;
+      padding: 14px 16px;
       border: none;
-      font-size: 15px;
+      font-size: 16px;
       font-weight: 700;
       background: linear-gradient(135deg,#ff9fc4,#d881ff);
       color: #fff;
       cursor: pointer;
-      box-shadow: 0 14px 32px rgba(217,129,255,0.55);
-      transition: transform 0.1s, box-shadow 0.1s, filter 0.15s;
-    }
-
-    .btn-main:hover {
-      filter: brightness(1.04);
-      box-shadow: 0 16px 36px rgba(217,129,255,0.65);
-      transform: translateY(-1px);
-    }
-
-    .btn-main:active {
-      transform: translateY(0);
-      box-shadow: 0 10px 24px rgba(217,129,255,0.5);
-    }
-
-    .divider {
-      margin: 18px 0 10px;
-      border-top: 1px dashed #eadfff;
-    }
-
-    .disclaimer {
-      font-size: 11px;
-      color: var(--text-muted);
-      line-height: 1.4;
+      box-shadow: 0 10px 20px rgba(217,129,255,0.3);
     }
 
     .results {
-      margin-top: 18px;
-      padding: 14px 12px 10px;
+      margin-top: 20px;
+      padding: 20px;
       border-radius: 16px;
-      background: linear-gradient(135deg,#fff6ff,#f5f9ff);
-      border: 1px solid #f1ddff;
+      background: #fdfaff;
+      border: 2px solid #f1ddff;
       display: none;
-      opacity: 0;
-      transform: translateY(6px);
-      transition: opacity 0.22s ease-out, transform 0.22s ease-out;
-    }
-
-    .results.results--visible {
-      display: block;
-      opacity: 1;
-      transform: translateY(0);
-    }
-
-    .results-header {
-      font-size: 14px;
-      font-weight: 700;
-      margin-bottom: 4px;
-    }
-
-    .results-summary {
-      font-size: 12px;
-      color: var(--text-muted);
-      margin-bottom: 6px;
-    }
-
-    .results-sub {
-      font-size: 12px;
-      color: var(--text-muted);
-      margin-bottom: 10px;
     }
 
     .cups-list {
       list-style: none;
-      padding-left: 0;
-      margin: 0 0 8px;
-      font-size: 13px;
+      padding: 0;
+      margin: 15px 0;
     }
 
     .cups-list li {
       display: flex;
       justify-content: space-between;
-      padding: 3px 0;
-      animation: cupPop 0.24s ease-out;
+      padding: 8px 0;
+      border-bottom: 1px solid #eee;
     }
 
-    @keyframes cupPop {
-      0%   { transform: scale(0.96); opacity: 0; }
-      100% { transform: scale(1);    opacity: 1; }
-    }
-
-    .cups-label { font-weight: 600; }
-
-    .healthy {
-      margin-top: 4px;
-      font-size: 11px;
-      color: var(--text-muted);
-    }
-
-    .about-note {
-      font-size: 10px;
-      color: #a395c0;
-      margin-top: 6px;
-    }
-
-    .cup-sizes-note {
-      font-size: 11px;
-      color: var(--text-muted);
-      margin-top: 6px;
-      line-height: 1.4;
-    }
-
-    .error {
-      margin-top: 8px;
+    .error-msg {
+      color: #d63031;
       font-size: 12px;
-      color: #c0392b;
-      background: #fdecea;
-      border-radius: 8px;
-      padding: 6px 8px;
-      font-weight: 500;
-    }
-
-    @media (max-width: 600px) {
-      .card { padding: 18px 16px 16px; }
+      margin-top: 10px;
+      display: none;
     }
   </style>
 </head>
@@ -307,242 +191,175 @@
 <body>
   <div class="page-wrap">
     <div class="inner">
-      <img src="portionly-logo.png" alt="Portionly logo" class="logo" />
-
       <div class="brand">portionly wellbeing</div>
       <div class="title">Portionly Cup Calculator</div>
-      <div class="subtitle">
-        Eating well should feel simple — not stressful. This gives you a steady daily guide so you can practise healthy habits.
-        Any weight changes are a bonus, not the main goal.
-      </div>
+      <div class="subtitle">A simple guide for healthy daily habits.</div>
 
       <div class="card">
-        <div class="card-header-text">
-          Fill this in to get a rough daily guide for your Portionly cups. These
-          numbers are <strong>guidelines, not rules.</strong> Real life will wobble —
-          and that’s allowed here.
-        </div>
+        <form id="calc-form">
+          <div class="field">
+            <label>Gender</label>
+            <select id="gender">
+              <option value="female">Female</option>
+              <option value="male">Male</option>
+            </select>
+          </div>
 
-        <form id="calc-form" novalidate>
-          <!-- PERSONAL INFO -->
-          <div class="field-group">
-            <div class="field">
-              <label for="gender">Gender</label>
-              <select id="gender" required>
-                <option value="female">Female</option>
-                <option value="male">Male</option>
-              </select>
+          <div class="field">
+            <label>Age (years)</label>
+            <input id="age" type="number" placeholder="e.g. 34" required />
+          </div>
+
+          <div class="field">
+            <label>Height</label>
+            <div class="unit-row" id="height-units">
+              <span class="unit-pill active" data-val="cm">cm</span>
+              <span class="unit-pill" data-val="ftin">ft + in</span>
             </div>
-
-            <div class="field">
-              <label for="age">Age (years)</label>
-              <input id="age" type="number" min="10" max="100" placeholder="e.g. 34" required />
+            <div id="h-cm-input">
+              <input id="heightCm" type="number" placeholder="Height in cm" />
             </div>
-
-            <div class="field">
-              <label>Height</label>
-              <div class="unit-row">
-                <span class="unit-pill active" data-height-unit="cm">cm</span>
-                <span class="unit-pill" data-height-unit="ftin">ft + in</span>
-              </div>
-
-              <div id="heightCmRow" style="margin-top:6px;">
-                <input id="heightCm" type="number" min="80" max="250" placeholder="e.g. 165" />
-              </div>
-
-              <div id="heightFtInRow" style="margin-top:6px; display:none;">
-                <div class="grid-two">
-                  <input id="heightFt" type="number" min="3" max="8" placeholder="ft (e.g. 5)" />
-                  <input id="heightIn" type="number" min="0" max="11" placeholder="in (e.g. 6)" />
-                </div>
-              </div>
-
-              <div class="helper">
-                Use centimetres or feet and inches — whichever feels easier.
-              </div>
-            </div>
-
-            <div class="field">
-              <label>Weight</label>
-              <div class="unit-row">
-                <span class="unit-pill active" data-weight-unit="kg">kg</span>
-                <span class="unit-pill" data-weight-unit="lb">lbs</span>
-                <span class="unit-pill" data-weight-unit="stone">stone &amp; lb</span>
-              </div>
-
-              <div id="weightKgRow" style="margin-top:6px;">
-                <input id="weightKg" type="number" min="30" max="300" step="0.1" placeholder="e.g. 72" />
-              </div>
-
-              <div id="weightLbRow" style="margin-top:6px; display:none;">
-                <input id="weightLb" type="number" min="70" max="660" step="0.5" placeholder="e.g. 160" />
-              </div>
-
-              <div id="weightStRow" style="margin-top:6px; display:none;">
-                <div class="grid-two">
-                  <input id="weightSt" type="number" min="5" max="45" step="1" placeholder="st (e.g. 11)" />
-                  <input id="weightStLb" type="number" min="0" max="13" step="0.5" placeholder="lb (e.g. 7)" />
-                </div>
-              </div>
-
-              <div class="helper">
-                Use the row that matches how you usually think about weight.
-              </div>
+            <div id="h-ft-input" style="display:none;" class="grid-two">
+              <input id="heightFt" type="number" placeholder="ft" />
+              <input id="heightIn" type="number" placeholder="in" />
             </div>
           </div>
 
-          <div class="field-group">
-            <div class="field">
-              <label for="activity">Activity level</label>
-              <select id="activity" required>
-                <option value="1.2">Sedentary (mostly sitting)</option>
-                <option value="1.375">Lightly active (1–3 days/week)</option>
-                <option value="1.55">Moderately active (3–5 days/week)</option>
-                <option value="1.725">Very active (6–7 days/week)</option>
-                <option value="1.9">Extra active (physical job + training)</option>
-              </select>
+          <div class="field">
+            <label>Weight</label>
+            <div class="unit-row" id="weight-units">
+              <span class="unit-pill active" data-val="kg">kg</span>
+              <span class="unit-pill" data-val="lb">lbs</span>
+              <span class="unit-pill" data-val="st">st + lb</span>
+            </div>
+            <div id="w-kg-input">
+              <input id="weightKg" type="number" step="0.1" placeholder="Weight in kg" />
+            </div>
+            <div id="w-lb-input" style="display:none;">
+              <input id="weightLb" type="number" step="0.1" placeholder="Weight in lbs" />
+            </div>
+            <div id="w-st-input" style="display:none;" class="grid-two">
+              <input id="weightSt" type="number" placeholder="st" />
+              <input id="weightStLb" type="number" step="0.1" placeholder="lb" />
             </div>
           </div>
 
-          <div class="field-group">
-            <div class="consent">
-              <input type="checkbox" id="consent" />
-              <div class="consent-text">
-                I understand this is general guidance only and not medical advice.
-                If I have health conditions, I’ll talk to a doctor or dietitian
-                before making big changes.
-              </div>
-            </div>
-
-            <button type="submit" class="btn-main">Show my cup plan</button>
-            <div id="error" class="error" style="display:none;"></div>
-
-            <div class="divider"></div>
-
-            <div class="disclaimer">
-              A gentle starting point based on the info you shared. You can tweak
-              this later — nothing is locked in stone.
-            </div>
+          <div class="field">
+            <label>Activity level</label>
+            <select id="activity">
+              <option value="1.2">Sedentary (mostly sitting)</option>
+              <option value="1.375">Lightly active (1–3 days/week)</option>
+              <option value="1.55">Moderately active (3–5 days/week)</option>
+              <option value="1.725">Very active (6–7 days/week)</option>
+            </select>
           </div>
+
+          <button type="submit" class="btn-main">Show my cup plan</button>
+          <div id="error-msg" class="error-msg">Please fill in all fields correctly.</div>
         </form>
 
         <div id="results" class="results">
-          <div class="results-header">Your daily cup guide</div>
-          <div class="results-summary" id="results-summary">
-            These cups are designed to feel satisfying and balanced. Use them as a guide you can lean on, not a target you have to hit perfectly.
-          </div>
-          <div class="results-sub">
-            Friendly reminder: these cups are guidance, not rules. Real life will wobble — and that’s allowed here.
-          </div>
-
-          <ul class="cups-list" id="cups-list"></ul>
-
-          <div class="cup-sizes-note">
-            Each Portionly cup links to a colour and kitchen measure:<br>
-            <strong>Pink</strong> Protein — ¾ cup •
-            <strong>Yellow</strong> Carbs — ½ cup •
-            <strong>Green</strong> Veggies — 1 cup •
-            <strong>Purple</strong> Fruit — 1 cup •
-            <strong>Orange</strong> Healthy Fats — ⅓ cup •
-            <strong>Blue</strong> Seeds &amp; Dressings — 2 tbsp.
-          </div>
-
-          <div class="healthy" id="healthy-range"></div>
-          <div class="about-note">
-            This tool uses well-known nutrition guidelines to spread your daily
-            energy across protein, carbs, healthy fats, fruits and veggies.
-            It’s here to support habits, not control you.
-          </div>
+          <h3 style="margin-top:0;">Your daily cup guide:</h3>
+          <ul id="cups-list" class="cups-list"></ul>
+          <p style="font-size:11px; color:var(--text-muted);">These are guidelines to help you find a balanced rhythm.</p>
         </div>
       </div>
     </div>
   </div>
 
   <script>
-    // ---------- core maths (calories hidden, cups shown) ----------
+    // --- UI LOGIC: Switching Units ---
+    function setupPills(containerId, inputMap) {
+      const container = document.getElementById(containerId);
+      const pills = container.querySelectorAll('.unit-pill');
+      
+      pills.forEach(pill => {
+        pill.addEventListener('click', () => {
+          // Update active class
+          pills.forEach(p => p.classList.remove('active'));
+          pill.classList.add('active');
+          
+          // Show correct input, hide others
+          const selected = pill.getAttribute('data-val');
+          Object.keys(inputMap).forEach(key => {
+            document.getElementById(inputMap[key]).style.display = (key === selected) ? 'block' : 'none';
+            if (key === selected && key.includes('ft')) document.getElementById(inputMap[key]).style.display = 'grid';
+            if (key === selected && key.includes('st')) document.getElementById(inputMap[key]).style.display = 'grid';
+          });
+        });
+      });
+    }
 
-  const KCAL_PER_CUP = {
-  Protein: 110,
-  Carbs: 80,
-  Veggies: 15,
-  Fruits: 55,
-  Fats: 150,
-  Seeds: 60
-};
+    setupPills('height-units', { cm: 'h-cm-input', ftin: 'h-ft-input' });
+    setupPills('weight-units', { kg: 'w-kg-input', lb: 'w-lb-input', st: 'w-st-input' });
 
-// 1. Unified Conversion Logic
-function getCleanData() {
-  const gender = document.getElementById('gender').value;
-  const age = parseFloat(document.getElementById('age').value);
-  const activity = parseFloat(document.getElementById('activity').value);
-  
-  let weightKg = 0;
-  let heightCm = 0;
-
-  // Handle Height
-  const hUnit = document.querySelector('[data-height-unit].active').dataset.heightUnit;
-  if (hUnit === 'cm') {
-    heightCm = parseFloat(document.getElementById('heightCm').value);
-  } else {
-    const ft = parseFloat(document.getElementById('heightFt').value) || 0;
-    const inch = parseFloat(document.getElementById('heightIn').value) || 0;
-    heightCm = (ft * 30.48) + (inch * 2.54);
-  }
-
-  // Handle Weight
-  const wUnit = document.querySelector('[data-weight-unit].active').dataset.weightUnit;
-  if (wUnit === 'kg') {
-    weightKg = parseFloat(document.getElementById('weightKg').value);
-  } else if (wUnit === 'lb') {
-    weightKg = parseFloat(document.getElementById('weightLb').value) * 0.453592;
-  } else {
-    const st = parseFloat(document.getElementById('weightSt').value) || 0;
-    const lb = parseFloat(document.getElementById('weightStLb').value) || 0;
-    weightKg = (st * 6.35029) + (lb * 0.453592);
-  }
-
-  return { gender, age, weightKg, heightCm, activityFactor: activity };
-}
-
-// 2. Advanced Calculation
-function calculatePlan(p) {
-  // BMR (Mifflin-St Jeor)
-  const bmr = (10 * p.weightKg) + (6.25 * p.heightCm) - (5 * p.age) + (p.gender === 'female' ? -161 : 5);
-  const tdee = bmr * p.activityFactor;
-  
-  // BMI-based Deficit
-  const bmi = p.weightKg / ((p.heightCm/100) ** 2);
-  let deficit = 0;
-  if (bmi >= 25) deficit = 400; // Moderate flat deficit is often safer than %
-  if (bmi >= 30) deficit = 500;
-  
-  let targetKcal = Math.max(tdee - deficit, p.gender === 'female' ? 1350 : 1650);
-
-  // 3. Cup Allocation (Fixed-Protein Strategy)
-  // Aim for ~1.5g protein per kg
-  let proteinGrams = p.weightKg * 1.5;
-  let proteinCups = Math.max(3, Math.min(8, Math.round((proteinGrams * 4) / KCAL_PER_CUP.Protein)));
-  
-  // Veggies & Fruit (Volume first)
-  let vegCups = targetKcal > 2000 ? 6 : 5;
-  let fruitCups = 2;
-
-  // Remaining Calories for Carbs and Fats
-  let remainingKcal = targetKcal - (proteinCups * KCAL_PER_CUP.Protein) - (vegCups * KCAL_PER_CUP.Veggies) - (fruitCups * KCAL_PER_CUP.Fruits);
-  
-  // Split remaining between Carbs and Fats (e.g., 60/40 split)
-  let carbCups = Math.max(2, Math.min(7, Math.round((remainingKcal * 0.6) / KCAL_PER_CUP.Carbs)));
-  let fatCups = Math.max(1, Math.min(3, Math.round((remainingKcal * 0.3) / KCAL_PER_CUP.Fats)));
-  let seedCups = targetKcal > 1800 ? 2 : 1;
-
-  return {
-    Protein: proteinCups,
-    Carbs: carbCups,
-    Veggies: vegCups,
-    Fruits: fruitCups,
-    "Healthy Fats": fatCups,
-    "Seeds & Dressings": seedCups
-  };
-}
+    // --- MATH LOGIC ---
+    const FORM = document.getElementById('calc-form');
     
+    FORM.addEventListener('submit', (e) => {
+      e.preventDefault();
+      
+      // 1. Convert everything to Metric
+      let height = 0;
+      const hUnit = document.querySelector('#height-units .active').dataset.val;
+      if(hUnit === 'cm') {
+        height = parseFloat(document.getElementById('heightCm').value);
+      } else {
+        height = (parseFloat(document.getElementById('heightFt').value || 0) * 30.48) + 
+                 (parseFloat(document.getElementById('heightIn').value || 0) * 2.54);
+      }
 
+      let weight = 0;
+      const wUnit = document.querySelector('#weight-units .active').dataset.val;
+      if(wUnit === 'kg') {
+        weight = parseFloat(document.getElementById('weightKg').value);
+      } else if(wUnit === 'lb') {
+        weight = parseFloat(document.getElementById('weightLb').value) * 0.453;
+      } else {
+        weight = (parseFloat(document.getElementById('weightSt').value || 0) * 6.35) + 
+                 (parseFloat(document.getElementById('weightStLb').value || 0) * 0.453);
+      }
+
+      const age = parseFloat(document.getElementById('age').value);
+      const gender = document.getElementById('gender').value;
+      const activity = parseFloat(document.getElementById('activity').value);
+
+      if(!height || !weight || !age) {
+        document.getElementById('error-msg').style.display = 'block';
+        return;
+      }
+      document.getElementById('error-msg').style.display = 'none';
+
+      // 2. Calculate TDEE (Energy needed)
+      const bmr = (10 * weight) + (6.25 * height) - (5 * age) + (gender === 'female' ? -161 : 5);
+      const tdee = bmr * activity;
+      
+      // 3. Determine Cup Counts (Simplified Reliable Logic)
+      // We prioritize Protein and Veggies
+      let protein, carbs, fats, veg, fruit, seeds;
+
+      if (tdee < 1600) {
+        protein = 4; carbs = 3; veg = 4; fruit = 2; fats = 1; seeds = 1;
+      } else if (tdee < 2000) {
+        protein = 5; carbs = 4; veg = 5; fruit = 2; fats = 2; seeds = 1;
+      } else if (tdee < 2400) {
+        protein = 6; carbs = 5; veg = 5; fruit = 3; fats = 2; seeds = 2;
+      } else {
+        protein = 7; carbs = 6; veg = 6; fruit = 3; fats = 3; seeds = 2;
+      }
+
+      // 4. Display Results
+      const list = document.getElementById('cups-list');
+      list.innerHTML = `
+        <li><span><strong>Pink</strong> Protein</span> <span>${protein} Cups</span></li>
+        <li><span><strong>Yellow</strong> Carbs</span> <span>${carbs} Cups</span></li>
+        <li><span><strong>Green</strong> Veggies</span> <span>${veg} Cups</span></li>
+        <li><span><strong>Purple</strong> Fruit</span> <span>${fruit} Cups</span></li>
+        <li><span><strong>Orange</strong> Fats</span> <span>${fats} Cups</span></li>
+        <li><span><strong>Blue</strong> Seeds/Dressings</span> <span>${seeds} Cups</span></li>
+      `;
+      document.getElementById('results').style.display = 'block';
+    });
+  </script>
+</body>
+</html>
