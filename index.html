@@ -508,19 +508,65 @@
       if (target < minCals) target = minCals;
       return Math.round(target);
     }
+// higher-protein, slightly lower carbs, with sensible caps
+function calcCups(targetCalories) {
+  // macro split used just for rough structure
+  const proteinPct = 0.42;
+  const carbPct    = 0.28;
+  const fatPct     = 0.30;
 
-    // higher-protein, slightly lower carbs, with sensible caps
-    function calcCups(targetCalories) {
-      // macro split used just for rough structure
-      const proteinPct = 0.42;
-      const carbPct    = 0.28;
-      const fatPct     = 0.30;
+  const proteinCalories = targetCalories * proteinPct;
+  const carbCalories    = targetCalories * carbPct;
+  const fatCalories     = targetCalories * fatPct;
 
-      const proteinCalories = targetCalories * proteinPct;
-      const carbCalories    = targetCalories * carbPct;
-      const fatCalories     = targetCalories * fatPct;
+  let proteinCups = Math.round(proteinCalories / KCAL_PER_CUP.Protein);
+  let carbCups    = Math.round(carbCalories    / KCAL_PER_CUP.Carbs);
+  let fatCups     = Math.round(fatCalories     / KCAL_PER_CUP["Healthy Fats"]);
 
-      let proteinCups = Math.round(proteinCalories / KCAL_PER_CUP.Protein);
-      let carbCups    = Math.round(car
+  // minimums so nothing drops too low
+  if (proteinCups < 3) proteinCups = 3;
+  if (carbCups   < 2) carbCups   = 2;
+  if (fatCups    < 1) fatCups    = 1;
 
-::contentReference[oaicite:0]{index=0}
+  // caps so things don’t get silly
+  if (proteinCups > 8) proteinCups = 8;
+  if (carbCups    > 8) carbCups    = 8;
+  if (fatCups     > 3) fatCups     = 3;
+
+  // key rule: protein should not be LOWER than carbs
+  if (proteinCups < carbCups) {
+    proteinCups = carbCups;
+  }
+
+  // Veg & fruit scale gently with total calories
+  let vegCups, fruitCups;
+  if (targetCalories < 1600) {
+    vegCups = 4;
+    fruitCups = 2;
+  } else if (targetCalories < 2100) {
+    vegCups = 5;
+    fruitCups = 3;
+  } else {
+    vegCups = 6;
+    fruitCups = 3;
+  }
+
+  // Seeds & dressings stay small flavour room
+  let seedsCups;
+  if (targetCalories < 1600) {
+    seedsCups = 1;
+  } else if (targetCalories < 2200) {
+    seedsCups = 2;
+  } else {
+    seedsCups = 3;
+  }
+
+  return {
+    Protein: proteinCups,
+    Carbs: carbCups,
+    Veggies: vegCups,
+    Fruits: fruitCups,
+    "Healthy Fats": fatCups,
+    "Seeds & Dressings": seedsCups
+  };
+}
