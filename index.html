@@ -1,4 +1,4 @@
-<!doctype html> 
+<!doctype html>
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
@@ -162,40 +162,6 @@
       opacity: 0.85;
     }
 
-    .pace-row {
-      display: flex;
-      gap: 8px;
-      flex-wrap: wrap;
-      margin-top: 6px;
-    }
-
-    .pace-pill {
-      flex: 1;
-      min-width: 90px;
-      border-radius: 999px;
-      border: 1px solid #e6d5ff;
-      padding: 7px 10px;
-      font-size: 13px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 4px;
-      background: #faf7ff;
-      cursor: pointer;
-      user-select: none;
-      transition: background 0.15s, border 0.15s, transform 0.1s, box-shadow 0.1s;
-    }
-
-    .pace-pill span.emoji { font-size: 16px; }
-
-    .pace-pill.active {
-      background: var(--accent);
-      border-color: var(--accent-strong);
-      color: #fff;
-      transform: translateY(-1px);
-      box-shadow: 0 8px 20px rgba(240,143,180,0.35);
-    }
-
     .consent {
       display: flex;
       align-items: flex-start;
@@ -321,7 +287,7 @@
     .cup-sizes-note {
       font-size: 11px;
       color: var(--text-muted);
-      margin-top: 4px;
+      margin-top: 6px;
       line-height: 1.4;
     }
 
@@ -352,7 +318,8 @@
       <div class="brand">portionly wellbeing</div>
       <div class="title">Portionly Cup Calculator</div>
       <div class="subtitle">
-        Eating well should feel simple — not stressful. This tool gives you a gentle, no-guilt starting point you can adjust as you go.
+        Eating well should feel simple — not stressful. This gives you a steady daily guide so you can practise healthy habits.
+        Any weight changes are a bonus, not the main goal.
       </div>
 
       <div class="card">
@@ -398,7 +365,7 @@
                 </div>
               </div>
 
-              <div class="helper" id="height-helper">
+              <div class="helper">
                 Use centimetres or feet and inches — whichever feels easier.
               </div>
             </div>
@@ -429,13 +396,13 @@
                 </div>
               </div>
 
-              <div class="helper" id="weight-helper">
+              <div class="helper">
                 Use the row that matches how you usually think about weight.
               </div>
             </div>
           </div>
 
-          <!-- ACTIVITY + PACE -->
+          <!-- ACTIVITY -->
           <div class="field-group">
             <div class="field">
               <label for="activity">Activity level</label>
@@ -446,24 +413,6 @@
                 <option value="1.725">Very active (6–7 days/week)</option>
                 <option value="1.9">Extra active (physical job + training)</option>
               </select>
-            </div>
-
-            <div class="field">
-              <label>How fast do you want to move?</label>
-              <div class="helper">
-                This just changes how gentle or punchy your plan is. Faster isn’t always better — choose what feels sustainable.
-              </div>
-              <div class="pace-row" id="pace-row">
-                <label class="pace-pill active" data-pace="gentle">
-                  <span class="emoji">🌿</span><span>Gentle</span>
-                </label>
-                <label class="pace-pill" data-pace="standard">
-                  <span class="emoji">⚖️</span><span>Standard</span>
-                </label>
-                <label class="pace-pill" data-pace="faster">
-                  <span class="emoji">🔥</span><span>Faster</span>
-                </label>
-              </div>
             </div>
           </div>
 
@@ -492,12 +441,14 @@
 
         <!-- RESULTS -->
         <div id="results" class="results">
-          <div class="results-header" id="results-title"></div>
-          <div class="results-summary" id="results-summary"></div>
-          <div class="results-sub">
-            Friendly reminder: these cups are guidance, not rules. Real life will
-            wobble — and that’s allowed here.
+          <div class="results-header">Your daily cup guide</div>
+          <div class="results-summary" id="results-summary">
+            Balanced cups to support steady habits. Use them across the day — flexibility is part of the plan.
           </div>
+          <div class="results-sub">
+            Friendly reminder: these cups are guidance, not rules. Real life will wobble — and that’s allowed here.
+          </div>
+
           <ul class="cups-list" id="cups-list"></ul>
 
           <div class="cup-sizes-note">
@@ -512,9 +463,9 @@
 
           <div class="healthy" id="healthy-range"></div>
           <div class="about-note">
-            This tool uses well-known nutrition guidelines to share your daily
+            This tool uses well-known nutrition guidelines to spread your daily
             energy across protein, carbs, healthy fats, fruits and veggies.
-            It’s a starting point, not a rulebook.
+            It’s here to support habits, not control you.
           </div>
         </div>
       </div>
@@ -522,132 +473,121 @@
   </div>
 
   <script>
-    // ---------- Core energy maths (still hidden from the user) ----------
+    // ---------- Core maths (calories hidden, cups shown) ----------
+
+    // Calories per cup for your new physical cup sizes:
+    // Pink Protein ¾ cup, Yellow Carbs ½ cup, Green Veg 1 cup, Purple Fruit 1 cup,
+    // Orange Fats ⅓ cup, Blue Seeds/Dressings 2 tbsp
+    const KCAL_PER_CUP = {
+      Protein: 180,            // ¾ cup avg protein foods
+      Carbs: 110,              // ½ cup cooked carbs
+      Veggies: 30,             // 1 cup non-starchy veg
+      Fruits: 70,              // 1 cup fruit
+      "Healthy Fats": 230,     // ⅓ cup fats (nuts, oils, etc.)
+      "Seeds & Dressings": 100 // 2 tbsp seeds / dressings
+    };
+
     function minCalories(gender) {
-      return gender === "female" ? 1200 : 1500;
+      // gentle floor so we never push into crash-diet territory
+      return gender === "female" ? 1300 : 1600;
     }
 
-    function calcBMR(profile) {
+    function calcBMR(p) {
+      // Mifflin-St Jeor
       return (
-        10 * profile.weightKg +
-        6.25 * profile.heightCm -
-        5 * profile.age +
-        (profile.gender === "female" ? -161 : 5)
+        10 * p.weightKg +
+        6.25 * p.heightCm -
+        5 * p.age +
+        (p.gender === "female" ? -161 : 5)
       );
     }
 
-    function calcTDEE(profile) {
-      return calcBMR(profile) * profile.activityFactor;
+    function calcTDEE(p) {
+      return calcBMR(p) * p.activityFactor;
     }
 
-    function calcTargetCalories(profile, pace) {
-      const tdee = calcTDEE(profile);
-      const minCals = minCalories(profile.gender);
+    function calcTargetCalories(p) {
+      const tdee = calcTDEE(p);
 
-      let frac;
-      if (pace === "gentle") frac = 0.10;
-      else if (pace === "faster") frac = 0.20;
-      else frac = 0.15;
+      const heightM = p.heightCm / 100;
+      const bmi = p.weightKg / (heightM * heightM);
 
-      let deficit = tdee * frac;
-      if (deficit > 1000) deficit = 1000;
+      // BMI-aware gentle adjustment:
+      // lower BMI -> little/no reduction
+      // higher BMI -> a bit more, but still moderate
+      let reductionPct;
+      if (bmi < 23) {
+        reductionPct = 0.0;   // focus purely on balance/maintenance
+      } else if (bmi < 27) {
+        reductionPct = 0.08;  // ~8%
+      } else if (bmi < 32) {
+        reductionPct = 0.12;  // ~12%
+      } else {
+        reductionPct = 0.15;  // ~15% max
+      }
 
-      let target = tdee - deficit;
+      let target = tdee * (1 - reductionPct);
+      const minCals = minCalories(p.gender);
       if (target < minCals) target = minCals;
 
       return Math.round(target);
     }
 
-    // ---------- Cups logic (aligned with your new cup sizes & chart-style bands) ----------
-    function baseCupsForCalories(targetCalories) {
-      if (targetCalories < 1400) {
-        return {
-          "Protein": 3,
-          "Carbs": 2,
-          "Veggies": 3,
-          "Fruits": 2,
-          "Healthy Fats": 1,
-          "Seeds & Dressings": 1
-        };
-      } else if (targetCalories < 1700) {
-        return {
-          "Protein": 4,
-          "Carbs": 3,
-          "Veggies": 4,
-          "Fruits": 2,
-          "Healthy Fats": 1,
-          "Seeds & Dressings": 1
-        };
-      } else if (targetCalories < 2000) {
-        return {
-          "Protein": 5,
-          "Carbs": 3,
-          "Veggies": 5,
-          "Fruits": 3,
-          "Healthy Fats": 1,
-          "Seeds & Dressings": 1
-        };
-      } else if (targetCalories < 2300) {
-        return {
-          "Protein": 5,
-          "Carbs": 4,
-          "Veggies": 5,
-          "Fruits": 3,
-          "Healthy Fats": 1,
-          "Seeds & Dressings": 1
-        };
+    function calcCups(targetCalories) {
+      // macro split: balanced, not extreme
+      const proteinPct = 0.28;
+      const carbPct    = 0.42;
+      const fatPct     = 0.30;
+
+      const proteinCals = targetCalories * proteinPct;
+      const carbCals    = targetCalories * carbPct;
+      const fatCals     = targetCalories * fatPct;
+
+      let proteinCups = Math.round(proteinCals / KCAL_PER_CUP.Protein);
+      let carbCups    = Math.round(carbCals    / KCAL_PER_CUP.Carbs);
+      let fatCups     = Math.round(fatCals     / KCAL_PER_CUP["Healthy Fats"]);
+
+      // smoothing + guard rails
+      if (proteinCups < 3) proteinCups = 3;
+      if (carbCups   < 2) carbCups   = 2;
+      if (fatCups    < 1) fatCups    = 1;
+
+      if (proteinCups > 7) proteinCups = 7;
+      if (carbCups    > 8) carbCups    = 8;
+      if (fatCups     > 4) fatCups     = 4;
+
+      // Veg & fruit scale gently with overall energy
+      let vegCups, fruitCups;
+      if (targetCalories < 1600) {
+        vegCups = 4;
+        fruitCups = 2;
+      } else if (targetCalories < 2100) {
+        vegCups = 5;
+        fruitCups = 3;
       } else {
-        return {
-          "Protein": 6,
-          "Carbs": 4,
-          "Veggies": 6,
-          "Fruits": 4,
-          "Healthy Fats": 1,
-          "Seeds & Dressings": 2
-        };
-      }
-    }
-
-    function adjustCupsForPace(cups, pace) {
-      const adjusted = { ...cups };
-
-      if (pace === "gentle") {
-        // Slightly softer approach: a bit more fats, a bit fewer carbs
-        adjusted["Healthy Fats"] += 1;
-        if (adjusted["Carbs"] > 2) {
-          adjusted["Carbs"] -= 1;
-        }
-      } else if (pace === "faster") {
-        // Faster pace: protein leads, fats a little tighter, fruit slightly lower if higher
-        if (adjusted["Healthy Fats"] > 1) {
-          adjusted["Healthy Fats"] -= 1;
-        }
-        adjusted["Protein"] += 1;
-        if (adjusted["Fruits"] > 2) {
-          adjusted["Fruits"] -= 1;
-        }
+        vegCups = 6;
+        fruitCups = 3;
       }
 
-      // Always keep protein clearly leading carbs
-      if (adjusted["Protein"] <= adjusted["Carbs"]) {
-        adjusted["Protein"] = adjusted["Carbs"] + 1;
-      }
+      // Seeds & Dressings scale softly
+      let seedsCups;
+      if (targetCalories < 1600) seedsCups = 1;
+      else if (targetCalories < 2200) seedsCups = 2;
+      else seedsCups = 3;
 
-      return adjusted;
-    }
-
-    function calcPlan(profile, pace) {
-      const targetCalories = calcTargetCalories(profile, pace);
-      const base = baseCupsForCalories(targetCalories);
-      const cups = adjustCupsForPace(base, pace);
-      return { cups, targetCalories };
+      return {
+        Protein: proteinCups,
+        Carbs: carbCups,
+        Veggies: vegCups,
+        Fruits: fruitCups,
+        "Healthy Fats": fatCups,
+        "Seeds & Dressings": seedsCups
+      };
     }
 
     // ---------- UI state ----------
     let heightUnit = "cm";   // 'cm' | 'ftin'
     let weightUnit = "kg";   // 'kg' | 'lb' | 'stone'
-    let selectedPace = "gentle";
-    let lastProfileInputs = null;
 
     const resultsEl = document.getElementById("results");
 
@@ -681,33 +621,23 @@
       });
     });
 
-    // Pace selection
-    document.getElementById("pace-row").addEventListener("click", e => {
-      const pill = e.target.closest(".pace-pill");
-      if (!pill) return;
-      selectedPace = pill.dataset.pace;
-      document.querySelectorAll(".pace-pill").forEach(el =>
-        el.classList.toggle("active", el === pill)
-      );
-      if (lastProfileInputs) {
-        const plan = calcPlan(lastProfileInputs, selectedPace);
-        renderResults(plan, lastProfileInputs);
-      }
-    });
-
-    // Form submit
+    // ---------- Form submit ----------
     document.getElementById("calc-form").addEventListener("submit", e => {
       e.preventDefault();
       const errorEl = document.getElementById("error");
       errorEl.style.display = "none";
+      resultsEl.classList.remove("results--visible");
 
       try {
-        const gender = document.getElementById("gender").value;
-        const ageVal = parseFloat(document.getElementById("age").value);
-        const activityFactor = parseFloat(
-          document.getElementById("activity").value
-        );
-        const consent = document.getElementById("consent").checked;
+        const genderEl = document.getElementById("gender");
+        const ageEl = document.getElementById("age");
+        const activityEl = document.getElementById("activity");
+        const consentEl = document.getElementById("consent");
+
+        const gender = genderEl.value;
+        const ageVal = parseFloat(ageEl.value);
+        const activityFactor = parseFloat(activityEl.value);
+        const consent = consentEl.checked;
 
         if (!consent) {
           throw new Error(
@@ -764,52 +694,34 @@
           weightKg,
           activityFactor,
         };
-        lastProfileInputs = profile;
 
-        const plan = calcPlan(profile, selectedPace);
-        renderResults(plan, profile);
+        const targetCalories = calcTargetCalories(profile);
+        const cups = calcCups(targetCalories);
+
+        renderResults(cups, profile, targetCalories);
       } catch (err) {
-        const errorEl = document.getElementById("error");
-        errorEl.textContent = err.message || "Something went wrong while calculating your cups.";
+        errorEl.textContent =
+          err.message || "Something went wrong while calculating your cups.";
         errorEl.style.display = "block";
-        resultsEl.classList.remove("results--visible");
       }
     });
 
-    function renderResults(plan, profile) {
+    function renderResults(cups, profile, targetCalories) {
       const list = document.getElementById("cups-list");
-      const title = document.getElementById("results-title");
-      const summary = document.getElementById("results-summary");
       const healthy = document.getElementById("healthy-range");
+      const summary = document.getElementById("results-summary");
 
-      const paceLabel =
-        selectedPace === "gentle"
-          ? "Gentle"
-          : selectedPace === "faster"
-          ? "Faster"
-          : "Standard";
-
-      title.textContent = `${paceLabel} pace cups plan`;
-
-      if (selectedPace === "gentle") {
-        summary.textContent =
-          "Gentle pace: small, steady shifts with a bit more flexibility in fats.";
-      } else if (selectedPace === "standard") {
-        summary.textContent =
-          "Standard pace: balanced changes with protein leading the way.";
-      } else {
-        summary.textContent =
-          "Faster pace: higher protein and slightly tighter fats for a stronger push.";
-      }
+      summary.textContent =
+        "These cups match the energy your body is likely to use each day. Use them as a gentle guide, not something you have to ‘hit perfectly’.";
 
       list.innerHTML = "";
-      Object.entries(plan.cups).forEach(([name, cups]) => {
+      Object.entries(cups).forEach(([name, value]) => {
         const li = document.createElement("li");
         const left = document.createElement("span");
         left.textContent = name;
         left.className = "cups-label";
         const right = document.createElement("span");
-        right.textContent = `${cups} cups`;
+        right.textContent = `${value} cups`;
         li.appendChild(left);
         li.appendChild(right);
         list.appendChild(li);
@@ -819,8 +731,8 @@
       const minW = Math.round(22 * hMeters * hMeters);
       const maxW = Math.round(27 * hMeters * hMeters);
       healthy.textContent =
-        "Based on your height, a healthy range is roughly " +
-        `${minW}–${maxW} kg. It’s just a guide — your doctor can always help tailor it.`;
+        "Based on your height, a gentle reference range might be around " +
+        `${minW}–${maxW} kg. It’s just one lens — your doctor or dietitian can always tailor this for you.`;
 
       resultsEl.classList.add("results--visible");
     }
