@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <title>Portionly Cup Calculator</title>
+  <title>The Portionly Cup Finder</title>
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <style>
     :root {
@@ -174,7 +174,7 @@
   <div class="page-wrap">
     <div class="inner">
       <div class="brand">portionly wellbeing</div>
-      <h1 class="title">Portionly Cup Calculator</h1>
+      <h1 class="title">The Portionly Cup Finder</h1>
       <p class="subtitle">A gentle guide to balanced daily eating.</p>
 
       <div class="card">
@@ -236,7 +236,7 @@
             </select>
           </div>
 
-          <button type="submit" class="btn-main">Calculate My Cups</button>
+          <button type="submit" class="btn-main">Find My Cups</button>
           <div id="error-msg" class="error-msg">Please fill in all details correctly.</div>
         </form>
 
@@ -249,14 +249,14 @@
             <ul style="font-size: 12px; color: var(--text-muted); padding-left: 20px; margin: 0;">
               <li style="margin-bottom: 5px;"><strong>Hydration:</strong> Aim for 8–10 glasses of water. Fiber needs water to work!</li>
               <li style="margin-bottom: 5px;"><strong>Extra Hunger:</strong> If you're physically hungry, try a <strong>Green Cup</strong> first.</li>
-              <li style="margin-bottom: 5px;"><strong>Flex Cups:</strong> Leftover <strong>Orange</strong> or <strong>Blue</strong> cups can be "banked" for treats or meals out.</li>
+              <li style="margin-bottom: 5px;"><strong>Flex Cups:</strong> Leftover <strong>Orange</strong> or <strong>Blue</strong> portions can be "banked" for treats or meals out.</li>
             </ul>
           </div>
           
           <div class="medical-disclaimer">
             <p style="margin:0; font-size: 12px; color: #c2185b; font-weight: bold; text-transform: uppercase;">⚠️ Medical Disclaimer</p>
             <p style="margin:8px 0 0; font-size: 13px; color: #444;">
-              This calculator provides general nutritional guidance only. It is <strong>not medical advice</strong>. 
+              This tool provides general nutritional guidance only. It is <strong>not medical advice</strong>. 
               If you have any medical conditions, are pregnant, or have a history of disordered eating, please <strong>consult a doctor or qualified health professional</strong> before following this guide.
             </p>
           </div>
@@ -266,7 +266,6 @@
   </div>
 
   <script>
-    // Logic for toggling unit buttons (Pills)
     function setupPills(containerId, inputMap) {
       const container = document.getElementById(containerId);
       const pills = container.querySelectorAll('.unit-pill');
@@ -288,12 +287,10 @@
     setupPills('height-units', { cm: 'h-cm-input', ftin: 'h-ft-input' });
     setupPills('weight-units', { kg: 'w-kg-input', lb: 'w-lb-input', st: 'w-st-input' });
 
-    // Calculation Logic
     const form = document.getElementById('calc-form');
     form.addEventListener('submit', function(e) {
       e.preventDefault();
 
-      // Get Height in CM
       let hVal = 0;
       const hType = document.querySelector('#height-units .active').dataset.val;
       if(hType === 'cm') {
@@ -303,7 +300,6 @@
                (parseFloat(document.getElementById('heightIn').value || 0) * 2.54);
       }
 
-      // Get Weight in KG
       let wVal = 0;
       const wType = document.querySelector('#weight-units .active').dataset.val;
       if(wType === 'kg') {
@@ -325,11 +321,9 @@
       }
       document.getElementById('error-msg').style.display = 'none';
 
-      // Mifflin-St Jeor Equation
       const bmr = (10 * wVal) + (6.25 * hVal) - (5 * age) + (gender === 'female' ? -161 : 5);
       const tdee = bmr * activity;
 
-      // Assigning Cups based on calorie tiers
       let p, c, v, f, fat, s;
       if (tdee < 1700) {
         p=4; c=3; v=4; f=2; fat=1; s=1;
@@ -342,13 +336,14 @@
       }
 
       const list = document.getElementById('cups-list');
+      // UPDATE 2: Removed "Cups" from the Blue result line
       list.innerHTML = `
         <li><span><strong style="color: #f38fb8;">Pink</strong> Protein (¾ cup)</span> <span>${p} Cups</span></li>
         <li><span><strong style="color: #ffd966;">Yellow</strong> Carbs (½ cup)</span> <span>${c} Cups</span></li>
         <li><span><strong style="color: #93c47d;">Green</strong> Veggies (1 cup)</span> <span>${v} Cups</span></li>
         <li><span><strong style="color: #b4a7d6;">Purple</strong> Fruit (1 cup)</span> <span>${f} Cups</span></li>
         <li><span><strong style="color: #f6b26b;">Orange</strong> Healthy Fats (⅓ cup)</span> <span>${fat} Cups</span></li>
-        <li><span><strong style="color: #76a5af;">Blue</strong> Seed / Dressing & Oils (2 tbsp)</span> <span>${s} Cups</span></li>
+        <li><span><strong style="color: #76a5af;">Blue</strong> Seeds / Dressing & Oils (2 tbsp)</span> <span>${s}</span></li>
       `;
 
       const resultsDiv = document.getElementById('results');
